@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Pesquisa Especial - Shopping Brasil</title>
+  <link rel="icon" type="image/jpeg" href="images/logo-shopping-brasil.jpg">
+  <link rel="stylesheet" href="css/quiz.css">
+  <!-- Canvas Confetti Library for identical victory confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+  <div id="quiz-app">
+
+    <!-- Top Blue Brand Header (Frame 00:00 of video) -->
+    <header class="quiz-top-header">
+      <div class="brand-wrap">
+        <img src="images/logo-shopping-brasil.jpg" alt="Logo" class="brand-logo-img">
+        <span class="brand-title">SHOPPING BRASIL</span>
+      </div>
+    </header>
+
+    <!-- ==========================================
+         STEP 1: INTRO SCREEN (Frame 00:00)
+         ========================================== -->
+    <section id="step-intro" class="quiz-step active">
+      <div class="intro-card">
+        <div class="card-header-badge">
+          <span class="badge-icon">🎁</span>
+          <span class="badge-title">Pesquisa Especial</span>
+          <span class="badge-sub">Promoção Shopping Brasil 2026</span>
+        </div>
+
+        <div class="intro-hero-img-wrap">
+          <img src="images/logo-shopping-brasil.jpg" alt="Shopping Brasil" class="intro-hero-img">
+        </div>
+
+        <div class="intro-body">
+          <p class="intro-lead">
+            Responda perguntas rápidas sobre a <b>Shopping Brasil</b> e desbloqueie um <b>presente exclusivo!</b>
+          </p>
+          <div class="intro-meta">
+            <span>⏱ 5 perguntas</span> • <span>Menos de 1 minuto</span>
+          </div>
+
+          <button class="btn-quiz-primary" onclick="startQuiz()">
+            COMEÇAR PESQUISA
+          </button>
+
+          <div class="intro-footer-text">
+            100% gratuito • Sem cadastro
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         STEP 2: THE 5 QUESTIONS (Frames 00:02 to 00:13)
+         ========================================== -->
+    <section id="step-question" class="quiz-step">
+      
+      <!-- Progress Bar (20%, 40%, 60%, 80%, 100%) -->
+      <div class="progress-bar-container">
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="progressFill" style="width: 20%;"></div>
+        </div>
+        <span class="progress-percent-label" id="progressLabel">20 %</span>
+      </div>
+
+      <!-- Question Card -->
+      <div class="question-card">
+        
+        <div class="question-banner-wrap">
+          <img id="questionImg" src="images/produto1-tv.jpg" alt="Pergunta" class="question-banner-img">
+        </div>
+
+        <h3 class="question-title" id="questionTitle">
+          O que você mais gosta de comprar na Shopping Brasil?
+        </h3>
+
+        <div class="options-grid" id="optionsGrid">
+          <!-- Rendered dynamically via JS -->
+        </div>
+
+        <button class="btn-quiz-primary btn-next-question" id="btnNext" onclick="nextQuestion()">
+          Próximo
+        </button>
+
+      </div>
+    </section>
+
+    <!-- ==========================================
+         STEP 2.5: LOADING PROCESSANDO (Frames 00:04, 00:06, etc.)
+         ========================================== -->
+    <div id="step-processing" class="processing-screen">
+      <div class="processing-spinner"></div>
+      <div class="processing-text">Processando...</div>
+    </div>
+
+    <!-- ==========================================
+         STEP 3: UNLOCK ROULETTE SCREEN (Frame 00:15)
+         ========================================== -->
+    <section id="step-congrats" class="quiz-step">
+      <div class="congrats-card">
+        
+        <div class="congrats-img-wrap">
+          <img src="images/logo-shopping-brasil.jpg" alt="Shopping Brasil" class="congrats-img">
+        </div>
+
+        <p class="congrats-lead">
+          Como agradecimento pela sua participação, você desbloqueou acesso exclusivo à <b>Roleta de Descontos Shopping Brasil!</b>
+        </p>
+
+        <p class="congrats-sub">
+          🎰 Gire a roleta e tente a sorte para ganhar um super desconto exclusivo da Shopping Brasil. São <b>duas chances!</b>
+        </p>
+
+        <p class="congrats-signature">
+          Com carinho,<br>
+          <b>Equipe Shopping Brasil 💚</b>
+        </p>
+
+        <button class="btn-quiz-primary btn-start-roulette" onclick="goToRoulette()">
+          Girar a Roleta 🎰
+        </button>
+
+      </div>
+    </section>
+
+    <!-- ==========================================
+         STEP 4: THE ROULETTE SCREEN (Frames 00:20 to 00:46)
+         ========================================== -->
+    <section id="step-roulette" class="quiz-step">
+      
+      <div class="roulette-header">
+        <h2 class="roulette-title">🎰 Gire a Roleta da Sorte!</h2>
+        <div class="roulette-subtitle">Promoção Shopping Brasil 🎁</div>
+      </div>
+
+      <!-- Wheel Wrap -->
+      <div class="wheel-outer-wrap">
+        <!-- Top Pointer Triangle -->
+        <div class="wheel-pointer"></div>
+
+        <!-- The Spinning SVG Wheel -->
+        <div class="wheel-canvas-container" id="wheelRotator">
+          <canvas id="rouletteCanvas" width="340" height="340"></canvas>
+          <div class="wheel-center-hub" onclick="triggerSpin()">
+            <span>GIRE</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spin Status / Bottom Button -->
+      <div class="roulette-bottom-action">
+        <button class="btn-quiz-primary btn-spin-main" id="btnSpinMain" onclick="triggerSpin()">
+          GIRE PARA GANHAR
+        </button>
+        <div class="spin-status-label" id="spinStatusLabel"></div>
+      </div>
+
+      <!-- Floating Social Proof Notification (Frame 00:25 of video) -->
+      <div class="social-proof-bar" id="socialProofBar">
+        <div class="sp-avatar" id="spAvatar">PO</div>
+        <div class="sp-text" id="spText">Pedro Oliveira acabou de ganhar 75% de desconto!</div>
+      </div>
+
+    </section>
+
+    <!-- ==========================================
+         MODAL 1: FIRST SPIN FAILED (Frame 00:31)
+         ========================================== -->
+    <div id="modalTryAgain" class="quiz-modal-overlay">
+      <div class="quiz-modal-dialog">
+        <h3 class="modal-title">Uma pena! 😓</h3>
+        <p class="modal-desc">
+          Você não conseguiu desta vez, mas pode rodar novamente!
+        </p>
+        <button class="btn-quiz-primary" onclick="retrySpin()">
+          Tentar Novamente
+        </button>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         MODAL 2: SECOND SPIN WON 100% (Frame 00:44)
+         ========================================== -->
+    <div id="modalWinner" class="quiz-modal-overlay">
+      <div class="quiz-modal-dialog">
+        <h3 class="modal-title">Parabéns! 🤩</h3>
+        <p class="modal-desc">
+          Você ganhou <b>90% de desconto</b>, aproveite!
+        </p>
+        <button class="btn-quiz-primary btn-resgatar" onclick="claimPrizeRedirect()">
+          Resgatar seu Prêmio
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/quiz.js"></script>
+</body>
+</html>

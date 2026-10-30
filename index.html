@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <title>Shopping Brasil - TikTok Shop</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/jpeg" href="images/logo-shopping-brasil.jpg">
+  <meta name="theme-color" content="#ffffff">
+  <!-- Confetti library for 11.11 & victory effects -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+  <div id="app-container">
+
+    <!-- ==========================================
+         VIEW 1: STORE FRONT FEED (Shopping Brasil)
+         ========================================== -->
+    <div id="view-store" class="view-container active">
+      
+      <!-- Top Bar -->
+      <header class="top-nav">
+        <button class="nav-btn" onclick="alert('Retornando ao feed de vídeos do TikTok...')">
+          <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        </button>
+        <div class="search-box">
+          <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 14z"/></svg>
+          <input type="text" id="searchInput" placeholder="Buscar em Shopping Brasil (+15k produtos)" oninput="handleSearch(this.value)">
+        </div>
+        <button class="nav-btn btn-pdp-orders" onclick="openOrdersModal()" title="Meus Pedidos" style="position: relative; margin-right: 2px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#161823" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            <line x1="9" y1="7" x2="15" y2="7"></line>
+            <line x1="9" y1="11" x2="15" y2="11"></line>
+          </svg>
+          <span class="orders-badge-count" id="ordersBadgeCountPdp" style="position: absolute; top: 1px; right: 1px; width: 16px; height: 16px; min-width: 16px; font-size: 10px; display: none;">0</span>
+        </button>
+        <div class="cart-icon-wrapper" onclick="openCartModal()">
+          <button class="nav-btn">
+            <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+          </button>
+          <span class="cart-badge" id="cartBadgeCount">0</span>
+        </div>
+      </header>
+
+      <!-- Store Profile Card -->
+      <section class="store-header">
+        <div class="store-profile-row">
+          <div class="store-avatar">
+            <img src="images/logo-shopping-brasil.jpg" alt="Shopping Brasil">
+            <span class="online-indicator-dot" title="Vendedor Online Agora"></span>
+          </div>
+          <div class="store-info">
+            <div class="store-title-wrap">
+              <h1 class="store-title">Shopping Brasil</h1>
+            </div>
+            <div style="margin-top: 3px;">
+              <span class="official-pill online-pulse-pill">
+                <span class="pulse-dot-green"></span>
+                Vendedor Oficial do TikTok
+              </span>
+            </div>
+            <div class="store-stats">
+              <span><b>428.5k</b> Seguidores</span>
+              <span><span class="rating-star">★</span> <b>4.9</b> (48.9k)</span>
+              <span><b>+15.480</b> itens</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="store-actions">
+          <button class="btn-orders" id="btnOrdersHeader" onclick="openOrdersModal()" title="Meus Pedidos">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+              <line x1="9" y1="7" x2="15" y2="7"></line>
+              <line x1="9" y1="11" x2="15" y2="11"></line>
+            </svg>
+            <span>Pedidos</span>
+            <span class="orders-badge-count" id="ordersBadgeCount" style="display: none;">0</span>
+          </button>
+          <button class="btn-follow" id="btnFollow" onclick="toggleFollow()">
+            <span id="followText">+ Seguir</span>
+          </button>
+          <button class="btn-message" onclick="openSupportModal()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#161823"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+            Mensagem
+          </button>
+        </div>
+      </section>
+
+      <!-- Promo Coupon Bar -->
+      <div class="promo-coupon-bar">
+        <div class="coupon-details">
+          <span class="coupon-tag">11.11 VIP</span>
+          <div>
+            <div class="coupon-text">Frete Grátis + 90% OFF</div>
+            <div class="coupon-sub">Aplicado automaticamente no seu carrinho</div>
+          </div>
+        </div>
+        <button class="btn-claim-coupon" onclick="claimCoupon()">Resgatado ✓</button>
+      </div>
+
+      <!-- Store Tabs -->
+      <div class="store-tabs">
+        <div class="store-tab active" onclick="switchStoreTab(this, 'home')">Página inicial</div>
+        <div class="store-tab" onclick="switchStoreTab(this, 'products')">Produtos (+15k)</div>
+        <div class="store-tab" onclick="switchStoreTab(this, 'categories')">Categorias</div>
+      </div>
+
+      <!-- Category Filter Chips -->
+      <div class="category-chips-bar" id="categoryChips">
+        <!-- Rendered dynamically via JS -->
+      </div>
+
+      <!-- Sort & Filter Bar -->
+      <div class="sort-bar">
+        <div class="sort-options">
+          <span class="sort-opt active" onclick="sortCatalog('rec', this)">Recomendado</span>
+          <span class="sort-opt" onclick="sortCatalog('sold', this)">Mais vendidos</span>
+          <span class="sort-opt" onclick="sortCatalog('new', this)">Lançamentos</span>
+          <span class="sort-opt" onclick="sortCatalog('price', this)">Preço ▼</span>
+        </div>
+        <div class="catalog-counter-badge" id="productCountBadge">15.480 produtos</div>
+      </div>
+
+      <!-- 2-Column Product Grid -->
+      <main class="products-grid" id="productsGrid">
+        <!-- Rendered dynamically via JS -->
+      </main>
+
+    </div>
+
+
+    <!-- ==========================================
+         VIEW 2: PRODUCT DETAIL PAGE (PDP)
+         ========================================== -->
+    <div id="view-product" class="view-container">
+      
+      <!-- Top Navigation for PDP -->
+      <header class="top-nav">
+        <button class="nav-btn" onclick="backToStore()">
+          <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        </button>
+        <div class="search-box">
+          <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 14z"/></svg>
+          <input type="text" placeholder="Buscar produtos na loja..." readonly onclick="backToStore()">
+        </div>
+        <button class="nav-btn btn-pdp-orders" onclick="openOrdersModal()" title="Meus Pedidos" style="position: relative; margin-right: 2px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#161823" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            <line x1="9" y1="7" x2="15" y2="7"></line>
+            <line x1="9" y1="11" x2="15" y2="11"></line>
+          </svg>
+          <span class="orders-badge-count" id="ordersBadgeCountPdp" style="position: absolute; top: 1px; right: 1px; width: 16px; height: 16px; min-width: 16px; font-size: 10px; display: none;">0</span>
+        </button>
+        <div class="cart-icon-wrapper" onclick="openCartModal()">
+          <button class="nav-btn">
+            <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+          </button>
+          <span class="cart-badge" id="cartBadgeCountPdp">0</span>
+        </div>
+      </header>
+
+      <!-- Image Gallery Carousel with Horizontal Swipe & Arrow Buttons -->
+      <div class="pdp-gallery-wrap">
+        <button class="gallery-nav-btn prev" onclick="prevSlide()" aria-label="Foto anterior">
+          <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        </button>
+        <div class="pdp-gallery-carousel" id="pdpGalleryCarousel" onscroll="handleGalleryScroll(this)">
+          <!-- Rendered dynamically via JS with multiple slides -->
+        </div>
+        <button class="gallery-nav-btn next" onclick="nextSlide()" aria-label="Próxima foto">
+          <svg viewBox="0 0 24 24"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg>
+        </button>
+        <div class="gallery-counter-badge" id="pdpGalleryCounter">1 / 3</div>
+      </div>
+
+      <!-- Price & Basic Details -->
+      <div class="pdp-price-card">
+        <div class="pdp-price-highlight">
+          <div class="pdp-current-price" id="pdpPrice">R$ 0,00</div>
+          <div class="pdp-old-price" id="pdpOldPrice">R$ 0,00</div>
+          <span class="pdp-discount-pill" id="pdpDiscountBadge">-95%</span>
+        </div>
+        <div class="pdp-installment" id="pdpInstallment">Desconto válido apenas para pagamento via Pix</div>
+        <h2 class="pdp-title" id="pdpTitle">Nome do Produto</h2>
+        
+        <div class="pdp-social-proof">
+          <div class="stars">
+            <span>★</span> <span id="pdpRating">4.9</span>
+            <span style="color: #73747b; font-weight: normal;" id="pdpReviewsCount">(1.432 avaliações)</span>
+          </div>
+          <div>•</div>
+          <div id="pdpSoldCount">8.762 vendidos</div>
+        </div>
+      </div>
+
+      <!-- Product Color Options Section (Only shown when product has > 1 color) -->
+      <div class="pdp-section-card" id="pdpColorSection" style="display: none;">
+        <div class="variant-header-row">
+          <span style="font-size: 13.5px; font-weight: 700; color: #161823;">Opções de Cor:</span>
+          <span id="pdpSelectedColorName" style="font-size: 13px; color: var(--ttk-pink); font-weight: 700;"></span>
+        </div>
+        <div class="pdp-color-chips-list" id="pdpColorChipsList">
+          <!-- Rendered dynamically via JS -->
+        </div>
+      </div>
+
+      <!-- Product Voltage Options Section -->
+      <div class="pdp-section-card" id="pdpVoltageSection" style="display: none; margin-top: 10px;">
+        <div class="variant-header-row">
+          <span style="font-size: 13.5px; font-weight: 700; color: #161823;">Voltagem:</span>
+          <span id="pdpSelectedVoltageName" style="font-size: 13px; color: var(--ttk-pink); font-weight: 700;"></span>
+        </div>
+        <div class="pdp-color-chips-list" id="pdpVoltageChipsList">
+          <!-- Rendered dynamically via JS -->
+        </div>
+      </div>
+
+      <!-- Product Quantity Selector Section -->
+      <div class="pdp-section-card" id="pdpQuantitySection">
+        <div class="variant-header-row" style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 13.5px; font-weight: 700; color: #161823;">Quantidade:</span>
+          <div class="quantity-stepper" style="border: 1px solid #ddd; border-radius: 6px; padding: 2px 4px; display: inline-flex; align-items: center; gap: 8px;">
+            <button type="button" class="stepper-btn" onclick="changePdpQuantity(-1)" style="width: 28px; height: 28px; border: none; background: #f1f1f2; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer;">-</button>
+            <span id="pdpQuantityValue" style="font-size: 14px; font-weight: 700; min-width: 24px; text-align: center;">1</span>
+            <button type="button" class="stepper-btn" onclick="changePdpQuantity(1)" style="width: 28px; height: 28px; border: none; background: #f1f1f2; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer;">+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shipping & Delivery ETA -->
+      <div class="pdp-section-card">
+        <div class="shipping-box">
+          <svg class="shipping-icon" viewBox="0 0 24 24"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+          <div class="shipping-info">
+            <h4>Envio Padrão <span>Grátis</span></h4>
+            <p>Entrega estimada: 3 a 7 dias úteis via Transportadora Oficial</p>
+          </div>
+        </div>
+
+        <!-- Buyer Protection Badges -->
+        <div class="buyer-protection-box">
+          <div class="bp-title">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="#00b578"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+            Proteção do Cliente TikTok Shop
+          </div>
+          <div class="bp-items">
+            <div class="bp-item">
+              <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+              Devolução gratuita em até 30 dias
+            </div>
+            <div class="bp-item">
+              <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+              Garantia de pontualidade
+            </div>
+            <div class="bp-item">
+              <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+              Pagamento 100% seguro via Pix
+            </div>
+            <div class="bp-item">
+              <svg viewBox="0 0 24 24"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+              Reembolso rápido garantido
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Store Profile Card in PDP -->
+      <div class="pdp-section-card">
+        <div class="store-mini-card">
+          <div class="store-mini-info">
+            <div class="store-mini-avatar" style="position: relative;">
+              <img src="images/logo-shopping-brasil.jpg" alt="Shopping Brasil">
+              <span class="online-indicator-dot" style="width: 11px; height: 11px; border-width: 2px; bottom: 0; right: 0;"></span>
+            </div>
+            <div>
+              <div style="font-size: 14px; font-weight: 700; color: #161823;">Shopping Brasil</div>
+              <div style="font-size: 11px; color: #00873a; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; margin-top: 2px;">
+                <span class="pulse-dot-green" style="width: 6px; height: 6px;"></span>
+                Vendedor Oficial do TikTok
+              </div>
+            </div>
+          </div>
+          <button class="btn-visit-store" onclick="backToStore()">Visitar loja</button>
+        </div>
+      </div>
+
+      <!-- Product Description Section -->
+      <div class="pdp-section-card">
+        <h3 style="font-size: 14px; font-weight: 700; margin-bottom: 8px;">Descrição do produto</h3>
+        <p id="pdpDescription" style="font-size: 13px; color: #555; line-height: 1.5;"></p>
+      </div>
+
+      <!-- Reviews Section -->
+      <div class="reviews-section">
+        <div class="reviews-header-row">
+          <div>
+            <h3 style="font-size: 14px; font-weight: 700; margin: 0; color: #161823;">Avaliações de Clientes (48.9k)</h3>
+            <div style="font-size: 11.5px; color: #73747b; margin-top: 2px;">&#9733; 4.9 de 5.0 &bull; 98% de satisfação</div>
+          </div>
+          
+        </div>
+
+        
+
+        <!-- Reviews Dynamic List -->
+        <div id="pdpDynamicReviewsList">
+          <!-- Injected via renderProductReviews() in app.js -->
+        </div>
+
+        <div style="text-align: center; margin-top: 12px;">
+          <span style="font-size: 12px; color: var(--ttk-pink); font-weight: 700; cursor: pointer;" onclick="openReviewsModal()">Ver todas as 48.9k avaliações &gt;</span>
+        </div>
+      </div>
+
+      <!-- Sticky Bottom Buy Bar (Dual actions: Add to Cart + Buy Now) -->
+      <div class="pdp-sticky-bar">
+        <div class="pdp-bar-icons">
+          <button class="pdp-icon-btn" onclick="backToStore()">
+            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            Loja
+          </button>
+          <button class="pdp-icon-btn" onclick="openSupportModal()">
+            <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+            Chat
+          </button>
+          <div class="pdp-cart-icon-wrap" onclick="openCartModal()">
+            <button class="pdp-icon-btn">
+              <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+              Carrinho
+            </button>
+            <span class="cart-badge-pdp" id="cartBadgePdp">0</span>
+          </div>
+        </div>
+        <button class="btn-pdp-cart" onclick="addToCartCurrent()">
+          Adicionar
+        </button>
+        <button class="btn-pdp-buy-now" onclick="buyNowCurrent()">
+          <div>Comprar Agora</div>
+          <span>Frete Grátis com Cupom</span>
+        </button>
+      </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         VIEW 3: NATIVE CHECKOUT ("Resumo do pedido")
+         ========================================== -->
+    <div id="view-checkout" class="view-container">
+      
+      <!-- Cyan & Pink Ticket Dashed Border (Exact TikTok pattern) -->
+      <div class="checkout-ticket-bar"></div>
+
+      <!-- Checkout Top Bar -->
+      <header class="top-nav">
+        <button class="nav-btn" onclick="backFromCheckout()">
+          <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        </button>
+        <div style="flex: 1; font-size: 16px; font-weight: 700; text-align: center; color: #161823;">
+          Resumo do pedido
+        </div>
+        <div style="width: 36px;"></div>
+      </header>
+
+      <!-- Customer Address Box (Clean initial state) -->
+      <div class="checkout-card" onclick="openAddressModal()">
+        <div id="checkoutAddressContent">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+      <!-- Order Items Card -->
+      <div class="checkout-card">
+        <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 12px;">
+          <div style="position: relative; width: 22px; height: 22px;">
+            <img src="images/logo-shopping-brasil.jpg" width="22" height="22" style="border-radius: 50%;" alt="Shopping Brasil">
+            <span class="online-indicator-dot" style="width: 8px; height: 8px; border-width: 1.5px; bottom: -1px; right: -1px;"></span>
+          </div>
+          <span style="font-size: 13px; font-weight: 700; color: #161823;">Shopping Brasil</span>
+          <span style="font-size: 11px; color: #00873a; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+            <span class="pulse-dot-green" style="width: 5px; height: 5px;"></span>
+            Vendedor Oficial do TikTok
+          </span>
+        </div>
+
+        <div id="checkoutItemsList" class="checkout-items-list">
+          <!-- Rendered dynamically via JS -->
+        </div>
+      </div>
+
+      <!-- Coupon & Discounts Card -->
+      <div class="checkout-card">
+        <div class="checkout-coupon-row">
+          <div class="coupon-left">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#fe2c55"><path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 6.33 7 5.5 6.33 7 5.5 7z"/></svg>
+            <span>Cupom 11.11 Shopping Brasil</span>
+          </div>
+          <div class="coupon-right">- R$ 90,00</div>
+        </div>
+      </div>
+
+      <!-- Payment Method Selection -->
+      <div class="checkout-card">
+        <div style="font-size: 13.5px; font-weight: 700; margin-bottom: 10px; color: #161823;">
+          Forma de pagamento
+        </div>
+
+        <div class="payment-method-row">
+          <div class="payment-method-left">
+            <img src="images/pix-solo.svg" alt="Pix" onerror="this.src='images/pix-logo.svg'">
+            <div>
+              <div class="payment-name">Pix</div>
+              <div class="payment-sub">Aprovação imediata e envio prioritário</div>
+            </div>
+          </div>
+          <div class="radio-custom"></div>
+        </div>
+      </div>
+
+      <!-- Breakdown Totals Card -->
+      <div class="checkout-card" style="margin-bottom: 100px;">
+        <div class="breakdown-row">
+          <span>Subtotal dos itens</span>
+          <span id="checkoutSubtotal">R$ 0,00</span>
+        </div>
+        <div class="breakdown-row">
+          <span>Taxa de envio</span>
+          <span style="color: #00b578; font-weight: 700;">Grátis (R$ 0,00)</span>
+        </div>
+        <div class="breakdown-row discount">
+          <span>Desconto do Cupom 11.11</span>
+          <span>- R$ 90,00</span>
+        </div>
+        <div class="breakdown-row highlight">
+          <span>Total a pagar</span>
+          <span id="checkoutTotalFinal">R$ 0,00</span>
+        </div>
+      </div>
+
+      <!-- Sticky Bottom Checkout Bar -->
+      <div class="checkout-sticky-footer">
+        <div class="checkout-total-info">
+          <span class="total-label">Total a pagar</span>
+          <span class="total-amount" id="checkoutFooterTotal">R$ 0,00</span>
+        </div>
+        <button class="btn-submit-order" onclick="processOrderCheckout()">
+          Fazer pedido
+        </button>
+      </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         VIEW 4: PIX PAYMENT SCREEN ("Aguardando o pagamento")
+         ========================================== -->
+    <div id="view-pix" class="view-container">
+      
+      <header class="pix-view-header">
+        <button class="nav-btn" onclick="backToStore()">
+          <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        </button>
+        <div class="pix-view-title">Aguardando o pagamento</div>
+      </header>
+
+      <div class="pix-content-wrap">
+        
+        <div class="pix-card">
+          <div class="pix-amount-label">Valor total do pedido</div>
+          <div class="pix-total-val" id="pixDisplayAmount">R$ 0,00</div>
+
+          <div class="pix-timer-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#fe2c55"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+            <span>Pague em até <b id="pixCountdownTimer">23:59:58</b></span>
+          </div>
+
+          <!-- QR Code Preview -->
+          <img class="pix-qr-img" id="pixQrImg" src="" alt="QR Code Pix">
+
+          <p style="font-size: 12px; color: #777; margin-top: 8px;">
+            Aponte a câmera do seu aplicativo de banco ou copie o código Pix abaixo:
+          </p>
+
+          <div class="pix-code-box">
+            <span class="pix-code-text" id="pixCodeText">Carregando chave Pix...</span>
+            <button class="btn-copy-pix" onclick="copyPixCode()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+              Copiar
+            </button>
+          </div>
+        </div>
+
+        <div class="pix-steps-card">
+          <div class="pix-steps-title">Como fazer o pagamento com Pix:</div>
+          <div class="step-row">
+            <span class="step-num">1</span>
+            <div>Abra o aplicativo do seu banco onde você possui chave Pix cadastrada.</div>
+          </div>
+          <div class="step-row">
+            <span class="step-num">2</span>
+            <div>Selecione a opção <b>Pagar com Pix</b> e depois <b>Pix Copia e Cola</b> (ou ler QR Code).</div>
+          </div>
+          <div class="step-row">
+            <span class="step-num">3</span>
+            <div>Cole o código copiado e confirme o pagamento. A liberação do pedido na Shopping Brasil é <b>imediata</b>.</div>
+          </div>
+        </div>
+
+        <button class="btn-modal-save" style="margin-top: 20px;" onclick="goToOrderDetails(false)">
+          Já realizei o pagamento &gt;
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         VIEW 5: ORDER DETAILS ("Detalhes do pedido")
+         ========================================== -->
+    <div id="view-order" class="view-container">
+      <header class="top-nav">
+        <button class="nav-btn" onclick="backToStore()">
+          <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        </button>
+        <div style="flex: 1; font-size: 16px; font-weight: 700; text-align: center; color: #161823;">
+          Detalhes do pedido
+        </div>
+        <div style="width: 36px;"></div>
+      </header>
+
+      <div style="padding: 16px;">
+                <div class="checkout-card" style="margin: 0; text-align: center; padding: 24px 16px;" id="orderStatusCard">
+          <div id="orderStatusIconWrap" style="width: 54px; height: 54px; border-radius: 50%; background: #fff4f6; margin: 0 auto 12px auto; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;">
+            <svg id="orderStatusIcon" width="32" height="32" viewBox="0 0 24 24" fill="#fe2c55"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+          </div>
+          <h2 id="orderStatusTitle" style="font-size: 18px; font-weight: 700; color: #161823;">Aguardando Pagamento do Pix</h2>
+          <p style="font-size: 13px; color: #666; margin-top: 6px;">
+            N&uacute;mero do Pedido: <b id="orderNumberDisplay">#586776694201</b>
+          </p>
+          <div id="orderStatusPill" style="background: #fff4f6; color: var(--ttk-pink); border: 1px solid #ffd1d9; font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 20px; display: inline-block; margin-top: 10px;">
+            &#x26A0;&#xFE0F; Pagamento n&atilde;o confirmado - Aguardando Pix
+          </div>
+          <p id="orderStatusDesc" style="font-size: 12.5px; color: #666; margin-top: 10px; line-height: 1.45;">
+            Ainda n&atilde;o identificamos a compensa&ccedil;&atilde;o do seu Pix no banco. Conclua o pagamento no aplicativo do seu banco para liberar o preparo e envio imediato.
+          </p>
+        </div>
+
+        <div class="checkout-card" style="margin: 12px 0 0 0;">
+          <div style="font-size: 13.5px; font-weight: 700; margin-bottom: 8px;">Dados para entrega:</div>
+          <div style="font-size: 12.5px; color: #555; line-height: 1.4;">
+            <b id="orderSummaryName">Cliente</b><br>
+            <span id="orderSummaryAddress">Endere&ccedil;o de entrega</span>
+          </div>
+        </div>
+
+        <button id="btnOrderPayPix" class="btn-modal-save" style="margin-top: 16px; background: var(--ttk-pink); color: #fff; font-weight: 700; height: 44px;" onclick="goToPixView()">
+          Pagar com Pix Agora
+        </button>
+
+        <button id="btnOrderCheckAgain" class="btn-modal-save" style="margin-top: 10px; background: #fff; color: #161823; border: 1px solid #dcdde1; height: 42px; font-size: 13px;" onclick="goToOrderDetails(true)">
+          &#x1F504; Verificar Pagamento Novamente
+        </button>
+
+        <button class="btn-follow" style="width: 100%; margin-top: 10px; background: #161823; height: 44px;" onclick="backToStore()">
+          Voltar para a Loja Shopping Brasil
+        </button>
+      </div>
+    </div>
+
+
+    <!-- ==========================================
+         TIKTOK LOADING OVERLAY
+         ========================================== -->
+    <div id="loadingOverlay" class="loading-overlay">
+      <div class="tiktok-spinner">
+        <div class="ttk-dot cyan"></div>
+        <div class="ttk-dot pink"></div>
+      </div>
+      <div class="loading-text">Processando seu pedido...</div>
+    </div>
+
+
+    <!-- ==========================================
+         MODAL 1: 11.11 RESGATE SEUS CUPONS AGORA
+         ========================================== -->
+    <div id="promo1111Modal" class="ttk-screenshot-overlay" onclick="closePromo1111Modal()">
+      <div class="ttk-screenshot-container" onclick="event.stopPropagation()">
+        
+        <!-- Floating Ribbons / Leaves & Sparkles matching screenshot -->
+        <div class="ttk-float-ribbon top-left"></div>
+        <div class="ttk-float-ribbon top-right"></div>
+        <div class="ttk-float-leaf mid-left">🌿</div>
+        <div class="ttk-float-gold mid-right"></div>
+
+        <div class="ttk-sparkle sparkle-top-l">✦</div>
+        <div class="ttk-sparkle sparkle-top-r">✦</div>
+        <div class="ttk-sparkle sparkle-mid-l">✦</div>
+        <div class="ttk-sparkle sparkle-bot-r">✦</div>
+
+        <!-- Top Header Text (11.11 removed as marked with green pen) -->
+        <h2 class="ttk-screenshot-title">Resgate Seus Cupons Agora!</h2>
+
+        <!-- The Central Dark Card -->
+        <div class="ttk-screenshot-card">
+          <div class="ttk-card-inner-glow"></div>
+          
+          <div class="ttk-card-text-group">
+            <div class="ttk-card-headline">Desconto de até</div>
+            <div class="ttk-card-price">90%</div>
+          </div>
+
+          <!-- Bottom Button -->
+          <button class="ttk-card-claim-btn" onclick="openRouletteFromPromo()">
+            Resgatar
+          </button>
+        </div>
+
+        <!-- Bottom Timer & Close Button matching screenshot -->
+        <div class="ttk-screenshot-timer" id="popupCountdownText">Fechará em 4 s</div>
+        <button class="ttk-screenshot-close-btn" onclick="closePromo1111Modal()" aria-label="Fechar">&#x2715;</button>
+
+      </div>
+    </div>
+
+    <!-- ==========================================
+         MODAL 2: EMBEDDED ROULETTE WHEEL
+         ========================================== -->
+    <div id="rouletteModal" class="roulette-modal-overlay">
+      <div class="roulette-card">
+        
+        <div class="roulette-title-bar">
+          <h3>🎰 Roleta da Sorte Shopping Brasil</h3>
+          <p>Gire para resgatar seu super cupom de até 90% OFF!</p>
+        </div>
+
+        <div class="wheel-stage">
+          <div class="wheel-pointer-triangle"></div>
+          <div class="wheel-rotator-box" id="embeddedWheelRotator">
+            <canvas id="rouletteCanvasModal" width="290" height="290"></canvas>
+            <div class="wheel-center-button" onclick="triggerEmbeddedSpin()">
+              <span>GIRAR</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="spin-actions-row">
+          <button id="btnEmbeddedSpin" class="btn-spin-action" onclick="triggerEmbeddedSpin()">
+            Girar a Roleta 🎰
+          </button>
+        </div>
+
+        <!-- Spin 1 Loss Sub-Dialog -->
+        <div id="spinResultLoss" class="spin-result-dialog loss">
+          <div class="spin-res-icon">😢</div>
+          <div class="spin-res-title">Uma pena!</div>
+          <div class="spin-res-desc">
+            Você não conseguiu desta vez, mas calma: você tem mais <b>uma chance grátis</b> para tentar de novo!
+          </div>
+          <button class="btn-spin-action" onclick="retrySpin()">
+            Tentar Novamente ↻
+          </button>
+        </div>
+
+        <!-- Spin 2 Win Sub-Dialog -->
+        <div id="spinResultWin" class="spin-result-dialog win">
+          <div class="spin-res-icon">🤩🎉</div>
+          <div class="spin-res-title" style="color: #00b578;">PARABÉNS!</div>
+          <div class="spin-res-desc">
+            Você ganhou <b>90% DE DESCONTO + Frete Grátis</b> exclusivo da Shopping Brasil!
+          </div>
+          <button class="btn-spin-action" style="background: linear-gradient(90deg, #00b578 0%, #00d990 100%);" onclick="claimRoulettePrize()">
+            Aproveitar Desconto na Loja 🎁
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ==========================================
+         MODAL 3: FULL REVIEWS MODAL ("Ver todas")
+         ========================================== -->
+    <div id="reviewsModal" class="modal-overlay">
+      <div class="modal-sheet">
+        <div class="modal-header">
+          <div>
+            <h3 style="font-size: 15px; margin: 0;">Avaliações de Clientes</h3>
+            <div style="font-size: 11px; color: #888;">Shopping Brasil • 48.9k avaliações verificadas</div>
+          </div>
+          <button class="modal-close-btn" onclick="closeReviewsModal()">&times;</button>
+        </div>
+
+        <div class="reviews-modal-body">
+          <div class="reviews-summary-card">
+            <div class="summary-big-score">
+              <div class="score-num">4.9</div>
+              <div class="score-stars">★★★★★</div>
+              <div style="font-size: 10px; color: #888; margin-top: 2px;">de 5.0</div>
+            </div>
+            <div class="summary-bars">
+              <div class="star-bar-row">
+                <span>5★</span>
+                <div class="star-bar-track"><div class="star-bar-fill" style="width: 94%;"></div></div>
+                <span>94%</span>
+              </div>
+              <div class="star-bar-row">
+                <span>4★</span>
+                <div class="star-bar-track"><div class="star-bar-fill" style="width: 5%;"></div></div>
+                <span>5%</span>
+              </div>
+              <div class="star-bar-row">
+                <span>3★</span>
+                <div class="star-bar-track"><div class="star-bar-fill" style="width: 1%;"></div></div>
+                <span>1%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="reviews-filters-row">
+            <span class="rev-filter-chip active">Todas (48.9k)</span>
+            <span class="rev-filter-chip">Com fotos (14.2k)</span>
+            <span class="rev-filter-chip">5 Estrelas (46.8k)</span>
+            <span class="rev-filter-chip">Entrega Rápida (18.1k)</span>
+          </div>
+
+          <div id="fullReviewsList">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==========================================
+         MODAL 4: CART DRAWER
+         ========================================== -->
+    <div id="cartModal" class="modal-overlay">
+      <div class="modal-sheet">
+        <div class="modal-header">
+          <h3 id="cartModalTitle">Carrinho de Compras</h3>
+          <button class="modal-close-btn" onclick="closeCartModal()">&times;</button>
+        </div>
+
+        <div id="cartModalBody" style="max-height: 60vh; overflow-y: auto; padding: 4px 0;">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <div style="border-top: 1px solid var(--ttk-border); padding-top: 12px; margin-top: 10px;">
+          <div style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 800; margin-bottom: 12px;">
+            <span>Subtotal:</span>
+            <span id="cartModalSubtotal" style="color: var(--ttk-pink);">R$ 0,00</span>
+          </div>
+          <button class="btn-modal-save" onclick="checkoutFromCart()">
+            Finalizar Pedido
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==========================================
+         MODAL 5: EDIT ADDRESS (Clean Placeholders)
+         ========================================== -->
+    <div id="addressModal" class="modal-overlay">
+      <div class="modal-sheet">
+        <div class="modal-header">
+          <h3>Endereço de Entrega</h3>
+          <button class="modal-close-btn" onclick="closeAddressModal()">&times;</button>
+        </div>
+        
+        <div class="form-group">
+          <label>Nome Completo</label>
+          <input type="text" id="inputName" placeholder="Digite seu nome completo" value="">
+        </div>
+
+        <div class="form-group">
+          <label>Telefone / WhatsApp com DDD</label>
+          <input type="tel" id="inputPhone" placeholder="(DDD) 90000-0000" value="">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group" style="flex: 1.2;">
+            <label>CEP (Busca automática)</label>
+            <input type="text" id="inputCep" maxlength="9" oninput="handleCepAutoFill(this.value)" placeholder="00000-000" value="">
+          </div>
+          <div class="form-group" style="flex: 0.8;">
+            <label>Número</label>
+            <input type="text" id="inputNumber" placeholder="Ex: 123" value="">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Rua / Logradouro (Preenchido pelo CEP)</label>
+          <input type="text" id="inputStreet" placeholder="Aguardando CEP..." value="">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group" style="flex: 1;">
+            <label>Bairro</label>
+            <input type="text" id="inputNeighborhood" placeholder="Bairro" value="">
+          </div>
+          <div class="form-group" style="flex: 1;">
+            <label>Cidade / UF</label>
+            <input type="text" id="inputCityState" placeholder="Cidade - UF" value="">
+          </div>
+        </div>
+
+        <button class="btn-modal-save" onclick="saveAddress()">Confirmar Endereço</button>
+      </div>
+    </div>
+
+
+    <!-- ==========================================
+         MODAL 6: OFFICIAL STORE SUPPORT (shoppingbrasil.com.br)
+         ========================================== -->
+    <div id="supportModal" class="modal-overlay">
+      <div class="modal-sheet">
+        <div class="modal-header">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <img src="images/logo-shopping-brasil.jpg" width="28" height="28" style="border-radius: 50%;" alt="Logo">
+            <div>
+              <h3 style="font-size: 15px; margin: 0;">Shopping Brasil</h3>
+              <div style="font-size: 11px; color: #00b578; font-weight: 600;">✓ Atendimento Oficial TikTok Shop</div>
+            </div>
+          </div>
+          <button class="modal-close-btn" onclick="closeSupportModal()">&times;</button>
+        </div>
+
+        <div class="support-chat-body">
+          <div class="chat-bubble bot">
+            Olá! Seja muito bem-vindo ao canal de suporte oficial da <b>Shopping Brasil</b> no TikTok Shop.
+          </div>
+          <div class="chat-bubble bot">
+            Nosso horário de atendimento é de <b>Segunda a Sábado, das 08h às 22h</b>.
+            <div class="chat-bubble badge-url">
+              🌐 Portal Oficial: shoppingbrasil.com.br
+            </div>
+            <div style="margin-top: 6px; font-size: 11.5px; color: #555;">
+              ✉ E-mail: suporte@shoppingbrasil.com.br<br>
+              📱 SAC Nacional: (11) 98765-4321
+            </div>
+          </div>
+          <div class="chat-bubble bot">
+            Se você acabou de realizar um pedido, fique tranquilo: o envio é despachado em até 24h úteis com código de rastreamento enviado via SMS/WhatsApp.
+          </div>
+        </div>
+
+        <button class="btn-modal-save" style="margin-top: 14px;" onclick="closeSupportModal()">
+          Entendi, continuar comprando
+        </button>
+      </div>
+    </div>
+
+
+    <!-- ==========================================
+         MODAL 7: MEUS PEDIDOS (TIKTOK SHOP ORDERS)
+         ========================================== -->
+    <div id="ordersModal" class="modal-overlay">
+      <div class="modal-sheet" style="max-height: 85vh; display: flex; flex-direction: column;">
+        <div class="modal-header">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="width: 32px; height: 32px; border-radius: 8px; background: #161823; display: flex; align-items: center; justify-content: center; color: #fff;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                <line x1="9" y1="7" x2="15" y2="7"></line>
+                <line x1="9" y1="11" x2="15" y2="11"></line>
+              </svg>
+            </div>
+            <div>
+              <h3 style="font-size: 16px; margin: 0; font-weight: 700;">Meus Pedidos</h3>
+              <div style="font-size: 11.5px; color: #00873a; font-weight: 600; display: flex; align-items: center; gap: 4px;">
+                <span class="pulse-dot-green"></span> Atualiza&ccedil;&atilde;o em tempo real
+              </div>
+            </div>
+          </div>
+          <button class="modal-close-btn" onclick="closeOrdersModal()">&times;</button>
+        </div>
+
+        <div class="orders-list-body" id="ordersListBody" style="overflow-y: auto; padding: 16px; flex: 1;">
+          <!-- Dynamically populated via JS -->
+        </div>
+
+        <div style="padding: 12px 16px; border-top: 1px solid #f1f1f2; background: #fff;">
+          <button class="btn-modal-save" style="width: 100%;" onclick="closeOrdersModal()">
+            Fechar e Continuar Comprando
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         TOAST NOTIFICATION
+         ========================================== -->
+    <div id="toastNotice" class="toast-notice">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="#00b578"><path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/></svg>
+      <span id="toastMessage">Código Pix copiado com sucesso!</span>
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/products.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

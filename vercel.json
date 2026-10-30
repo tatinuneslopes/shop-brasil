@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/api/webhook",
+      "destination": "/api/webhook.js"
+    },
+    {
+      "source": "/api/status",
+      "destination": "/api/status.js"
+    },
+    {
+      "source": "/api/balance",
+      "destination": "/api/balance.js"
+    }
+  ]
+}
