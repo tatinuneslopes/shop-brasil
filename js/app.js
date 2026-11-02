@@ -1308,20 +1308,38 @@ function renderProducts(filterQuery = "") {
   // 3. Tab and Sorting logic per user instructions
   if (currentSort === "rec") {
     if (currentCategory === "all" && !filterQuery.trim()) {
-      list = list.filter(p => CURATED_REC_IDS.includes(p.id));
-      list.sort((a, b) => CURATED_REC_IDS.indexOf(a.id) - CURATED_REC_IDS.indexOf(b.id));
+      list.sort((a, b) => {
+        const aIdx = CURATED_REC_IDS.indexOf(a.id);
+        const bIdx = CURATED_REC_IDS.indexOf(b.id);
+        if (aIdx !== -1 && bIdx !== -1) return aIdx - bIdx;
+        if (aIdx !== -1) return -1;
+        if (bIdx !== -1) return 1;
+        return 0;
+      });
     }
   } else if (currentSort === "new") {
     if (currentCategory === "all" && !filterQuery.trim()) {
-      list = list.filter(p => CURATED_NEW_IDS.includes(p.id));
-      list.sort((a, b) => CURATED_NEW_IDS.indexOf(a.id) - CURATED_NEW_IDS.indexOf(b.id));
+      list.sort((a, b) => {
+        const aIdx = CURATED_NEW_IDS.indexOf(a.id);
+        const bIdx = CURATED_NEW_IDS.indexOf(b.id);
+        if (aIdx !== -1 && bIdx !== -1) return aIdx - bIdx;
+        if (aIdx !== -1) return -1;
+        if (bIdx !== -1) return 1;
+        return 0;
+      });
     } else {
       list.reverse();
     }
   } else if (currentSort === "sold") {
     if (currentCategory === "all" && !filterQuery.trim()) {
-      list = list.filter(p => CURATED_SOLD_IDS.includes(p.id));
-      list.sort((a, b) => CURATED_SOLD_IDS.indexOf(a.id) - CURATED_SOLD_IDS.indexOf(b.id));
+      list.sort((a, b) => {
+        const aIdx = CURATED_SOLD_IDS.indexOf(a.id);
+        const bIdx = CURATED_SOLD_IDS.indexOf(b.id);
+        if (aIdx !== -1 && bIdx !== -1) return aIdx - bIdx;
+        if (aIdx !== -1) return -1;
+        if (bIdx !== -1) return 1;
+        return 0;
+      });
     } else {
       list.sort((a, b) => parseFloat(b.sold) - parseFloat(a.sold));
     }
