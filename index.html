@@ -59,7 +59,7 @@
             <div style="margin-top: 3px;">
               <span class="official-pill online-pulse-pill">
                 <span class="pulse-dot-green"></span>
-                Vendedor Oficial do TikTok
+                Vendedor Oficial
               </span>
             </div>
             <div class="store-stats">
@@ -197,6 +197,25 @@
           <div>•</div>
           <div id="pdpSoldCount">8.762 vendidos</div>
         </div>
+
+        <!-- PDP Scarcity / Urgency Banner (Matching Reference Screenshot) -->
+        <div class="pdp-urgency-banner" id="pdpUrgencyBanner">
+          <span class="pulse-dot-red"></span>
+          <span class="urgency-text">
+            <b id="pdpViewersCount">30</b> pessoas olharam &nbsp;|&nbsp; Restam <b id="pdpStockCount">22</b> unidades
+          </span>
+        </div>
+      </div>
+
+      <!-- PDP Options Available Preview Row (Click opens Quick-Select Drawer) -->
+      <div class="pdp-options-preview-card" id="pdpOptionsPreviewCard" onclick="openCurrentProductDrawer()">
+        <div class="options-preview-left">
+          <div class="options-preview-thumbs" id="pdpOptionsThumbsList">
+            <!-- mini thumbnails populated dynamically -->
+          </div>
+          <span class="options-preview-text" id="pdpOptionsCountText">Opções disponíveis</span>
+        </div>
+        <svg class="options-arrow-icon" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
       </div>
 
       <!-- Product Color Options Section (Only shown when product has > 1 color) -->
@@ -282,7 +301,7 @@
               <div style="font-size: 14px; font-weight: 700; color: #161823;">Shopping Brasil</div>
               <div style="font-size: 11px; color: #00873a; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; margin-top: 2px;">
                 <span class="pulse-dot-green" style="width: 6px; height: 6px;"></span>
-                Vendedor Oficial do TikTok
+                Vendedor Oficial
               </div>
             </div>
           </div>
@@ -385,7 +404,7 @@
           <span style="font-size: 13px; font-weight: 700; color: #161823;">Shopping Brasil</span>
           <span style="font-size: 11px; color: #00873a; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
             <span class="pulse-dot-green" style="width: 5px; height: 5px;"></span>
-            Vendedor Oficial do TikTok
+            Vendedor Oficial
           </span>
         </div>
 
@@ -732,6 +751,67 @@
           <div id="fullReviewsList">
             <!-- Rendered via JS -->
           </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==========================================
+         MODAL 3.5: QUICK SELECT OPTIONS (TIKTOK DRAWER BOTTOM SHEET)
+         ========================================== -->
+    <div id="quickSelectModal" class="modal-overlay" onclick="closeQuickSelectDrawer(event)">
+      <div class="quick-sheet-container" onclick="event.stopPropagation()">
+        <!-- Header: Image + Price + Old Price + Title + Close -->
+        <div class="quick-sheet-header">
+          <div class="quick-sheet-thumb">
+            <img id="quickSheetImg" src="" alt="Produto">
+          </div>
+          <div class="quick-sheet-info">
+            <div class="quick-sheet-price-row">
+              <span class="quick-sheet-price" id="quickSheetPrice">R$ 0,00</span>
+              <span class="quick-sheet-old-price" id="quickSheetOldPrice">R$ 0,00</span>
+            </div>
+            <div class="quick-sheet-title" id="quickSheetTitle">Nome do Produto</div>
+            <div class="quick-sheet-selected-sub" id="quickSheetSelectedLabel">Op&ccedil;&atilde;o: Padr&atilde;o</div>
+          </div>
+          <button class="quick-sheet-close-btn" onclick="closeQuickSelectDrawer()">&times;</button>
+        </div>
+
+        <div class="quick-sheet-scrollable">
+          <!-- Models / Colors Section -->
+          <div class="quick-sheet-section" id="quickSheetModelsSection">
+            <div class="quick-sheet-section-title" id="quickSheetModelsHeader">Modelo (1)</div>
+            <div class="quick-sheet-models-grid" id="quickSheetModelsGrid">
+              <!-- Dynamically rendered -->
+            </div>
+          </div>
+
+          <!-- Voltage Section (shown if product has voltages) -->
+          <div class="quick-sheet-section" id="quickSheetVoltageSection" style="display: none;">
+            <div class="quick-sheet-section-title">Voltagem</div>
+            <div class="quick-sheet-chips-row" id="quickSheetVoltageChips">
+              <!-- Dynamically rendered -->
+            </div>
+          </div>
+
+          <!-- Quantity Section -->
+          <div class="quick-sheet-section">
+            <div class="quick-sheet-qty-row">
+              <span class="quick-sheet-section-title" style="margin-bottom: 0;">Quantidade</span>
+              <div class="quick-stepper">
+                <button type="button" class="quick-stepper-btn" onclick="changeQuickQty(-1)">-</button>
+                <span id="quickQtyValue">1</span>
+                <button type="button" class="quick-stepper-btn" onclick="changeQuickQty(1)">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sticky Bottom CTA Button -->
+        <div class="quick-sheet-footer">
+          <button class="btn-quick-add-cart" id="btnQuickAddCart" onclick="confirmQuickAddToCart()">
+            Adicionar ao carrinho
+          </button>
         </div>
       </div>
     </div>

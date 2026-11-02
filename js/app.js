@@ -1,4 +1,4 @@
-﻿// Shopping Brasil - TikTok Shop Core Application
+// Shopping Brasil - TikTok Shop Core Application
 // In-App Webview Simulation, 11.11 Promo, Embedded Roulette & FlevoPay Real Integration
 
 // Immediately wipe any legacy mock data (e.g., Carlos) so everything starts completely blank
@@ -707,6 +707,274 @@ function updateCartBadges() {
   if (badgePdpIcon) badgePdpIcon.textContent = count;
 }
 
+// ========================================================
+// DETERMINISTIC URGENCY DATA GENERATOR (SCREENSHOT 4)
+// ========================================================
+function getProductUrgency(prod) {
+  if (!prod) return { viewers: "30", stock: "22" };
+  const str = String(prod.id) + String(prod.title);
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = (hash << 5) - hash + str.charCodeAt(i);
+    hash |= 0;
+  }
+  const posHash = Math.abs(hash);
+
+  const viewerTiers = [
+    30, 42, 58, 86, 120, 240, 480, 890, 1250, 1840, 2190, 2850, 3120, 38, 64, 95, 340, 680, 1420, 2600
+  ];
+  const stockTiers = [
+    7, 12, 18, 22, 28, 35, 44, 56, 80, 100, 140, 220, 310, 400, 16, 24, 38, 92, 180, 350
+  ];
+
+  const viewersVal = viewerTiers[posHash % viewerTiers.length];
+  const stockVal = stockTiers[(posHash >> 2) % stockTiers.length];
+
+  return {
+    viewers: viewersVal >= 1000 ? viewersVal.toLocaleString('pt-BR') : viewersVal.toString(),
+    stock: stockVal >= 1000 ? stockVal.toLocaleString('pt-BR') : stockVal.toString()
+  };
+}
+
+// ========================================================
+// QUICK SELECT BOTTOM SHEET DRAWER (SCREENSHOT 3)
+// ========================================================
+let quickProduct = null;
+let quickSelectedColor = null;
+let quickSelectedVoltage = null;
+let quickQuantity = 1;
+
+function handleCardBuyClick(productId, event) {
+  if (event) event.stopPropagation();
+  openQuickSelectDrawer(productId);
+}
+
+function openCurrentProductDrawer() {
+  if (currentProduct) {
+    openQuickSelectDrawer(currentProduct.id);
+  }
+}
+
+function openQuickSelectDrawer(productId) {
+  const prod = PRODUCTS.find(p => p.id === productId);
+  if (!prod) return;
+
+  quickProduct = prod;
+  quickQuantity = 1;
+
+  if (prod.colors && prod.colors.length > 0) {
+    quickSelectedColor = (currentProduct && currentProduct.id === prod.id && currentSelectedColor)
+      ? currentSelectedColor 
+      : prod.colors[0];
+  } else {
+    quickSelectedColor = "Padrão";
+  }
+
+  if (prod.voltages && prod.voltages.length > 0) {
+    quickSelectedVoltage = (currentProduct && currentProduct.id === prod.id && currentSelectedVoltage)
+      ? currentSelectedVoltage 
+      : prod.voltages[0];
+  } else {
+    quickSelectedVoltage = null;
+  }
+
+  updateQuickSheetUI();
+
+  const modal = document.getElementById("quickSelectModal");
+  if (modal) {
+    modal.classList.add("active");
+    document.body.style.overflow = "hidden";
+  }
+}
+
+function updateQuickSheetUI() {
+  if (!quickProduct) return;
+  const prod = quickProduct;
+
+  const currentThumbImg = (quickSelectedColor && prod.colorImages && prod.colorImages[quickSelectedColor]) || prod.image;
+  const imgEl = document.getElementById("quickSheetImg");
+  if (imgEl) {
+    imgEl.src = currentThumbImg;
+    imgEl.onerror = () => { imgEl.src = prod.image; };
+  }
+
+  const priceEl = document.getElementById("quickSheetPrice");
+  if (priceEl) priceEl.textContent = `R$ ${formatBRL(prod.price)}`;
+
+  const oldPriceEl = document.getElementById("quickSheetOldPrice");
+  if (oldPriceEl) oldPriceEl.textContent = `R$ ${formatBRL(prod.oldPrice)}`;
+
+  const titleEl = document.getElementById("quickSheetTitle");
+  if (titleEl) titleEl.textContent = prod.title;
+
+  const labelEl = document.getElementById("quickSheetSelectedLabel");
+  if (labelEl) {
+    let selText = `Selecionado: ${quickSelectedColor || "Padrão"}`;
+    if (quickSelectedVoltage) selText += ` - ${quickSelectedVoltage}`;
+    labelEl.textContent = selText;
+  }
+
+  const qtyEl = document.getElementById("quickQtyValue");
+  if (qtyEl) qtyEl.textContent = quickQuantity;
+
+  // Render Models Grid
+  const modelsGrid = document.getElementById("quickSheetModelsGrid");
+  const modelsHeader = document.getElementById("quickSheetModelsHeader");
+
+  const optionList = [];
+  if (prod.colors && prod.colors.length > 0) {
+    prod.colors.forEach((col, idx) => {
+      const img = (prod.colorImages && prod.colorImages[col]) || prod.image;
+      optionList.push({ label: col, img: img, val: col });
+    });
+  } else if (prod.images && prod.images.length > 1) {
+    prod.images.forEach((img, idx) => {
+      optionList.push({ label: `Modelo ${idx + 1}`, img: img, val: `Modelo ${idx + 1}` });
+    });
+  } else {
+    optionList.push({ label: "Padrão", img: prod.image, val: "Padrão" });
+  }
+
+  if (modelsHeader) {
+    modelsHeader.textContent = `Modelo (${optionList.length})`;
+  }
+
+  if (modelsGrid) {
+    modelsGrid.innerHTML = optionList.map(opt => {
+      const isActive = (quickSelectedColor === opt.val);
+      return `
+        <div class="quick-model-card ${isActive ? 'active' : ''}" onclick="selectQuickModel('${opt.val}')">
+          <img src="${opt.img}" alt="${opt.label}" class="quick-model-thumb" onerror="this.src='${prod.image}'">
+          <span class="quick-model-name">${opt.label}</span>
+        </div>
+      `;
+    }).join("");
+  }
+
+  // Render Voltages
+  const voltSection = document.getElementById("quickSheetVoltageSection");
+  const voltChips = document.getElementById("quickSheetVoltageChips");
+  if (prod.voltages && prod.voltages.length > 0) {
+    if (voltSection) voltSection.style.display = "block";
+    if (voltChips) {
+      voltChips.innerHTML = prod.voltages.map(v => {
+        const isActive = (quickSelectedVoltage === v);
+        return `
+          <div class="quick-volt-chip ${isActive ? 'active' : ''}" onclick="selectQuickVoltage('${v}')">
+            ${v}
+          </div>
+        `;
+      }).join("");
+    }
+  } else {
+    if (voltSection) voltSection.style.display = "none";
+  }
+
+  const ctaBtn = document.getElementById("btnQuickAddCart");
+  if (ctaBtn) {
+    if (prod.soldOut) {
+      ctaBtn.disabled = true;
+      ctaBtn.style.background = "#ccc";
+      ctaBtn.textContent = "Produto Esgotado";
+    } else {
+      ctaBtn.disabled = false;
+      ctaBtn.style.background = "#fe2c55";
+      ctaBtn.textContent = "Adicionar ao carrinho";
+    }
+  }
+}
+
+function selectQuickModel(modelVal) {
+  quickSelectedColor = modelVal;
+  updateQuickSheetUI();
+  if (currentProduct && quickProduct && currentProduct.id === quickProduct.id) {
+    currentSelectedColor = modelVal;
+    const nameEl = document.getElementById("pdpSelectedColorName");
+    if (nameEl) nameEl.textContent = modelVal;
+    document.querySelectorAll("#pdpColorChipsList .color-option-pill").forEach(p => {
+      if (p.textContent.trim() === modelVal) p.classList.add("active");
+      else p.classList.remove("active");
+    });
+  }
+}
+
+function selectQuickVoltage(voltVal) {
+  quickSelectedVoltage = voltVal;
+  updateQuickSheetUI();
+  if (currentProduct && quickProduct && currentProduct.id === quickProduct.id) {
+    currentSelectedVoltage = voltVal;
+    const nameEl = document.getElementById("pdpSelectedVoltageName");
+    if (nameEl) nameEl.textContent = voltVal;
+    document.querySelectorAll("#pdpVoltageChipsList .color-option-pill").forEach(p => {
+      if (p.textContent.trim() === voltVal) p.classList.add("active");
+      else p.classList.remove("active");
+    });
+  }
+}
+
+function changeQuickQty(delta) {
+  const next = quickQuantity + delta;
+  if (next >= 1 && next <= 10) {
+    quickQuantity = next;
+    const el = document.getElementById("quickQtyValue");
+    if (el) el.textContent = quickQuantity;
+  }
+}
+
+function closeQuickSelectDrawer(event) {
+  if (event && event.target && !event.target.classList.contains("modal-overlay") && !event.target.classList.contains("quick-sheet-close-btn")) {
+    return;
+  }
+  const modal = document.getElementById("quickSelectModal");
+  if (modal) {
+    modal.classList.remove("active");
+    document.body.style.overflow = "";
+  }
+}
+
+function confirmQuickAddToCart() {
+  if (!quickProduct) return;
+  if (quickProduct.soldOut) {
+    showToast("Este produto está esgotado no momento!");
+    return;
+  }
+
+  const prod = quickProduct;
+  const chosenColor = quickSelectedColor || "Padrão";
+  const itemImg = (prod.colorImages && prod.colorImages[chosenColor]) || prod.image;
+
+  let variantLabel = chosenColor;
+  if (quickSelectedVoltage) {
+    variantLabel = `${chosenColor} - ${quickSelectedVoltage}`;
+  }
+
+  const currentCartTotal = cart.reduce((sum, it) => sum + (it.product.price * it.quantity), 0);
+  if (currentCartTotal + (prod.price * quickQuantity) > 350.00) {
+    showToast("⚠️ Limite promocional: Máximo de R$ 350,00 por pedido! Finalize este e faça outro em seguida.");
+    closeQuickSelectDrawer();
+    openCartModal();
+    return;
+  }
+
+  const existing = cart.find(item => item.product.id === prod.id && item.color === variantLabel);
+  if (existing) {
+    existing.quantity += quickQuantity;
+  } else {
+    cart.push({
+      product: prod,
+      color: variantLabel,
+      image: itemImg,
+      quantity: quickQuantity
+    });
+  }
+
+  updateCartBadges();
+  saveScopedCart();
+  closeQuickSelectDrawer();
+  showToast(`✓ Adicionado ao carrinho (${variantLabel})!`);
+  openCartModal();
+}
+
 // Open Cart Bottom-Sheet Modal
 function openCartModal() {
   const modal = document.getElementById("cartModal");
@@ -1066,32 +1334,43 @@ function renderProducts(filterQuery = "") {
     countBadge.textContent = `${list.length} itens encontrados`;
   }
 
-  container.innerHTML = list.map(prod => `
-    <div class="product-card" onclick="openProductDetail('${prod.id}')">
-      <div class="product-thumb-wrap">
-        <img src="${prod.image}" alt="${prod.title}" loading="lazy" onerror="this.src='images/produto2-iphone.jpg'">
-        <span class="badge-tag" style="${prod.soldOut ? 'background: #e82828;' : ''}">${prod.soldOut ? 'Esgotado' : (prod.badge || 'Oferta')}</span>
+  container.innerHTML = list.map(prod => {
+    const discountAmount = prod.oldPrice && prod.oldPrice > prod.price 
+      ? formatBRL(prod.oldPrice - prod.price) 
+      : "90,00";
+    const ratingVal = (prod.rating || 4.8).toFixed(1);
+    const soldFormatted = prod.sold ? (typeof prod.sold === 'number' ? prod.sold.toLocaleString('pt-BR') : prod.sold) : '10.000';
+
+    return `
+      <div class="product-card" onclick="openProductDetail('${prod.id}')">
+        <div class="product-thumb-wrap">
+          <img src="${prod.image}" alt="${prod.title}" loading="lazy" onerror="this.src='images/produto2-iphone.jpg'">
+        </div>
+        <div class="product-details">
+          <div class="product-title">${prod.title}</div>
+          <div class="product-meta-tags">
+            <span class="tag-discount-value">Desconto de R$ ${discountAmount}</span>
+            <span class="tag-free-shipping">Frete grátis</span>
+          </div>
+          <div class="product-rating-row">
+            <span class="star-icon">★</span>
+            <span class="rating-num">${ratingVal}</span>
+            <span>| ${soldFormatted} vendidos</span>
+          </div>
+          <div class="product-bottom-row">
+            <div class="price-group">
+              <div class="price-current"><small>R$</small> ${formatBRL(prod.price)}</div>
+              <div class="price-old">R$ ${formatBRL(prod.oldPrice)}</div>
+            </div>
+            <button class="btn-list-buy" onclick="handleCardBuyClick('${prod.id}', event)" ${prod.soldOut ? 'disabled style="background: #ccc; cursor: not-allowed;"' : ''}>
+              <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+              <span>${prod.soldOut ? 'Esgotado' : 'Comprar'}</span>
+            </button>
+          </div>
+        </div>
       </div>
-      <div class="product-details">
-        <div class="product-title">${prod.title}</div>
-        <div class="product-meta-tags">
-          <span class="tag-free-shipping">Frete grátis</span>
-          <span class="tag-discount-percent">${prod.discount}</span>
-        </div>
-        <div class="price-row">
-          <div class="price-current"><small>R$</small> ${formatBRL(prod.price)}</div>
-          <div class="price-old">R$ ${formatBRL(prod.oldPrice)}</div>
-        </div>
-        <div class="product-footer-row">
-          <span class="sold-count">${prod.sold} vendidos</span>
-          <button class="btn-card-buy" onclick="addToCart('${prod.id}', null, event)" ${prod.soldOut ? 'disabled style="background: #ccc; cursor: not-allowed;"' : ''}>
-            <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
-            ${prod.soldOut ? 'Esgotado' : 'Adicionar'}
-          </button>
-        </div>
-      </div>
-    </div>
-  `).join("");
+    `;
+  }).join("");
 }
 
 function handleSearch(query) {
@@ -1268,6 +1547,39 @@ function openProductDetail(productId) {
   } else {
     currentSelectedVoltage = null;
     if (voltageSection) voltageSection.style.display = "none";
+  }
+
+  // Update PDP Scarcity / Urgency Banner (varies realistically per product)
+  const urgency = getProductUrgency(prod);
+  const viewersEl = document.getElementById("pdpViewersCount");
+  const stockEl = document.getElementById("pdpStockCount");
+  if (viewersEl) viewersEl.textContent = urgency.viewers;
+  if (stockEl) stockEl.textContent = urgency.stock;
+
+  // Update PDP Options Available Preview Row
+  const optionsThumbsList = document.getElementById("pdpOptionsThumbsList");
+  const optionsCountText = document.getElementById("pdpOptionsCountText");
+  const optionItems = [];
+  if (prod.colors && prod.colors.length > 0) {
+    prod.colors.forEach(col => {
+      const img = (prod.colorImages && prod.colorImages[col]) || prod.image;
+      optionItems.push({ label: col, img: img });
+    });
+  } else if (prod.images && prod.images.length > 1) {
+    prod.images.forEach((img, i) => {
+      optionItems.push({ label: `Opção ${i + 1}`, img: img });
+    });
+  } else {
+    optionItems.push({ label: "Padrão", img: prod.image });
+  }
+
+  if (optionsThumbsList) {
+    optionsThumbsList.innerHTML = optionItems.slice(0, 4).map(it => `
+      <img src="${it.img}" alt="${it.label}" class="options-preview-thumb-img" onerror="this.src='${prod.image}'">
+    `).join("");
+  }
+  if (optionsCountText) {
+    optionsCountText.textContent = `${optionItems.length} opções disponíveis`;
   }
 
   renderProductReviews(prod.id);
