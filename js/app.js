@@ -2364,6 +2364,13 @@ const BRAZILIAN_REVIEWERS = [
 ];
 
 const PRODUCT_CUSTOM_REVIEWS = {
+  "sofa-inflavel-portatil-3em1": [
+    "demorou um pouco pra chegar mas deu certo! O sofá inflável é simplesmente maravilhoso, o veludo é muito macio e a bomba de ar que vem junto enche super rápido. Comprei o estilo pichação e o visual é lindo!",
+    "Chegou em 3 dias aqui em casa! Material de PVC bem grosso e resistente, aguenta bastante peso com conforto total. O puff pros pés faz toda a diferença pra relaxar assistindo filme.",
+    "Comprei o Estilo A Marrom e superou minhas expectativas! Muito prático de encher e esvaziar, levei pro camping no fim de semana e foi a melhor coisa. Valeu cada centavo!",
+    "Produto excelente e entrega super rápida! Paguei no Pix por 58 reais na promoção e veio tudo certinho com a bomba e os apoios. Recomendo muito a loja Shopping Brasil!",
+    "Muito confortável mesmo, o encosto encaixa perfeitamente nas costas. Dá pra usar na sala, no quarto ou levar pra praia. Com certeza comprarei outro de presente."
+  ],
   "iphone-18-pro-max": [
     "demorou um pouco pra chegar mas deu certo! O iPhone 18 Pro Max veio 100% lacrado na caixa oficial da Apple. O acabamento em titânio espacial é de outro mundo e o zoom periscópio pega nitidez absurda!",
     "Chegou super rápido em 3 dias aqui em SP! O aparelho é incrível, tela 120Hz extremamente fluida e o processador não esquenta nada. Paguei no Pix e aprovaram na mesma hora.",

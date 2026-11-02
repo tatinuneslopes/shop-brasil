@@ -1,4 +1,4 @@
-﻿// Catálogo Oficial Shopping Brasil - TikTok Shop
+// Catálogo Oficial Shopping Brasil - TikTok Shop
 // Imagens estritamente isoladas e verificadas direto da pasta oficial
 // Preços reduzidos para iPhones e itens principais (330 / 325)
 
@@ -30,6 +30,43 @@ const CATEGORIES = [
 ];
 
 const PRODUCTS = [
+  // ==========================================
+  // DESTAQUE DA SEMANA / CASA & CONFORTO
+  // ==========================================
+  {
+    id: "sofa-inflavel-portatil-3em1",
+    title: "Sofá Inflável Portátil 3 em 1 com Bomba de Ar Poltrona Cama Dobrável Para Camping Praia e Casa",
+    category: "casa",
+    categoryName: "Casa & Conforto",
+    price: 58.00,
+    oldPrice: 169.00,
+    discount: "-90%",
+    sold: "3.2k",
+    rating: 4.9,
+    reviews: 980,
+    image: "images/loja/sofa-inflavel-estilo-a-marrom.jpg",
+    images: [
+      "images/loja/sofa-inflavel-estilo-a-marrom.jpg",
+      "images/loja/sofa-inflavel-estilo-a-azul.jpg",
+      "images/loja/sofa-inflavel-estilo-a-vermelho.jpg",
+      "images/loja/sofa-inflavel-estilo-a-pichacao.jpg"
+    ],
+    colors: [
+      "Estilo A Marrom",
+      "Estilo A Azul",
+      "Estilo A Vermelho",
+      "Estilo A Pichação"
+    ],
+    colorImages: {
+      "Estilo A Marrom": "images/loja/sofa-inflavel-estilo-a-marrom.jpg",
+      "Estilo A Azul": "images/loja/sofa-inflavel-estilo-a-azul.jpg",
+      "Estilo A Vermelho": "images/loja/sofa-inflavel-estilo-a-vermelho.jpg",
+      "Estilo A Pichação": "images/loja/sofa-inflavel-estilo-a-pichacao.jpg"
+    },
+    badge: "Bomba Inclusa",
+    freeShipping: true,
+    description: "Sofá Inflável Portátil 3 em 1 com Bomba de Ar Poltrona Cama Dobrável Para Camping Praia e Casa. Confeccionado em tecido de veludo impermeável toque suave com PVC ecológico ultra resistente ao desgaste. Dimensões do sofá: 130 cm x 76 cm x 99 cm. Dimensões do apoio para os pés / pedal: 64 cm x 28 cm. Capacidade de carga: até 195 kg. Peso: cerca de 1,9 kg. Bomba de ar inclusa no kit. Encha, use e guarde com máxima praticidade. Perfeito para relaxar em casa, praia, camping e viagens."
+  },
   // ==========================================
   // SMARTPHONES & TABLETS
   // ==========================================
