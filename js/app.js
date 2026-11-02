@@ -1,4 +1,4 @@
-// Shopping Brasil - TikTok Shop Core Application
+﻿// Shopping Brasil - TikTok Shop Core Application
 // In-App Webview Simulation, 11.11 Promo, Embedded Roulette & FlevoPay Real Integration
 
 // Immediately wipe any legacy mock data (e.g., Carlos) so everything starts completely blank
@@ -153,18 +153,13 @@ document.addEventListener("DOMContentLoaded", () => {
     currentProduct = PRODUCTS[0];
   }
 
-  drawEmbeddedWheel();
-  checkPromoEntrance();
+  // Ativa automaticamente 90% OFF sem nenhum popup ou roleta
+  sessionStorage.setItem("shopping_brasil_1111_claimed", "true");
 });
 
 // Check Promo Entrance
 function checkPromoEntrance() {
-  const promoClaimed = sessionStorage.getItem("shopping_brasil_1111_claimed");
-  if (!promoClaimed) {
-    setTimeout(() => {
-      openPromo1111Modal();
-    }, 400);
-  }
+  sessionStorage.setItem("shopping_brasil_1111_claimed", "true");
 }
 
 let promoCountdownInterval = null;
