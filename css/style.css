@@ -3056,6 +3056,15 @@ netlify-drawer,
   text-overflow: ellipsis;
 }
 
+.quick-model-badge {
+  font-size: 9.5px;
+  color: #fe2c55;
+  font-weight: 600;
+  white-space: nowrap;
+  line-height: 1.1;
+  margin-top: 1px;
+}
+
 .quick-sheet-chips-row {
   display: flex;
   gap: 8px;

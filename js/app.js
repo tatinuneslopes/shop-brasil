@@ -706,6 +706,7 @@ function updateCartBadges() {
 // DETERMINISTIC URGENCY DATA GENERATOR (SCREENSHOT 4)
 // ========================================================
 function getProductUrgency(prod) {
+  if (prod && prod.urgency) return prod.urgency;
   if (!prod) return { viewers: "30", stock: "22" };
   const str = String(prod.id) + String(prod.title);
   let hash = 0;
@@ -872,12 +873,15 @@ function updateQuickSheetUI() {
   }
 
   if (modelsGrid) {
-    modelsGrid.innerHTML = optionList.map(opt => {
+        modelsGrid.innerHTML = optionList.map(opt => {
       const isActive = (quickSelectedColor === opt.val);
+      const badgeText = (prod.modelBadges && prod.modelBadges[opt.val]) ? prod.modelBadges[opt.val] : "";
+      const badgeHtml = badgeText ? `<div class="quick-model-badge">${badgeText}</div>` : "";
       return `
         <div class="quick-model-card ${isActive ? 'active' : ''}" onclick="selectQuickModel('${opt.val}')">
           <img src="${opt.img}" alt="${opt.label}" class="quick-model-thumb" onerror="this.src='${prod.image}'">
           <span class="quick-model-name">${opt.label}</span>
+          ${badgeHtml}
         </div>
       `;
     }).join("");
@@ -2364,6 +2368,13 @@ const BRAZILIAN_REVIEWERS = [
 ];
 
 const PRODUCT_CUSTOM_REVIEWS = {
+  "panela-pressao-visor-vidro-4-5l": [
+    "demorou um pouco pra chegar mas deu certo! A panela de pressão com visor é sensacional, o vidro transparente permite ver a comida sem precisar abrir e passar perigo. O antiaderente é de primeira qualidade!",
+    "Chegou super rápido em 3 dias aqui em casa! Comprei a cor Cereja 4,5L e é linda demais. Cozinha feijão em 15 minutos e não gruda absolutamente nada no fundo.",
+    "Comprei a Grafite 4,5L e me surpreendeu! Super segura, a trava fecha macio e o visor não embaça durante o cozimento. Valeu muito a pena os 98 reais da promoção!",
+    "Melhor compra de cozinha que fiz no ano! Muito espaçosa com 4,5L e as 6 camadas de alumínio distribuem o calor por igual. Recomendo a Shopping Brasil de olhos fechados!",
+    "A cor Baunilha é um luxo, combina com qualquer fogão. Fácil de limpar por fora e por dentro com esponja macia. Entrega pontual e bem embalada com plástico bolha."
+  ],
   "sofa-inflavel-portatil-3em1": [
     "demorou um pouco pra chegar mas deu certo! O sofá inflável é simplesmente maravilhoso, o veludo é muito macio e a bomba de ar que vem junto enche super rápido. Comprei o estilo pichação e o visual é lindo!",
     "Chegou em 3 dias aqui em casa! Material de PVC bem grosso e resistente, aguenta bastante peso com conforto total. O puff pros pés faz toda a diferença pra relaxar assistindo filme.",

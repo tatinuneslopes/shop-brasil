@@ -1,4 +1,4 @@
-// Catálogo Oficial Shopping Brasil - TikTok Shop
+﻿// Catálogo Oficial Shopping Brasil - TikTok Shop
 // Imagens estritamente isoladas e verificadas direto da pasta oficial
 // Preços reduzidos para iPhones e itens principais (330 / 325)
 
@@ -67,7 +67,44 @@ const PRODUCTS = [
     freeShipping: true,
     description: "Sofá Inflável Portátil 3 em 1 com Bomba de Ar Poltrona Cama Dobrável Para Camping Praia e Casa. Confeccionado em tecido de veludo impermeável toque suave com PVC ecológico ultra resistente ao desgaste. Dimensões do sofá: 130 cm x 76 cm x 99 cm. Dimensões do apoio para os pés / pedal: 64 cm x 28 cm. Capacidade de carga: até 195 kg. Peso: cerca de 1,9 kg. Bomba de ar inclusa no kit. Encha, use e guarde com máxima praticidade. Perfeito para relaxar em casa, praia, camping e viagens."
   },
-  // ==========================================
+  {
+    id: "panela-pressao-visor-vidro-4-5l",
+    title: "Panela de Pressão com Visor de Vidro Grande Antiaderente 4,5L 6 Camadas de Alumínio Alta Durabilidade Cozimento Rápido e Seguro ENVIO IMEDIATO",
+    category: "casa",
+    categoryName: "Casa & Conforto",
+    price: 98.50,
+    oldPrice: 172.60,
+    discount: "-90%",
+    sold: "2.4k",
+    rating: 4.9,
+    reviews: 1280,
+    image: "images/loja/panela-pressao-visor-trio.png",
+    images: [
+      "images/loja/panela-pressao-visor-trio.png",
+      "images/loja/panela-pressao-visor-baunilha.jpg",
+      "images/loja/panela-pressao-visor-cereja.jpg",
+      "images/loja/panela-pressao-visor-grafite.png"
+    ],
+    colors: [
+      "Baunilha 4,5L",
+      "Cereja 4,5L",
+      "Grafite 4,5L"
+    ],
+    colorImages: {
+      "Baunilha 4,5L": "images/loja/panela-pressao-visor-baunilha.jpg",
+      "Cereja 4,5L": "images/loja/panela-pressao-visor-cereja.jpg",
+      "Grafite 4,5L": "images/loja/panela-pressao-visor-grafite.png"
+    },
+    modelBadges: {
+      "Baunilha 4,5L": "Mais de 100 vendidos",
+      "Cereja 4,5L": "Mais de 100 vendidos",
+      "Grafite 4,5L": "Mais de 100 vendidos"
+    },
+    urgency: { viewers: "2.140", stock: "14" },
+    badge: "Visor de Vidro",
+    freeShipping: true,
+    description: "Panela de Pressão com Visor de Vidro Grande Antiaderente 4,5L 6 Camadas de Alumínio Alta Durabilidade Cozimento Rápido e Seguro ENVIO IMEDIATO. Tampa com visor de vidro temperado transparente que permite acompanhar o cozimento dos alimentos sem abrir a panela. Revestimento antiaderente cerâmico interno e externo com 6 camadas que não gruda nada e facilita a limpeza. Cozimento ultra rápido com total segurança, cabo ergonômico antitérmico e trava de fechamento reforçada. Capacidade: 4,5 Litros."
+  },  // ==========================================
   // SMARTPHONES & TABLETS
   // ==========================================
   {
@@ -1451,8 +1488,9 @@ const PRODUCTS = [
       "images/loja/actine-gel-limpeza.png"
     ],
     colors: [],
-    badge: "Esgotado",
-    soldOut: true,
+    badge: "Mais Vendido",
+    soldOut: false,
+    urgency: { viewers: "1.950", stock: "24" },
     freeShipping: true,
     description: "Gel de limpeza facial dermatológico para peles oleosas e acneicas com Vitamina C e Ácido Salicílico. Limpa profundamente os poros, reduz a oleosidade e previne cravos e espinhas."
   },
