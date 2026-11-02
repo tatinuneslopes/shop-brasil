@@ -2368,6 +2368,27 @@ const BRAZILIAN_REVIEWERS = [
 ];
 
 const PRODUCT_CUSTOM_REVIEWS = {
+  "relogio-poedagar-910": [
+    "demorou um pouco pra chegar mas deu certo! O relógio POEDAGAR é espetacular, o acabamento do aço inox e o dourado com azul chamam atenção de todo mundo. Chegou no estojo com certificado e flanela!",
+    "Chegou super rápido em 3 dias aqui! Muito pesado na mão, dá pra ver que o material é de altíssima qualidade. Os ponteiros brilham no escuro de verdade.",
+    "Comprei o Preto Total e achei sensacional! Combina com roupa social e casual, resistiu super bem á  na chuva e o calendário funciona certinho.",
+    "Excelente presente de negócios! Paguei 53 reais no Pix com aprovação na hora e rastreio certinho pelo WhatsApp. Recomendo muito a loja!",
+    "Comprei o Azul Prata e superou minhas expectativas. A pulseira ajusta fácil e o fecho borboleta é muito seguro."
+  ],
+  "patinete-eletrico-dobravel-350w": [
+    "demorou um pouco pra chegar mas deu certo! O patinete elétrico com banco é muito confortável, a autonomia da bateria dura fácil a semana inteira pro meu trabalho. A bag do banco é bem espaçosa!",
+    "Chegou em 4 dias muito bem embalado na caixa original! Anda rápido até 30 km/h e o freio a disco dá total segurança. Pelo preço de 112 reais na promoção foi o melhor negócio da vida!",
+    "Comprei com assento e minha esposa amou! Dá pra dobrar em segundos e colocar no porta-malas do carro sem ocupar espaço.",
+    "Muito potente mesmo nas subidas leves, o motor de 350W não perde força. Painel digital mostra velocidade e bateria certinho.",
+    "Sensacional! Entrega rápida da Shopping Brasil com nota fiscal. Recomendo demais!"
+  ],
+  "aparelho-abdominal-multifuncional-ventosa": [
+    "demorou um pouco pra chegar mas deu certo! A ventosa dupla gruda no chão com uma força inacreditável, não solta por nada durante o abdominal. O elástico dá uma resisténcia excelente!",
+    "Chegou super rápido em 3 dias! Comprei o Rosa Sakura e é lindo demais. Dá pra fazer treino completo de braços, costas e pernas em casa.",
+    "Aparelho muito compacto e eficiente! Tenho feito exercícios todo dia, a espuma não machuca o peito do pé e a trava tem 3 alturas.",
+    "Paguei R$ 39,99 na promoção e valeu cada centavo! Qualidade nota 10, atendimento excelente no WhatsApp.",
+    "O preto que comprei é muito discreto e resistente. Melhor aquisição pra treinar em casa sem gastar com academia."
+  ],
   "panela-pressao-visor-vidro-4-5l": [
     "demorou um pouco pra chegar mas deu certo! A panela de pressão com visor é sensacional, o vidro transparente permite ver a comida sem precisar abrir e passar perigo. O antiaderente é de primeira qualidade!",
     "Chegou super rápido em 3 dias aqui em casa! Comprei a cor Cereja 4,5L e é linda demais. Cozinha feijão em 15 minutos e não gruda absolutamente nada no fundo.",

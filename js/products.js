@@ -104,6 +104,112 @@ const PRODUCTS = [
     badge: "Visor de Vidro",
     freeShipping: true,
     description: "Panela de Pressão com Visor de Vidro Grande Antiaderente 4,5L 6 Camadas de Alumínio Alta Durabilidade Cozimento Rápido e Seguro ENVIO IMEDIATO. Tampa com visor de vidro temperado transparente que permite acompanhar o cozimento dos alimentos sem abrir a panela. Revestimento antiaderente cerâmico interno e externo com 6 camadas que não gruda nada e facilita a limpeza. Cozimento ultra rápido com total segurança, cabo ergonômico antitérmico e trava de fechamento reforçada. Capacidade: 4,5 Litros."
+  },
+  {
+    id: "relogio-poedagar-910",
+    title: "Relógio Masculino POEDAGAR 910 Luxo Aço Inoxidável Quartzo Com Data Luminosa 30M Negócios Presente",
+    category: "eletronicos",
+    categoryName: "Eletrônicos & Acessórios",
+    price: 53.00,
+    oldPrice: 109.98,
+    discount: "-52%",
+    sold: "4.6k",
+    rating: 4.9,
+    reviews: 1890,
+    image: "images/loja/relogio-poedagar-capa.jpg",
+    images: [
+      "images/loja/relogio-poedagar-capa.jpg",
+      "images/loja/relogio-poedagar-estojo.png",
+      "images/loja/relogio-poedagar-azul-dourado.png",
+      "images/loja/relogio-poedagar-branco-dourado.png",
+      "images/loja/relogio-poedagar-azul-prata.png",
+      "images/loja/relogio-poedagar-branco-prata.png",
+      "images/loja/relogio-poedagar-preto-total.png"
+    ],
+    colors: [
+      "Azul Dourado",
+      "Branco Dourado",
+      "Azul Prata",
+      "Branco Prata",
+      "Preto Total"
+    ],
+    colorImages: {
+      "Azul Dourado": "images/loja/relogio-poedagar-azul-dourado.png",
+      "Branco Dourado": "images/loja/relogio-poedagar-branco-dourado.png",
+      "Azul Prata": "images/loja/relogio-poedagar-azul-prata.png",
+      "Branco Prata": "images/loja/relogio-poedagar-branco-prata.png",
+      "Preto Total": "images/loja/relogio-poedagar-preto-total.png"
+    },
+    urgency: { viewers: "1.420", stock: "16" },
+    badge: "Luxo & Aço Inox",
+    freeShipping: true,
+    description: "Relógio Masculino POEDAGAR 910 Luxo Aço Inoxidável Quartzo Com Data Luminosa 30M Negócios Presente. Caixa e pulseira em aço inoxidável cirúrgico premium de alta durabilidade com fecho borboleta invisível. Movimento quartzo japonés de alta precisão com calendário de data e ponteiros luminescentes no escuro. Vidro de cristal mineral hardlex resistente a riscos. Resisténcia á prova d'água 30M (respingos, chuva e uso diário). Acompanha caixa oficial de luxo, manual e flanela - perfeito para presentear."
+  },
+  {
+    id: "patinete-eletrico-dobravel-350w",
+    title: "Patinete com Banco Elétrico Dobrável 350W | Autonomia 35KM + Velocidade 30KM/H | Suporta até 150KG",
+    category: "brinquedos",
+    categoryName: "Mobilidade & Lazer",
+    price: 112.00,
+    oldPrice: 1120.00,
+    discount: "-90%",
+    sold: "1.8k",
+    rating: 4.9,
+    reviews: 740,
+    image: "images/loja/patinete-eletrico-com-assento.png",
+    images: [
+      "images/loja/patinete-eletrico-com-assento.png",
+      "images/loja/patinete-eletrico-sem-assento.jpg",
+      "images/loja/patinete-eletrico-uso-armazenamento.jpg",
+      "images/loja/patinete-eletrico-andando.jpg",
+      "images/loja/patinete-eletrico-banco-bag.jpg"
+    ],
+    colors: [
+      "Com Assento",
+      "Sem Assento"
+    ],
+    colorImages: {
+      "Com Assento": "images/loja/patinete-eletrico-com-assento.png",
+      "Sem Assento": "images/loja/patinete-eletrico-sem-assento.jpg"
+    },
+    urgency: { viewers: "2.850", stock: "9" },
+    badge: "350W - 35KM",
+    freeShipping: true,
+    description: "Patinete com Banco Elétrico Dobrável 350W | Autonomia 35KM + Velocidade 30KM/H | Suporta até 150KG. Motor potente de 350W com bateria de lítio de alta autonomia de até 35 km e velocidade máxima de 30 km/h. Sistema de freio a disco duplo, farol dianteiro de LED e luz de freio. Estrutura reforçada dobrável em 3 segundos. Disponível na versão Com Assento (com banco e bag almofadada confortável) e Sem Assento."
+  },
+  {
+    id: "aparelho-abdominal-multifuncional-ventosa",
+    title: "Aparelho Abdominal Multifuncional com Ventosa Dupla e Elásticos de Resisténcia para Exercícios em Casa, Braços, Pernas e Abdômen",
+    category: "beleza",
+    categoryName: "Fitness & Saúde",
+    price: 39.99,
+    oldPrice: 199.00,
+    discount: "-80%",
+    sold: "3.5k",
+    rating: 4.9,
+    reviews: 1420,
+    image: "images/loja/aparelho-abdominal-treino.jpg",
+    images: [
+      "images/loja/aparelho-abdominal-treino.jpg",
+      "images/loja/aparelho-abdominal-ventosa-dupla.png",
+      "images/loja/aparelho-abdominal-exercicios.jpg",
+      "images/loja/aparelho-abdominal-rosa.jpg",
+      "images/loja/aparelho-abdominal-cinza.jpg"
+    ],
+    colors: [
+      "Rosa",
+      "Preto",
+      "Cinza"
+    ],
+    colorImages: {
+      "Rosa": "images/loja/aparelho-abdominal-rosa.jpg",
+      "Preto": "images/loja/aparelho-abdominal-treino.jpg",
+      "Cinza": "images/loja/aparelho-abdominal-cinza.jpg"
+    },
+    urgency: { viewers: "1.780", stock: "21" },
+    badge: "Ventosa Dupla",
+    freeShipping: true,
+    description: "Aparelho Abdominal Multifuncional com Ventosa Dupla e Elásticos de Resisténcia para Exercícios em Casa, Braços, Pernas e Abdômen. Base estável com ventosa dupla de alto vácuo que adere com máxima firmeza em pisos lisos. Acompanha cordas elásticas tensoras removíveis com pegador emborrachado para treinar abdômen, costas, braços e pernas. Apoio de pernas acolchoado com espuma macia e 3 níveis de regulagem de altura."
   },  // ==========================================
   // SMARTPHONES & TABLETS
   // ==========================================
