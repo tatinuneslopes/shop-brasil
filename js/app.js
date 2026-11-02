@@ -744,9 +744,46 @@ let quickSelectedColor = null;
 let quickSelectedVoltage = null;
 let quickQuantity = 1;
 
-function handleCardBuyClick(productId, event) {
+function handleCardCartClick(productId, event) {
   if (event) event.stopPropagation();
   openQuickSelectDrawer(productId);
+}
+
+function handleCardBuyClick(productId, event) {
+  if (event) event.stopPropagation();
+  handleCardDirectBuyClick(productId, event);
+}
+
+function handleCardDirectBuyClick(productId, event) {
+  if (event) event.stopPropagation();
+  const prod = PRODUCTS.find(p => p.id === productId);
+  if (!prod) return;
+  if (prod.soldOut) {
+    showToast("Este produto está esgotado no momento!");
+    return;
+  }
+
+  const defaultColor = (prod.colors && prod.colors.length > 0) ? prod.colors[0] : "Padrão Oficial";
+  const defaultVolt = (prod.voltages && prod.voltages.length > 0) ? prod.voltages[0] : null;
+  const itemImg = (prod.colorImages && prod.colorImages[defaultColor]) || prod.image;
+  const variantLabel = defaultVolt ? `${defaultColor} - ${defaultVolt}` : defaultColor;
+
+  cart = [{
+    product: prod,
+    color: variantLabel,
+    image: itemImg,
+    quantity: 1
+  }];
+
+  updateCartBadges();
+  saveScopedCart();
+  goToCheckout();
+
+  if (userData.name && userData.street) {
+    setTimeout(() => {
+      processOrderCheckout();
+    }, 250);
+  }
 }
 
 function openCurrentProductDrawer() {
@@ -972,7 +1009,6 @@ function confirmQuickAddToCart() {
   saveScopedCart();
   closeQuickSelectDrawer();
   showToast(`✓ Adicionado ao carrinho (${variantLabel})!`);
-  openCartModal();
 }
 
 // Open Cart Bottom-Sheet Modal
@@ -1380,10 +1416,16 @@ function renderProducts(filterQuery = "") {
               <div class="price-current"><small>R$</small> ${formatBRL(prod.price)}</div>
               <div class="price-old">R$ ${formatBRL(prod.oldPrice)}</div>
             </div>
-            <button class="btn-list-buy" onclick="handleCardBuyClick('${prod.id}', event)" ${prod.soldOut ? 'disabled style="background: #ccc; cursor: not-allowed;"' : ''}>
-              <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
-              <span>${prod.soldOut ? 'Esgotado' : 'Comprar'}</span>
-            </button>
+            <div class="product-actions-split">
+              <button class="btn-split-cart" onclick="handleCardCartClick('${prod.id}', event)" title="Adicionar ao carrinho" ${prod.soldOut ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>
+                <svg viewBox="0 0 24 24" class="icon-cart-svg">
+                  <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+                </svg>
+              </button>
+              <button class="btn-split-buy" onclick="handleCardDirectBuyClick('${prod.id}', event)" ${prod.soldOut ? 'disabled style="background: #ccc; cursor: not-allowed;"' : ''}>
+                ${prod.soldOut ? 'Esgotado' : 'Comprar'}
+              </button>
+            </div>
           </div>
         </div>
       </div>

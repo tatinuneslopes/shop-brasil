@@ -715,32 +715,57 @@ body {
   line-height: 1;
 }
 
-.btn-list-buy {
-  background: #fe2c55;
-  color: #ffffff;
-  border: none;
-  border-radius: 18px;
-  padding: 5px 12px;
-  font-size: 12px;
-  font-weight: 700;
+/* SPLIT BUTTON: CART ICON + COMPRAR (SCREENSHOT REFERENCIA) */
+.product-actions-split {
   display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(254, 44, 85, 0.25);
-  transition: transform 0.12s ease, opacity 0.12s ease;
+  align-items: stretch;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(254, 44, 85, 0.2);
   flex-shrink: 0;
+  height: 32px;
 }
 
-.btn-list-buy:active {
-  transform: scale(0.95);
-  opacity: 0.9;
+.btn-split-cart {
+  background: #ffeef2;
+  border: none;
+  padding: 0 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  border-right: 1px solid rgba(254, 44, 85, 0.12);
 }
 
-.btn-list-buy svg {
-  width: 13px;
-  height: 13px;
-  fill: #ffffff;
+.btn-split-cart:active {
+  background: #ffd5df;
+}
+
+.btn-split-cart .icon-cart-svg {
+  width: 15px;
+  height: 15px;
+  fill: #fe2c55;
+  display: block;
+}
+
+.btn-split-buy {
+  background: #fe2c55;
+  border: none;
+  color: #ffffff;
+  padding: 0 14px;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-split-buy:active {
+  background: #e0264b;
 }
 
 /* ========================================================
