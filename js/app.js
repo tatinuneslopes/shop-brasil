@@ -9,6 +9,139 @@ try {
   }
 } catch (e) {}
 
+// ==========================================
+// META PIXEL INTEGRATION ENGINE (ID: 1434301764883326)
+// Provides clean, strictly deduplicated tracking for:
+// - ViewContent
+// - AddToCart
+// - InitiateCheckout
+// - Purchase (strictly upon confirmed gateway payment)
+// ==========================================
+window.MetaPixel = {
+  pixelId: "1434301764883326",
+  lastViewContentId: null,
+  lastViewContentTime: 0,
+  lastCheckoutHash: null,
+  lastCheckoutTime: 0,
+
+  // Safely invoke fbq
+  callFbq: function(eventName, params, options) {
+    params = params || {};
+    try {
+      if (typeof window.fbq === "function") {
+        if (options) {
+          window.fbq('track', eventName, params, options);
+        } else {
+          window.fbq('track', eventName, params);
+        }
+        console.log("[Meta Pixel] Evento disparado: " + eventName, params);
+      } else {
+        console.warn("[Meta Pixel] fbq ainda nÃ£o disponÃ­vel para evento: " + eventName);
+      }
+    } catch (err) {
+      console.error("[Meta Pixel] Erro ao disparar evento " + eventName + ":", err);
+    }
+  },
+
+  // 1. ViewContent (VisualizaÃ§Ã£o do produto)
+  trackViewContent: function(prod) {
+    if (!prod) return;
+    var now = Date.now();
+    // Anti-duplicaÃ§Ã£o: nÃ£o dispara para o mesmo produto em menos de 3.5 segundos
+    if (this.lastViewContentId === prod.id && (now - this.lastViewContentTime) < 3500) {
+      return;
+    }
+    this.lastViewContentId = prod.id;
+    this.lastViewContentTime = now;
+
+    var price = typeof prod.price === "number" ? prod.price : parseFloat(prod.price) || 0;
+    this.callFbq('ViewContent', {
+      content_name: prod.title || prod.name || "Produto Shopping Brasil",
+      content_ids: [String(prod.id)],
+      content_type: 'product',
+      value: price,
+      currency: 'BRL'
+    });
+  },
+
+  // 2. AddToCart (Adicionado ao carrinho)
+  trackAddToCart: function(prod, qty) {
+    if (!prod) return;
+    qty = qty || 1;
+    var price = typeof prod.price === "number" ? prod.price : parseFloat(prod.price) || 0;
+    var totalVal = Math.round((price * qty) * 100) / 100;
+    this.callFbq('AddToCart', {
+      content_name: prod.title || prod.name || "Produto Shopping Brasil",
+      content_ids: [String(prod.id)],
+      content_type: 'product',
+      value: totalVal,
+      currency: 'BRL'
+    });
+  },
+
+  // 3. InitiateCheckout (InÃ­cio do checkout)
+  trackInitiateCheckout: function(cartItems, finalValue) {
+    if (!cartItems || cartItems.length === 0) return;
+    var now = Date.now();
+    var cartHash = cartItems.map(function(it) {
+      return String(it.product ? it.product.id : it.id) + ":" + String(it.quantity);
+    }).join(",");
+
+    // Anti-duplicaÃ§Ã£o: se os itens do carrinho forem idÃªnticos, nÃ£o dispara em menos de 5 segundos
+    if (this.lastCheckoutHash === cartHash && (now - this.lastCheckoutTime) < 5000) {
+      return;
+    }
+    this.lastCheckoutHash = cartHash;
+    this.lastCheckoutTime = now;
+
+    var ids = cartItems.map(function(it) { return String(it.product ? it.product.id : it.id); });
+    var numItems = cartItems.reduce(function(acc, it) { return acc + (it.quantity || 1); }, 0);
+    var val = typeof finalValue === "number" ? finalValue : parseFloat(finalValue) || 0;
+
+    this.callFbq('InitiateCheckout', {
+      content_ids: ids,
+      num_items: numItems,
+      value: Math.round(val * 100) / 100,
+      currency: 'BRL'
+    });
+  },
+
+  // 4. Purchase (Apenas com confirmaÃ§Ã£o estrita de pagamento aprovado pela gateway)
+  trackPurchase: function(orderId, items, totalValue) {
+    if (!orderId) orderId = "order_" + Date.now();
+    var storageKey = "meta_pixel_purchase_" + String(orderId);
+
+    // ANTI-DUPLICAÃ‡ÃƒO ESTRITA: checa no localStorage se esta compra jÃ¡ foi enviada
+    try {
+      if (localStorage.getItem(storageKey)) {
+        console.log("[Meta Pixel] Compra " + orderId + " jÃ¡ registrada anteriormente. Ignorando duplicata.");
+        return;
+      }
+    } catch (e) {}
+
+    var val = typeof totalValue === "number" ? totalValue : parseFloat(totalValue) || 0;
+    var ids = Array.isArray(items)
+      ? items.map(function(it) { return String((it.product && it.product.id) || it.id || it); })
+      : [];
+
+    this.callFbq('Purchase', {
+      content_ids: ids,
+      content_type: 'product',
+      value: Math.round(val * 100) / 100,
+      currency: 'BRL'
+    }, { eventID: 'purchase_' + String(orderId) });
+
+    try {
+      localStorage.setItem(storageKey, JSON.stringify({
+        orderId: orderId,
+        value: val,
+        timestamp: Date.now()
+      }));
+    } catch (e) {}
+  }
+};
+
+
 let currentCategory = "all";
 let currentSort = "all";
 let currentProduct = null;
@@ -636,6 +769,10 @@ function addToCart(productId, selectedColor = null, event = null, qty = 1) {
 
   updateCartBadges();
   saveScopedCart();
+
+  // Meta Pixel AddToCart
+  if (window.MetaPixel) window.MetaPixel.trackAddToCart(prod, qty);
+
   showToast(`✓ Adicionado ao carrinho (${variantLabel})!`);
   openCartModal();
 }
@@ -791,6 +928,9 @@ function openCurrentProductDrawer() {
 function openQuickSelectDrawer(productId) {
   const prod = PRODUCTS.find(p => p.id === productId);
   if (!prod) return;
+
+  // Meta Pixel ViewContent
+  if (window.MetaPixel) window.MetaPixel.trackViewContent(prod);
 
   quickProduct = prod;
   quickQuantity = 1;
@@ -1454,6 +1594,9 @@ function openProductDetail(productId) {
   const prod = PRODUCTS.find(p => p.id === productId);
   if (!prod) return;
 
+  // Meta Pixel ViewContent
+  if (window.MetaPixel) window.MetaPixel.trackViewContent(prod);
+
   currentProduct = prod;
   orderQuantity = 1;
 
@@ -1775,6 +1918,15 @@ function goToCheckout() {
   renderCheckoutItems();
   updateCheckoutTotals();
   showView("view-checkout");
+
+  // Meta Pixel InitiateCheckout
+  if (window.MetaPixel && cart && cart.length > 0) {
+    let sub = 0;
+    cart.forEach(item => { sub += item.product.price * item.quantity; });
+    let total = sub - ((STORE_CONFIG && typeof STORE_CONFIG.couponDiscount === "number") ? STORE_CONFIG.couponDiscount : 0.00);
+    if (total < 9.90) total = 9.90;
+    window.MetaPixel.trackInitiateCheckout(cart, total);
+  }
 }
 
 function renderCheckoutItems() {
@@ -2190,6 +2342,15 @@ function renderOrderDetailsView(isApproved) {
   const btnCheckAgain = document.getElementById("btnOrderCheckAgain");
 
   if (isApproved) {
+    // Meta Pixel Purchase (Apenas com pagamento aprovado confirmado)
+    const approvedOrder = window.pendingOrderForPayment || (window.currentTransaction ? { id: window.currentTransaction.id || window.currentTransaction.reference, total: (window.currentTransaction.amount ? window.currentTransaction.amount / 100 : 0) } : null);
+    if (approvedOrder && window.MetaPixel) {
+      const orderId = approvedOrder.id || (window.currentTransaction && (window.currentTransaction.id || window.currentTransaction.reference)) || ("PEDIDO_" + Date.now());
+      const orderItems = approvedOrder.items || (cart && cart.length > 0 ? cart : []);
+      const orderTotal = approvedOrder.total || (window.currentTransaction && window.currentTransaction.amount ? window.currentTransaction.amount / 100 : 0);
+      window.MetaPixel.trackPurchase(orderId, orderItems, orderTotal);
+    }
+
     if (window.pendingOrderForPayment) {
       window.pendingOrderForPayment.status = "Pago - Em preparo";
       const exists = myOrders.some(o => o.id === window.pendingOrderForPayment.id);
