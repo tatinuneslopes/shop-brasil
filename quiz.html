@@ -19,6 +19,8 @@
   t.src=v;s=b.getElementsByTagName(e)[0];
   s.parentNode.insertBefore(t,s)}(window, document,'script',
   'https://connect.facebook.net/en_US/fbevents.js');
+  // Desativa deteção automática por heurística (evita que o Meta infira cliques como 'Subscribe')
+  fbq('set', 'autoConfig', false, '1434301764883326');
   fbq('init', '1434301764883326');
   fbq('track', 'PageView');
   </script>

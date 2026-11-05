@@ -1,4 +1,4 @@
-﻿// Shopping Brasil - TikTok Shop Core Application
+// Shopping Brasil - TikTok Shop Core Application
 // In-App Webview Simulation, 11.11 Promo, Embedded Roulette & FlevoPay Real Integration
 
 // Immediately wipe any legacy mock data (e.g., Carlos) so everything starts completely blank
@@ -100,6 +100,7 @@ window.MetaPixel = {
 
     this.callFbq('InitiateCheckout', {
       content_ids: ids,
+      content_type: 'product',
       num_items: numItems,
       value: Math.round(val * 100) / 100,
       currency: 'BRL'
@@ -2032,6 +2033,10 @@ async function processOrderCheckout() {
   cart.forEach(item => { subtotal += item.product.price * item.quantity; });
   let finalTotal = subtotal - ((STORE_CONFIG && typeof STORE_CONFIG.couponDiscount === "number") ? STORE_CONFIG.couponDiscount : 0.00);
   if (finalTotal < 9.90) finalTotal = 9.90;
+  // Meta Pixel InitiateCheckout (Disparado quando o cliente clica para processar o pagamento)
+  if (window.MetaPixel && cart && cart.length > 0) {
+    window.MetaPixel.trackInitiateCheckout(cart, finalTotal);
+  }
 
   if (finalTotal > 350.00) {
     overlay.classList.remove("active");
