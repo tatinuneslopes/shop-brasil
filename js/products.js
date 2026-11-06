@@ -1,4 +1,4 @@
-﻿// Catálogo Oficial Shopping Brasil - TikTok Shop
+// Catálogo Oficial Shopping Brasil - TikTok Shop
 // Imagens estritamente isoladas e verificadas direto da pasta oficial
 // Preços reduzidos para iPhones e itens principais (330 / 325)
 
@@ -19,6 +19,7 @@ const STORE_CONFIG = {
 
 const CATEGORIES = [
   { id: "all", name: "Todos", icon: "🔥" },
+  { id: "natal", name: "Especial de Natal 🎄", icon: "🎄" },
   { id: "smartphones", name: "Smartphone e Acessórios", icon: "📱" },
   { id: "informatica", name: "PC Gamer", icon: "💻" },
   { id: "eletro", name: "Eletrodomésticos", icon: "⚡" },
@@ -30,6 +31,190 @@ const CATEGORIES = [
 ];
 
 const PRODUCTS = [
+  // ==========================================
+  // ESPECIAL DE NATAL - SHOPPING BRASIL
+  // ==========================================
+  {
+    id: "arvore-natal-nevada-completa-led",
+    title: "Árvore de Natal Nevada Completa com Enfeites, Laços, Bolas, Estrela e Fio de Fada LED Suporte Incluso",
+    category: "natal",
+    categoryName: "Especial de Natal",
+    price: 97.00,
+    oldPrice: 289.00,
+    discount: "-66%",
+    sold: "4.8k",
+    rating: 4.9,
+    reviews: 1540,
+    image: "images/loja/arvore-natal-nevada-completa-1.jpg",
+    images: [
+      "images/loja/arvore-natal-nevada-completa-1.jpg",
+      "images/loja/arvore-natal-kit-enfeites.jpg",
+      "images/loja/arvore-natal-bolas-5cm.jpg",
+      "images/loja/arvore-natal-lacos-vermelhos.jpg",
+      "images/loja/arvore-natal-fio-fada-led.jpg",
+      "images/loja/arvore-natal-mix-enfeites.jpg"
+    ],
+    optionLabel: "Tamanho / Altura:",
+    colors: [
+      "2,10 m",
+      "1,90 m",
+      "1,70 m",
+      "1,50 m",
+      "1,40 m",
+      "1,20 m",
+      "1,00 m",
+      "80 cm",
+      "70 cm",
+      "60 cm"
+    ],
+    colorImages: {
+      "2,10 m": "images/loja/arvore-natal-nevada-completa-1.jpg",
+      "1,90 m": "images/loja/arvore-natal-nevada-completa-1.jpg",
+      "1,70 m": "images/loja/arvore-natal-nevada-completa-1.jpg",
+      "1,50 m": "images/loja/arvore-natal-nevada-completa-1.jpg",
+      "1,40 m": "images/loja/arvore-natal-nevada-completa-1.jpg",
+      "1,20 m": "images/loja/arvore-natal-nevada-completa-1.jpg",
+      "1,00 m": "images/loja/arvore-natal-nevada-completa-1.jpg",
+      "80 cm": "images/loja/arvore-natal-nevada-completa-1.jpg",
+      "70 cm": "images/loja/arvore-natal-nevada-completa-1.jpg",
+      "60 cm": "images/loja/arvore-natal-nevada-completa-1.jpg"
+    },
+    modelBadges: {
+      "2,10 m": "Mais Vendida ⭐",
+      "1,90 m": "Destaque",
+      "1,50 m": "Popular"
+    },
+    badge: "Kit Completo com LED",
+    freeShipping: true,
+    description: "🎄 Árvore de Natal Nevada Completa com iluminação em LED, laços, bolas, enfeites decorativos e suporte reforçado! Uma árvore linda, iluminada e completa para deixar seu Natal ainda mais especial! ✨\n\nO QUE VEM NO KIT COMPLETO:\n• Árvore Pinheiro Nevado de Alta Qualidade com Suporte Robusto\n• 48 Bolas de Natal 5cm (24 Bolas Vermelhas e 24 Bolas Douradas nos acabamentos Fosco, Brilhante e Lisa)\n• 1 Estrela Dourada Reluzente para Ponteira\n• 12 Laços Vermelhos Aveludados com acabamento dourado (5cm)\n• Fio de Fada LED 10 Metros (100 LEDs, Branco Quente de Alto Brilho)\n• Mix 42 Enfeites Vermelho (Caixinhas de Presente, Tambores, Papais Noéis, Bengalas, Pinhas e Sinos)\n• Mix 42 Enfeites Dourado (Caixinhas de Presente, Tambores, Papais Noéis, Bengalas, Pinhas e Sinos)\n\nEscolha o tamanho ideal para a sua casa ou escritório, disponível do tamanho compacto de 60cm até a imponente árvore de 2,10 metros!"
+  },
+  {
+    id: "pisca-pisca-led-100-luzes-9m-8funcoes",
+    title: "Cordão de Luz Natalino Pisca-Pisca com 100 LEDs 9 Metros 8 Funções de Iluminação Fio Transparente",
+    category: "natal",
+    categoryName: "Especial de Natal",
+    price: 29.90,
+    oldPrice: 79.90,
+    discount: "-63%",
+    sold: "8.2k",
+    rating: 4.9,
+    reviews: 2890,
+    image: "images/loja/pisca-pisca-led-colorido.jpg",
+    images: [
+      "images/loja/pisca-pisca-led-colorido.jpg",
+      "images/loja/pisca-pisca-led-cores-tabela.jpg",
+      "images/loja/pisca-pisca-led-dourado-warm.jpg",
+      "images/loja/pisca-pisca-led-branco-frio.jpg",
+      "images/loja/pisca-pisca-led-azul.jpg",
+      "images/loja/pisca-pisca-led-roxo.jpg",
+      "images/loja/pisca-pisca-led-vermelho.jpg",
+      "images/loja/pisca-pisca-led-verde.jpg",
+      "images/loja/pisca-pisca-led-rosa.jpg"
+    ],
+    optionLabel: "Cor do LED:",
+    colors: [
+      "Colorido",
+      "Branco Quente (Dourado)",
+      "Branco Frio",
+      "Azul",
+      "Vermelho",
+      "Verde",
+      "Rosa",
+      "Roxo",
+      "Amarelo"
+    ],
+    colorImages: {
+      "Colorido": "images/loja/pisca-pisca-led-colorido.jpg",
+      "Branco Quente (Dourado)": "images/loja/pisca-pisca-led-dourado-warm.jpg",
+      "Branco Frio": "images/loja/pisca-pisca-led-branco-frio.jpg",
+      "Azul": "images/loja/pisca-pisca-led-azul.jpg",
+      "Vermelho": "images/loja/pisca-pisca-led-vermelho.jpg",
+      "Verde": "images/loja/pisca-pisca-led-verde.jpg",
+      "Rosa": "images/loja/pisca-pisca-led-rosa.jpg",
+      "Roxo": "images/loja/pisca-pisca-led-roxo.jpg",
+      "Amarelo": "images/loja/pisca-pisca-led-dourado-warm.jpg"
+    },
+    voltages: ["110V", "220V"],
+    badge: "8 Funções de Luz",
+    freeShipping: true,
+    description: "✨ Cordão de Luz Natalino Pisca-Pisca com 100 LEDs, 9 metros de comprimento, 8 funções de iluminação e fio transparente. Ideal para decorar árvores de Natal, fachadas, janelas e ambientes, deixando sua decoração muito mais bonita, iluminada e especial! 🎄\n\nESPECIFICAÇÕES TÉCNICAS:\n• Quantidade de LEDs: 100 LEDs de alto brilho\n• Comprimento: 9 metros de extensão linear\n• Funções: Controlador com 8 modos de iluminação (fixo, pisca rápido, fade, onda, etc.)\n• Fio: Transparente cristal de alta durabilidade e discrição\n• Voltagens disponíveis: 110V e 220V\n• Cores disponíveis: Colorido, Branco Quente/Dourado, Branco Frio, Azul, Vermelho, Verde, Rosa, Roxo e Amarelo."
+  },
+  {
+    id: "guirlanda-natalina-30cm-fio-fada-led-2m",
+    title: "Guirlanda Natalina 30cm com Fio de Fada LED 2 Metros Decoração de Porta e Parede com Laço Luxo",
+    category: "natal",
+    categoryName: "Especial de Natal",
+    price: 48.90,
+    oldPrice: 119.90,
+    discount: "-59%",
+    sold: "3.9k",
+    rating: 4.9,
+    reviews: 1120,
+    image: "images/loja/guirlanda-natalina-porta-1.jpg",
+    images: [
+      "images/loja/guirlanda-natalina-porta-1.jpg",
+      "images/loja/guirlanda-natalina-led-acesa.jpg",
+      "images/loja/guirlanda-natalina-porta-dia.jpg",
+      "images/loja/guirlanda-natalina-medidas-30cm.jpg",
+      "images/loja/guirlanda-natalina-kit-fio-fada.jpg",
+      "images/loja/guirlanda-natalina-detalhes-led.jpg"
+    ],
+    colors: [
+      "Guirlanda 30cm + Fio de Fada LED 2m (Baterias Inclusas)"
+    ],
+    badge: "LED + Baterias Inclusas",
+    freeShipping: true,
+    description: "Guirlanda Natalina 30cm com Fio de Fada LED 2 Metros Decoração de Porta e Parede. Deixe a entrada da sua casa radiante e acolhedora neste Natal!\n\nDETALHES DO PRODUTO:\n• Diâmetro: 30 cm x 30 cm de tamanho perfeito para portas principais, janelas e varandas\n• Acompanha Laço Vermelho de Veludo Luxo no topo\n• Folhagem verde densa de alta qualidade e durabilidade\n• Acompanha Fio de Fada LED com 2 Metros de luz quente flexível\n• Funciona com 3 baterias inclusas no compartimento prático com botão liga/desliga\n• Sem fios pendurados na tomada: 100% autônomo, seguro e fácil de pendurar."
+  },
+  {
+    id: "kit-festao-verde-escuro-nevado-2m-x-7cm",
+    title: "Kit Festão de Natal Verde Escuro e Nevado 2 Metros x 7cm Decoração Natalina Completa",
+    category: "natal",
+    categoryName: "Especial de Natal",
+    price: 19.90,
+    oldPrice: 49.90,
+    discount: "-60%",
+    sold: "6.4k",
+    rating: 4.9,
+    reviews: 2150,
+    image: "images/loja/festao-natal-nevado-1.jpg",
+    images: [
+      "images/loja/festao-natal-nevado-1.jpg",
+      "images/loja/festao-natal-verde-escuro-1.png",
+      "images/loja/festao-natal-nevado-detalhe.jpg",
+      "images/loja/festao-natal-verde-escuro-rolo.jpg"
+    ],
+    optionLabel: "Modelo e Quantidade:",
+    colors: [
+      "Kit 10 Unidades (20 Metros) - Nevado",
+      "Kit 10 Unidades (20 Metros) - Verde Escuro",
+      "Kit 5 Unidades (10 Metros) - Nevado",
+      "Kit 5 Unidades (10 Metros) - Verde Escuro",
+      "Kit 3 Unidades (6 Metros) - Nevado",
+      "Kit 3 Unidades (6 Metros) - Verde Escuro",
+      "1 Unidade (2 Metros) - Nevado",
+      "1 Unidade (2 Metros) - Verde Escuro"
+    ],
+    colorImages: {
+      "Kit 10 Unidades (20 Metros) - Nevado": "images/loja/festao-natal-nevado-1.jpg",
+      "Kit 10 Unidades (20 Metros) - Verde Escuro": "images/loja/festao-natal-verde-escuro-1.png",
+      "Kit 5 Unidades (10 Metros) - Nevado": "images/loja/festao-natal-nevado-1.jpg",
+      "Kit 5 Unidades (10 Metros) - Verde Escuro": "images/loja/festao-natal-verde-escuro-1.png",
+      "Kit 3 Unidades (6 Metros) - Nevado": "images/loja/festao-natal-nevado-1.jpg",
+      "Kit 3 Unidades (6 Metros) - Verde Escuro": "images/loja/festao-natal-verde-escuro-1.png",
+      "1 Unidade (2 Metros) - Nevado": "images/loja/festao-natal-nevado-1.jpg",
+      "1 Unidade (2 Metros) - Verde Escuro": "images/loja/festao-natal-verde-escuro-1.png"
+    },
+    modelBadges: {
+      "Kit 10 Unidades (20 Metros) - Nevado": "Mais Vendido ⭐",
+      "Kit 10 Unidades (20 Metros) - Verde Escuro": "Mais Vendido ⭐",
+      "Kit 5 Unidades (10 Metros) - Nevado": "Custo-Benefício",
+      "Kit 5 Unidades (10 Metros) - Verde Escuro": "Custo-Benefício"
+    },
+    badge: "Mais Vendido 20m",
+    freeShipping: true,
+    description: "Kit 1/3/5/10 Festão Verde Escuro e Nevado 2 Metros x 7 cm Decoração de Natal. Ideal para contornar escadas, portas, janelas, árvores de Natal e tetos!\n\nOPÇÕES DISPONÍVEIS:\n• Modelos: Verde Escuro Tradicional ou Verde Nevado (pontas brancas como neve)\n• Quantidades:\n  - 1 Unidade: 2 Metros\n  - Kit com 3 Unidades: 6 Metros\n  - Kit com 5 Unidades: 10 Metros\n  - Kit com 10 Unidades: 20 Metros (Opção Mais Vendida e Recomendada!)\n\nLargura: 7 cm de espessura com folhagem cheia e maleável para fácil moldagem e fixação."
+  },
   // ==========================================
   // DESTAQUE DA SEMANA / CASA & CONFORTO
   // ==========================================

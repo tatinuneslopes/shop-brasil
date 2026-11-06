@@ -979,7 +979,7 @@ function updateQuickSheetUI() {
   if (oldPriceEl) oldPriceEl.textContent = `R$ ${formatBRL(prod.oldPrice)}`;
 
   const titleEl = document.getElementById("quickSheetTitle");
-  if (titleEl) titleEl.textContent = prod.title;
+  if (titleEl) titleEl.innerHTML = `<span class="badge-oficial">Oficial</span> ${prod.title}`;
 
   const labelEl = document.getElementById("quickSheetSelectedLabel");
   if (labelEl) {
@@ -1010,7 +1010,7 @@ function updateQuickSheetUI() {
   }
 
   if (modelsHeader) {
-    modelsHeader.textContent = `Modelo (${optionList.length})`;
+    modelsHeader.textContent = prod.optionLabel ? `${prod.optionLabel.replace(':', '')} (${optionList.length})` : `Modelo (${optionList.length})`;
   }
 
   if (modelsGrid) {
@@ -1541,7 +1541,7 @@ function renderProducts(filterQuery = "") {
           <img src="${prod.image}" alt="${prod.title}" loading="lazy" onerror="this.src='images/produto2-iphone.jpg'">
         </div>
         <div class="product-details">
-          <div class="product-title">${prod.title}</div>
+          <div class="product-title"><span class="badge-oficial">Oficial</span> ${prod.title}</div>
           <div class="product-meta-tags">
             <span class="tag-discount-value">Desconto de R$ ${discountAmount}</span>
             <span class="tag-free-shipping">Frete grátis</span>
@@ -1678,14 +1678,22 @@ function openProductDetail(productId) {
     installmentEl.textContent = "Desconto v\u00E1lido apenas para pagamento via Pix";
   }
 
-  document.getElementById("pdpTitle").textContent = prod.title;
+  document.getElementById("pdpTitle").innerHTML = `<span class="badge-oficial">Oficial</span> ${prod.title}`;
   document.getElementById("pdpRating").textContent = (prod.rating || 4.9).toFixed(1);
-  document.getElementById("pdpReviewsCount").textContent = `(${prod.reviews || 1420} avalia\u00E7\u00F5es)`;
+  document.getElementById("pdpReviewsCount").textContent = `(${prod.reviews || 1420} avaliações)`;
   document.getElementById("pdpSoldCount").textContent = `${prod.sold} vendidos`;
-  document.getElementById("pdpDescription").textContent = prod.description;
+  const descEl = document.getElementById("pdpDescription");
+  if (descEl) {
+    const formattedDesc = prod.description ? prod.description.replace(/\n/g, '<br>') : '';
+    descEl.innerHTML = `<div class="pdp-desc-official-header"><span class="badge-oficial">Oficial</span> Produto Certificado Shopping Brasil</div>${formattedDesc}`;
+  }
 
   // Render Color Options
   const colorSection = document.getElementById("pdpColorSection");
+  if (colorSection) {
+    const labelSpan = colorSection.querySelector(".variant-header-row span:first-child");
+    if (labelSpan) labelSpan.textContent = prod.optionLabel || "Opções de Cor:";
+  }
   const colorChipsContainer = document.getElementById("pdpColorChipsList");
   const selectedColorText = document.getElementById("pdpSelectedColorName");
 
