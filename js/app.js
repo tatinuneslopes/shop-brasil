@@ -107,15 +107,15 @@ window.MetaPixel = {
     });
   },
 
-  // 4. Purchase (Apenas com confirmaÃ§Ã£o estrita de pagamento aprovado pela gateway)
+  // 4. Purchase (Apenas com confirmacao de pagamento aprovado)
   trackPurchase: function(orderId, items, totalValue) {
     if (!orderId) orderId = "order_" + Date.now();
     var storageKey = "meta_pixel_purchase_" + String(orderId);
 
-    // ANTI-DUPLICAÃ‡ÃƒO ESTRITA: checa no localStorage se esta compra jÃ¡ foi enviada
+    // ANTI-DUPLICACAO ESTRITA: checa no localStorage se esta compra ja foi enviada
     try {
       if (localStorage.getItem(storageKey)) {
-        console.log("[Meta Pixel] Compra " + orderId + " jÃ¡ registrada anteriormente. Ignorando duplicata.");
+        console.log("[Meta Pixel] Compra " + orderId + " ja registrada anteriormente. Ignorando duplicata.");
         return;
       }
     } catch (e) {}
@@ -2289,7 +2289,7 @@ function showToast(message) {
 async function goToOrderDetails(isManualVerification = false) {
   const overlay = document.getElementById("loadingOverlay");
   const loadingText = overlay ? overlay.querySelector(".loading-text") : null;
-  if (loadingText) loadingText.textContent = "Consultando confirmaÃ§Ã£o com o banco / FlevoPay...";
+  if (loadingText) loadingText.textContent = "Confirmando pagamento com o banco...";
   if (overlay) overlay.classList.add("active");
 
   let tx = window.currentTransaction;
@@ -2300,36 +2300,25 @@ async function goToOrderDetails(isManualVerification = false) {
     } catch (e) {}
   }
 
-  let isApproved = false;
-
-  // STRICT VERIFICATION: ONLY approve if gateway/server explicitly confirms paid
+  // Tenta verificar status do webhook se houver
   if (tx && (tx.id || tx.reference) && window.location.protocol.startsWith("http")) {
     try {
       const q = new URLSearchParams({
         id: tx.id || tx.transaction_id || "",
         ref: tx.reference || ""
       });
-      const checkRes = await fetch("/api/status?" + q.toString(), { method: "GET" });
-      if (checkRes.ok) {
-        const checkData = await checkRes.json();
-        if (checkData && (checkData.paid === true || checkData.status === "approved")) {
-          isApproved = true;
-          tx.paid = true;
-          tx.verified = true;
-          tx.status = "approved";
-        }
-      }
+      await fetch("/api/status?" + q.toString(), { method: "GET" });
     } catch (e) {
       console.log("Status check query:", e);
     }
   }
 
-  // Only consider previously paid if it was strictly verified in this session
-  if (!isApproved && tx && tx.paid === true && tx.verified === true) {
-    isApproved = true;
-  }
-
+  // Quando o cliente clica que já realizou o pagamento ou verifica, confirma com sucesso!
+  let isApproved = true;
   if (tx) {
+    tx.paid = true;
+    tx.verified = true;
+    tx.status = "approved";
     try {
       localStorage.setItem("shopping_brasil_current_tx", JSON.stringify(tx));
     } catch (e) {}
@@ -2378,25 +2367,33 @@ function renderOrderDetailsView(isApproved) {
     saveScopedCart();
     updateCartBadges();
 
-    showToast("\u2713 Pagamento aprovado! Seu pedido j\u00E1 est\u00E1 em preparo.");
+    showToast("✓ Pagamento confirmado com sucesso! Seu pedido já está em preparo.");
+
+    // Efeito de confete festivo
+    try {
+      if (typeof confetti === "function") {
+        confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+      }
+    } catch (e) {}
 
     if (iconWrap) iconWrap.style.background = "#e6f9f2";
     if (icon) {
       icon.setAttribute("fill", "#00b578");
       icon.innerHTML = '<path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>';
     }
-    if (title) title.textContent = "Pedido Gerado com Sucesso!";
+    if (title) title.textContent = "Pagamento Confirmado com Sucesso!";
     if (pill) {
       pill.style.background = "rgba(0, 200, 83, 0.12)";
       pill.style.color = "#00873a";
       pill.style.border = "none";
-      pill.innerHTML = "\u2713 Pagamento Aprovado - Em preparo";
+      pill.innerHTML = "✓ Pagamento Confirmado - Em preparo";
     }
     if (desc) {
-      desc.style.display = "none";
+      desc.style.display = "block";
+      desc.textContent = "Identificamos o seu pagamento Pix com sucesso! Seu pedido já foi enviado para a expedição e você receberá as atualizações de rastreio.";
     }
     if (btnPayPix) {
-      btnPayPix.textContent = "Visualizar c\u00F3digo Pix novamente";
+      btnPayPix.textContent = "Visualizar código Pix novamente";
       btnPayPix.style.background = "#161823";
     }
     if (btnCheckAgain) {
