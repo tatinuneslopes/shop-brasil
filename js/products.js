@@ -84,6 +84,18 @@ const PRODUCTS = [
       "1,90 m": "Destaque",
       "1,50 m": "Popular"
     },
+    variantPrices: {
+      "2,10 m": 97.00,
+      "1,90 m": 89.90,
+      "1,70 m": 82.90,
+      "1,50 m": 74.90,
+      "1,40 m": 68.90,
+      "1,20 m": 59.90,
+      "1,00 m": 52.90,
+      "80 cm": 44.90,
+      "70 cm": 38.90,
+      "60 cm": 29.90
+    },
     badge: "Kit Completo com LED",
     freeShipping: true,
     description: "🎄 Árvore de Natal Nevada Completa com iluminação em LED, laços, bolas, enfeites decorativos e suporte reforçado! Uma árvore linda, iluminada e completa para deixar seu Natal ainda mais especial! ✨\n\nO QUE VEM NO KIT COMPLETO:\n• Árvore Pinheiro Nevado de Alta Qualidade com Suporte Robusto\n• 48 Bolas de Natal 5cm (24 Bolas Vermelhas e 24 Bolas Douradas nos acabamentos Fosco, Brilhante e Lisa)\n• 1 Estrela Dourada Reluzente para Ponteira\n• 12 Laços Vermelhos Aveludados com acabamento dourado (5cm)\n• Fio de Fada LED 10 Metros (100 LEDs, Branco Quente de Alto Brilho)\n• Mix 42 Enfeites Vermelho (Caixinhas de Presente, Tambores, Papais Noéis, Bengalas, Pinhas e Sinos)\n• Mix 42 Enfeites Dourado (Caixinhas de Presente, Tambores, Papais Noéis, Bengalas, Pinhas e Sinos)\n\nEscolha o tamanho ideal para a sua casa ou escritório, disponível do tamanho compacto de 60cm até a imponente árvore de 2,10 metros!"
@@ -211,6 +223,16 @@ const PRODUCTS = [
       "Kit 5 Unidades (10 Metros) - Nevado": "Custo-Benefício",
       "Kit 5 Unidades (10 Metros) - Verde Escuro": "Custo-Benefício"
     },
+    variantPrices: {
+      "Kit 10 Unidades (20 Metros) - Nevado": 58.90,
+      "Kit 10 Unidades (20 Metros) - Verde Escuro": 58.90,
+      "Kit 5 Unidades (10 Metros) - Nevado": 39.90,
+      "Kit 5 Unidades (10 Metros) - Verde Escuro": 39.90,
+      "Kit 3 Unidades (6 Metros) - Nevado": 28.90,
+      "Kit 3 Unidades (6 Metros) - Verde Escuro": 28.90,
+      "1 Unidade (2 Metros) - Nevado": 19.90,
+      "1 Unidade (2 Metros) - Verde Escuro": 19.90
+    },
     badge: "Mais Vendido 20m",
     freeShipping: true,
     description: "Kit 1/3/5/10 Festão Verde Escuro e Nevado 2 Metros x 7 cm Decoração de Natal. Ideal para contornar escadas, portas, janelas, árvores de Natal e tetos!\n\nOPÇÕES DISPONÍVEIS:\n• Modelos: Verde Escuro Tradicional ou Verde Nevado (pontas brancas como neve)\n• Quantidades:\n  - 1 Unidade: 2 Metros\n  - Kit com 3 Unidades: 6 Metros\n  - Kit com 5 Unidades: 10 Metros\n  - Kit com 10 Unidades: 20 Metros (Opção Mais Vendida e Recomendada!)\n\nLargura: 7 cm de espessura com folhagem cheia e maleável para fácil moldagem e fixação."
@@ -258,6 +280,14 @@ const PRODUCTS = [
       "4 cm - Mistas (15 Vermelhas + 15 Douradas)": "Mais Vendido 🔥",
       "3 cm - Mistas (15 Vermelhas + 15 Douradas)": "Popular ⭐"
     },
+    variantPrices: {
+      "4 cm - Mistas (15 Vermelhas + 15 Douradas)": 34.90,
+      "4 cm - Só Dourada (30 unidades)": 34.90,
+      "4 cm - Só Vermelha (30 unidades)": 34.90,
+      "3 cm - Mistas (15 Vermelhas + 15 Douradas)": 24.90,
+      "3 cm - Só Dourada (30 unidades)": 24.90,
+      "3 cm - Só Vermelha (30 unidades)": 24.90
+    },
     badge: "Kit 30 Bolas",
     freeShipping: true,
     description: "🎄 Kit 30 Bolas de Natal 4 e 3 cm Mistas Vermelhas e Douradas - Enfeites para Árvore com Acabamentos Lisos, Fosco e Glitter!\n\nDeixe sua árvore de Natal exuberante, elegante e cheia de vida com o kit perfeito de bolas natalinas! Cada kit traz uma harmoniosa combinação de acabamentos que capturam a luz e criam uma atmosfera mágica.\n\nESPECIFICAÇÕES:\n• Quantidade: 30 Bolas de Natal por kit\n• Tamanhos disponíveis: 3 cm ou 4 cm de diâmetro\n• Opções de Cor:\n  - Mistas: 15 Vermelhas + 15 Douradas\n  - Só Douradas: 30 Bolas Douradas\n  - Só Vermelhas: 30 Bolas Vermelhas\n• Acabamentos inclusos: Lisa com brilho espelhado, Fosca aveludada e Glitter reluzente\n• Acompanha cordão dourado para pendurar facilmente em qualquer galho ou arranjo."
@@ -300,6 +330,13 @@ const PRODUCTS = [
     modelBadges: {
       "6 cm - Vermelha (24 peças)": "Destaque 6cm ⭐",
       "4 cm - Vermelha (24 peças)": "Mais Vendida 🔥"
+    },
+    variantPrices: {
+      "6 cm - Vermelha (24 peças)": 39.90,
+      "4 cm - Vermelha (24 peças)": 29.90,
+      "4 cm - Dourada (24 peças)": 29.90,
+      "3 cm - Vermelha (24 peças)": 22.90,
+      "3 cm - Dourada (24 peças)": 22.90
     },
     badge: "Tubo 24 Peças",
     freeShipping: true,
@@ -368,6 +405,11 @@ const PRODUCTS = [
       "Grande (33 x 26 cm)": "Ideal para Porta/Ponteira",
       "Médio (22 x 18 cm)": "Mais Vendido 🔥",
       "Pequeno (15 x 12 cm)": "Ideal para Ramos"
+    },
+    variantPrices: {
+      "Grande (33 x 26 cm)": 27.90,
+      "Médio (22 x 18 cm)": 21.90,
+      "Pequeno (15 x 12 cm)": 15.90
     },
     badge: "Veludo Nobre Luxo",
     freeShipping: true,
@@ -564,6 +606,13 @@ const PRODUCTS = [
       "Piscina 3 Andares (2,6m) + Enchedor Elétrico": "Recomendada ⭐"
     },
     badge: "Verão Reforçada 🌊",
+    variantPrices: {
+      "Piscina 4 Andares (3,0m) + Enchedor Elétrico": 119.90,
+      "Piscina 4 Andares (3,0m) - Sem Enchedor": 98.90,
+      "Piscina 3 Andares (2,6m) + Enchedor Elétrico": 99.90,
+      "Piscina 3 Andares (2,6m) - Sem Enchedor": 89.90,
+      "Somente Enchedor / Bomba Elétrica": 39.90
+    },
     freeShipping: true,
     description: "🌊 Piscina Inflável Azul PVC Reforçada, Grande Capacidade Portátil Dobrável para Uso Interno e Externo.\n\nPerfeita para refrescar a família e as crianças nos dias ensolarados! Confeccionada em PVC espesso tricamada de alta densidade anti-furos, com bordas infláveis anatômicas ultra confortáveis.\n\nOPÇÕES PARA ESCOLHA:\n1. Piscina 3 Andares (2,6m) - Sem Enchedor (260 x 170 x 56 cm)\n2. Piscina 3 Andares (2,6m) + Enchedor Elétrico incluso (Infla em poucos minutos!)\n3. Piscina 4 Andares (3,0m) - Sem Enchedor (300 x 173 x 68 cm - Mega capacidade)\n4. Piscina 4 Andares (3,0m) + Enchedor Elétrico incluso\n5. Somente Enchedor / Bomba Elétrica Bivolt com bicos adaptadores multiuso\n\nVálvulas de escape rápido para esvaziar e dobrar compactamente em segundos."
   },
@@ -911,6 +960,10 @@ const PRODUCTS = [
       "Com Assento": "images/loja/patinete-eletrico-com-assento.png",
       "Sem Assento": "images/loja/patinete-eletrico-sem-assento.jpg"
     },
+    variantPrices: {
+      "Com Assento": 112.00,
+      "Sem Assento": 98.00
+    },
     urgency: { viewers: "2.850", stock: "9" },
     badge: "350W - 35KM",
     freeShipping: true,
@@ -975,6 +1028,11 @@ const PRODUCTS = [
       "Prateado": "images/loja/iphone-18-prateado.png",
       "Preto": "images/loja/iphone-18-preto.png"
     },
+    variantPrices: {
+      "Preto": 91.90,
+      "Prateado": 91.90,
+      "Bordô": 101.90
+    },
     badge: "Mais Vendido",
     freeShipping: true,
     description: "Apple iPhone 18 Pro Max 256GB Bordô 6,9\" 48MP iOS 27 5G Original Lacrado com garantia oficial Apple. Disponível nas opções de cores Bordô, Prateado e Preto. Equipado com chip ultra avançado, tela OLED Super Retina XDR de 6,9 polegadas com ProMotion, corpo em titânio e sistema de câmeras profissionais quádruplas de 48MP com zoom periscópio 10x. Aparelho novo, 100% original e lacrado de fábrica. Envio imediato da Loja Oficial Shopping Brasil no TikTok Shop."
@@ -1001,6 +1059,11 @@ const PRODUCTS = [
       "Prateado": "images/loja/iphone-branco.webp",
       "Laranja Cósmico": "images/loja/iphone-laranja.webp",
       "Azul Intenso": "images/loja/iphone-17-azul-intenso.jpg"
+    },
+    variantPrices: {
+      "Prateado": 89.90,
+      "Laranja Cósmico": 99.90,
+      "Azul Intenso": 99.90
     },
     badge: "Super Oferta",
     freeShipping: true,
@@ -1033,6 +1096,13 @@ const PRODUCTS = [
       "Preto": "images/loja/iphone-16-preto.png",
       "Azul": "images/loja/iphone-16-azul.png"
     },
+    variantPrices: {
+      "Preto": 87.90,
+      "Branco": 87.90,
+      "Rosa": 97.90,
+      "Verde": 97.90,
+      "Azul": 97.90
+    },
     badge: "Edição Especial",
     freeShipping: true,
     description: "Apple iPhone 16 128GB Original Lacrado com garantia oficial Apple. Disponível nas cores Rosa, Verde, Branco, Preto e Azul. Equipado com o novo chip A18 ultra rápido, inovador botão de Controle da Câmera, corpo resistente em alumínio aeroespacial com vidro traseiro colorido por infusão, tela Super Retina XDR e classificação IP68. Aparelho novo, 100% original e lacrado de fábrica."
@@ -1064,6 +1134,14 @@ const PRODUCTS = [
       "Azul Titanium": "images/loja/iphone-15-pro-max-azul-titanio.png",
       "Preto Titânio": "images/loja/iphone-15-pro-max-preto-titanio.png",
       "Preto Titanium": "images/loja/iphone-15-pro-max-preto-titanio.png"
+    },
+    variantPrices: {
+      "Preto Titânio": 88.90,
+      "Preto Titanium": 88.90,
+      "Branco Titânio": 88.90,
+      "Prata Titânio": 88.90,
+      "Azul Titânio": 98.90,
+      "Azul Titanium": 98.90
     },
     badge: "Recomendado",
     freeShipping: true,
@@ -1116,6 +1194,13 @@ const PRODUCTS = [
       "Branco": "images/loja/samsung-s26-ultra-branco.png",
       "Preto": "images/loja/samsung-s26-ultra-puro.webp"
     },
+    variantPrices: {
+      "Preto": 89.90,
+      "Branco": 89.90,
+      "Prata": 89.90,
+      "Violeta": 99.90,
+      "Azul": 99.90
+    },
     badge: "Lançamento",
     freeShipping: true,
     description: "Samsung Galaxy S26 Ultra 512GB com inteligência artificial Galaxy AI completa em português. Disponível nas cores Violeta, Prata, Azul, Branco e Preto. Câmera de 200MP com zoom periscópio 100x Space Zoom, tela Dynamic AMOLED 2X antirreflexo, Caneta S-Pen integrada e bateria inteligente de 5000mAh."
@@ -1145,6 +1230,12 @@ const PRODUCTS = [
       "Rosa": "images/loja/ipad-11-rosa.png",
       "Branco": "images/loja/ipad-11-branco.png"
     },
+    variantPrices: {
+      "Branco": 88.90,
+      "Azul": 98.90,
+      "Amarela": 98.90,
+      "Rosa": 98.90
+    },
     badge: "Oferta VIP",
     freeShipping: true,
     description: "Apple iPad 11ª Geração com potente chip Apple A16 Bionic, Wi-Fi de alta velocidade, 128GB e tela Liquid Retina de 11 polegadas. Disponível nas elegantes cores Azul, Amarela, Rosa e Branco. Perfeito para estudos, trabalho, criação e entretenimento com bateria para o dia todo."
@@ -1173,6 +1264,12 @@ const PRODUCTS = [
       "Azul Marinho": "images/loja/tablet-t17-azul.png",
       "Prata": "images/loja/tablet-t17-prata.png",
       "Cinza Espacial": "images/loja/tablet-t17-cinza.png"
+    },
+    variantPrices: {
+      "Prata": 85.90,
+      "Cinza Espacial": 85.90,
+      "Laranjado": 95.90,
+      "Azul Marinho": 95.90
     },
     badge: "Kit Completo",
     freeShipping: true,

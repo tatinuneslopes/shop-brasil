@@ -1,4 +1,4 @@
-// Shopping Brasil - TikTok Shop Core Application
+﻿// Shopping Brasil - TikTok Shop Core Application
 // In-App Webview Simulation, 11.11 Promo, Embedded Roulette & FlevoPay Real Integration
 
 // Immediately wipe any legacy mock data (e.g., Carlos) so everything starts completely blank
@@ -36,18 +36,18 @@ window.MetaPixel = {
         }
         console.log("[Meta Pixel] Evento disparado: " + eventName, params);
       } else {
-        console.warn("[Meta Pixel] fbq ainda nÃ£o disponÃ­vel para evento: " + eventName);
+        console.warn("[Meta Pixel] fbq ainda não disponível para evento: " + eventName);
       }
     } catch (err) {
       console.error("[Meta Pixel] Erro ao disparar evento " + eventName + ":", err);
     }
   },
 
-  // 1. ViewContent (VisualizaÃ§Ã£o do produto)
+  // 1. ViewContent (Visualização do produto)
   trackViewContent: function(prod) {
     if (!prod) return;
     var now = Date.now();
-    // Anti-duplicaÃ§Ã£o: nÃ£o dispara para o mesmo produto em menos de 3.5 segundos
+    // Anti-duplicação: não dispara para o mesmo produto em menos de 3.5 segundos
     if (this.lastViewContentId === prod.id && (now - this.lastViewContentTime) < 3500) {
       return;
     }
@@ -79,7 +79,7 @@ window.MetaPixel = {
     });
   },
 
-  // 3. InitiateCheckout (InÃ­cio do checkout)
+  // 3. InitiateCheckout (Início do checkout)
   trackInitiateCheckout: function(cartItems, finalValue) {
     if (!cartItems || cartItems.length === 0) return;
     var now = Date.now();
@@ -87,7 +87,7 @@ window.MetaPixel = {
       return String(it.product ? it.product.id : it.id) + ":" + String(it.quantity);
     }).join(",");
 
-    // Anti-duplicaÃ§Ã£o: se os itens do carrinho forem idÃªnticos, nÃ£o dispara em menos de 5 segundos
+    // Anti-duplicação: se os itens do carrinho forem idênticos, não dispara em menos de 5 segundos
     if (this.lastCheckoutHash === cartHash && (now - this.lastCheckoutTime) < 5000) {
       return;
     }
@@ -678,7 +678,7 @@ function saveAddress() {
   const cityState = document.getElementById("inputCityState").value.trim();
 
   if (!name || !phone || !street || !number) {
-    showToast("Por favor, preencha nome, telefone, rua e nÃºmero!");
+    showToast("Por favor, preencha nome, telefone, rua e número!");
     return;
   }
 
@@ -690,7 +690,7 @@ function saveAddress() {
   localStorage.setItem("shopping_brasil_user", JSON.stringify(userData));
 
   if (oldKey !== newKey) {
-    // EndereÃ§o / Novo comprador: isola os pedidos e carrinho para o novo endereÃ§o
+    // Endereço / Novo comprador: isola os pedidos e carrinho para o novo endereço
     const allOrders = JSON.parse(localStorage.getItem("shopping_brasil_orders_by_user") || "{}");
     myOrders = Array.isArray(allOrders[newKey]) ? allOrders[newKey] : [];
 
@@ -702,7 +702,7 @@ function saveAddress() {
       cart = Array.isArray(allCarts[newKey]) ? allCarts[newKey] : [];
     }
 
-    // Limpa transaÃ§Ã£o pendente do usuÃ¡rio anterior
+    // Limpa transação pendente do usuário anterior
     window.currentTransaction = null;
     window.pendingOrderForPayment = null;
     try { localStorage.removeItem("shopping_brasil_current_tx"); } catch (e) {}
@@ -714,10 +714,107 @@ function saveAddress() {
 
   renderCheckoutAddress();
   closeAddressModal();
-  showToast("EndereÃ§o salvo com sucesso!");
+  showToast("Endereço salvo com sucesso!");
 }
 
-// Cart System (Adds to cart with exact color, image and quantity)
+// ========================================================
+// INTELLIGENT VARIATION PRICING ENGINE
+// ========================================================
+const BASIC_PRODUCT_COLORS = [
+  "preto", "preta", "black", "preto fosco", "preto titanio", "preto titânio", 
+  "branco", "branca", "white", "branco neve", "branco titanio", "branco titânio",
+  "cinza", "prata", "prateado", "silver", "cinza espacial", "cinza titanium",
+  "padrao", "padrão", "padrao oficial", "padrão oficial", "inox", "grafite"
+];
+
+function isDifferentiatedColor(prod, colorName) {
+  if (!prod || !colorName) return false;
+  const cat = (prod.category || "").toLowerCase();
+  const title = (prod.title || "").toLowerCase();
+  const isTech = (cat === "smartphones" || cat === "informatica" || cat === "eletronicos" ||
+                  title.includes("iphone") || title.includes("galaxy") || title.includes("ipad") ||
+                  title.includes("watch") || title.includes("tablet") || title.includes("macbook") ||
+                  title.includes("celular") || title.includes("smartphone"));
+  if (!isTech) return false;
+
+  const norm = colorName.toLowerCase().trim();
+  for (let i = 0; i < BASIC_PRODUCT_COLORS.length; i++) {
+    const b = BASIC_PRODUCT_COLORS[i];
+    if (norm === b || norm.startsWith(b + " ") || norm.endsWith(" " + b)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function getProductVoltageDelta(prod, voltage) {
+  if (!prod || !voltage) return 0;
+  if (!prod.voltages || prod.voltages.length <= 1) return 0;
+
+  const v = voltage.toUpperCase().trim();
+  if (v.includes("127V") || v.includes("110V") || v.includes("BIVOLT")) {
+    return 0;
+  }
+  if (v.includes("220V")) {
+    if (prod.voltageDeltas && typeof prod.voltageDeltas[voltage] === "number") {
+      return prod.voltageDeltas[voltage];
+    }
+    const base = typeof prod.price === "number" ? prod.price : 80;
+    if (base < 40) return 5.00;
+    if (base < 70) return 7.00;
+    if (base < 120) return 10.00;
+    return 15.00;
+  }
+  return 0;
+}
+
+function getProductVariantPrice(prod, selectedOption = null, selectedVoltage = null) {
+  if (!prod) return { price: 0, oldPrice: 0, discount: "-90%" };
+
+  const basePrice = (typeof prod.price === "number") ? prod.price : 0;
+  const baseOldPrice = (typeof prod.oldPrice === "number") ? prod.oldPrice : (basePrice * 10);
+
+  let currentPrice = basePrice;
+  if (selectedOption && prod.variantPrices && typeof prod.variantPrices[selectedOption] === "number") {
+    currentPrice = prod.variantPrices[selectedOption];
+  } else if (selectedOption && prod.colorPriceDeltas && typeof prod.colorPriceDeltas[selectedOption] === "number") {
+    currentPrice = basePrice + prod.colorPriceDeltas[selectedOption];
+  } else if (selectedOption && isDifferentiatedColor(prod, selectedOption)) {
+    const delta = (basePrice >= 80) ? 10.00 : 8.00;
+    currentPrice = basePrice + delta;
+  }
+
+  const voltDelta = getProductVoltageDelta(prod, selectedVoltage);
+  const finalPrice = Math.round((currentPrice + voltDelta) * 100) / 100;
+
+  const ratio = basePrice > 0 ? (finalPrice / basePrice) : 1;
+  const finalOldPrice = Math.round(baseOldPrice * ratio * 100) / 100;
+
+  const discPercent = Math.min(99, Math.max(50, Math.round((1 - (finalPrice / finalOldPrice)) * 100)));
+  const discountStr = `-${discPercent}%`;
+
+  return {
+    price: finalPrice,
+    oldPrice: finalOldPrice,
+    discount: discountStr
+  };
+}
+
+function getCartItemPrice(item) {
+  if (!item) return 0;
+  if (typeof item.price === "number") return item.price;
+  if (item.product && typeof item.product.price === "number") return item.product.price;
+  return 0;
+}
+
+function getCartItemOldPrice(item) {
+  if (!item) return 0;
+  if (typeof item.oldPrice === "number") return item.oldPrice;
+  if (item.product && typeof item.product.oldPrice === "number") return item.product.oldPrice;
+  return getCartItemPrice(item) * 10;
+}
+
+// Cart System (Adds to cart with exact color, image, voltage and dynamic variation price)
 function addToCart(productId, selectedColor = null, event = null, qty = 1) {
   if (event) event.stopPropagation();
 
@@ -741,16 +838,19 @@ function addToCart(productId, selectedColor = null, event = null, qty = 1) {
   const chosenColor = hasColors ? (selectedColor || (currentProduct && currentProduct.id === prod.id && currentSelectedColor ? currentSelectedColor : prod.colors[0])) : null;
   const itemImg = (chosenColor && prod.colorImages && prod.colorImages[chosenColor]) || prod.image;
 
+  let chosenVolt = null;
   let variantLabel = chosenColor || "";
   if (prod.voltages && prod.voltages.length > 0) {
-    const chosenVolt = (currentProduct && currentProduct.id === prod.id && currentSelectedVoltage) ? currentSelectedVoltage : prod.voltages[0];
+    chosenVolt = (currentProduct && currentProduct.id === prod.id && currentSelectedVoltage) ? currentSelectedVoltage : prod.voltages[0];
     variantLabel = variantLabel ? `${variantLabel} - ${chosenVolt}` : chosenVolt;
   } else if (!variantLabel) {
     variantLabel = "Padrão Oficial";
   }
 
-  const currentCartTotal = cart.reduce((sum, it) => sum + (it.product.price * it.quantity), 0);
-  if (currentCartTotal + (prod.price * qty) > 350.00) {
+  const pricing = getProductVariantPrice(prod, chosenColor, chosenVolt);
+
+  const currentCartTotal = cart.reduce((sum, it) => sum + (getCartItemPrice(it) * it.quantity), 0);
+  if (currentCartTotal + (pricing.price * qty) > 350.00) {
     showToast("⚠️ Limite promocional: Máximo de R$ 350,00 por pedido! Finalize este e faça outro em seguida.");
     openCartModal();
     return;
@@ -759,10 +859,16 @@ function addToCart(productId, selectedColor = null, event = null, qty = 1) {
   const existing = cart.find(item => item.product.id === prod.id && item.color === variantLabel);
   if (existing) {
     existing.quantity += qty;
+    existing.price = pricing.price;
+    existing.oldPrice = pricing.oldPrice;
   } else {
     cart.push({
       product: prod,
       color: variantLabel,
+      selectedOption: chosenColor,
+      selectedVoltage: chosenVolt,
+      price: pricing.price,
+      oldPrice: pricing.oldPrice,
       image: itemImg,
       quantity: qty
     });
@@ -772,9 +878,9 @@ function addToCart(productId, selectedColor = null, event = null, qty = 1) {
   saveScopedCart();
 
   // Meta Pixel AddToCart
-  if (window.MetaPixel) window.MetaPixel.trackAddToCart(prod, qty);
+  if (window.MetaPixel) window.MetaPixel.trackAddToCart(prod, qty, pricing.price);
 
-  showToast(`✓ Adicionado ao carrinho (${variantLabel})!`);
+  showToast(`✓ Adicionado ao carrinho (${variantLabel}) - R$ ${formatBRL(pricing.price)}!`);
   openCartModal();
 }
 
@@ -798,17 +904,24 @@ function buyNowCurrent() {
   const color = hasColors ? (currentSelectedColor || currentProduct.colors[0]) : null;
   const itemImg = (color && currentProduct.colorImages && currentProduct.colorImages[color]) || currentProduct.image;
   
+  let chosenVolt = null;
   let variantLabel = color || "";
   if (currentProduct.voltages && currentProduct.voltages.length > 0) {
-    const chosenVolt = currentSelectedVoltage || currentProduct.voltages[0];
+    chosenVolt = currentSelectedVoltage || currentProduct.voltages[0];
     variantLabel = variantLabel ? `${variantLabel} - ${chosenVolt}` : chosenVolt;
   } else if (!variantLabel) {
     variantLabel = "Padrão Oficial";
   }
 
+  const pricing = getProductVariantPrice(currentProduct, color, chosenVolt);
+
   cart = [{
     product: currentProduct,
     color: variantLabel,
+    selectedOption: color,
+    selectedVoltage: chosenVolt,
+    price: pricing.price,
+    oldPrice: pricing.oldPrice,
     image: itemImg,
     quantity: orderQuantity || 1
   }];
@@ -820,9 +933,15 @@ function buyNowCurrent() {
 
 function changePdpQuantity(delta) {
   const nextQty = Math.max(1, (orderQuantity || 1) + delta);
-  if (currentProduct && delta > 0 && (nextQty * currentProduct.price > 350.00 || nextQty > 3)) {
+  const currentPricing = currentProduct ? getProductVariantPrice(currentProduct, currentSelectedColor, currentSelectedVoltage) : { price: 0 };
+  if (currentProduct && delta > 0 && (nextQty * currentPricing.price > 350.00 || nextQty > 3)) {
     showToast("⚠️ Limite promocional por pedido atingido!");
     return;
+  }
+  orderQuantity = nextQty;
+  const qtyEl = document.getElementById("pdpQuantityValue");
+  if (qtyEl) qtyEl.textContent = orderQuantity;
+}
   }
   orderQuantity = nextQty;
   const qtyEl = document.getElementById("pdpQuantityValue");
@@ -902,9 +1021,15 @@ function handleCardDirectBuyClick(productId, event) {
   const itemImg = (prod.colorImages && prod.colorImages[defaultColor]) || prod.image;
   const variantLabel = defaultVolt ? `${defaultColor} - ${defaultVolt}` : defaultColor;
 
+  const pricing = getProductVariantPrice(prod, defaultColor, defaultVolt);
+
   cart = [{
     product: prod,
     color: variantLabel,
+    selectedOption: defaultColor,
+    selectedVoltage: defaultVolt,
+    price: pricing.price,
+    oldPrice: pricing.oldPrice,
     image: itemImg,
     quantity: 1
   }];
@@ -972,11 +1097,13 @@ function updateQuickSheetUI() {
     imgEl.onerror = () => { imgEl.src = prod.image; };
   }
 
+  const pricing = getProductVariantPrice(prod, quickSelectedColor, quickSelectedVoltage);
+
   const priceEl = document.getElementById("quickSheetPrice");
-  if (priceEl) priceEl.textContent = `R$ ${formatBRL(prod.price)}`;
+  if (priceEl) priceEl.textContent = `R$ ${formatBRL(pricing.price)}`;
 
   const oldPriceEl = document.getElementById("quickSheetOldPrice");
-  if (oldPriceEl) oldPriceEl.textContent = `R$ ${formatBRL(prod.oldPrice)}`;
+  if (oldPriceEl) oldPriceEl.textContent = `R$ ${formatBRL(pricing.oldPrice)}`;
 
   const titleEl = document.getElementById("quickSheetTitle");
   if (titleEl) titleEl.innerHTML = `<span class="badge-oficial">Oficial</span> ${prod.title}`;
@@ -985,6 +1112,7 @@ function updateQuickSheetUI() {
   if (labelEl) {
     let selText = `Selecionado: ${quickSelectedColor || "Padrão"}`;
     if (quickSelectedVoltage) selText += ` - ${quickSelectedVoltage}`;
+    selText += ` (R$ ${formatBRL(pricing.price)})`;
     labelEl.textContent = selText;
   }
 
@@ -1014,14 +1142,17 @@ function updateQuickSheetUI() {
   }
 
   if (modelsGrid) {
-        modelsGrid.innerHTML = optionList.map(opt => {
+    modelsGrid.innerHTML = optionList.map(opt => {
       const isActive = (quickSelectedColor === opt.val);
+      const optPricing = getProductVariantPrice(prod, opt.val, quickSelectedVoltage);
       const badgeText = (prod.modelBadges && prod.modelBadges[opt.val]) ? prod.modelBadges[opt.val] : "";
       const badgeHtml = badgeText ? `<div class="quick-model-badge">${badgeText}</div>` : "";
+      const priceTagHtml = `<div style="font-size: 11px; font-weight: 700; color: #fe2c55; margin-top: 2px;">R$ ${formatBRL(optPricing.price)}</div>`;
       return `
         <div class="quick-model-card ${isActive ? 'active' : ''}" onclick="selectQuickModel('${opt.val}')">
           <img src="${opt.img}" alt="${opt.label}" class="quick-model-thumb" onerror="this.src='${prod.image}'">
           <span class="quick-model-name">${opt.label}</span>
+          ${priceTagHtml}
           ${badgeHtml}
         </div>
       `;
@@ -1036,9 +1167,11 @@ function updateQuickSheetUI() {
     if (voltChips) {
       voltChips.innerHTML = prod.voltages.map(v => {
         const isActive = (quickSelectedVoltage === v);
+        const vPricing = getProductVariantPrice(prod, quickSelectedColor, v);
         return `
-          <div class="quick-volt-chip ${isActive ? 'active' : ''}" onclick="selectQuickVoltage('${v}')">
-            ${v}
+          <div class="quick-volt-chip ${isActive ? 'active' : ''}" onclick="selectQuickVoltage('${v}')" style="display: inline-flex; align-items: center; gap: 4px;">
+            <span>${v}</span>
+            <span style="font-size: 10px; opacity: 0.85;">R$ ${formatBRL(vPricing.price)}</span>
           </div>
         `;
       }).join("");
@@ -1056,7 +1189,7 @@ function updateQuickSheetUI() {
     } else {
       ctaBtn.disabled = false;
       ctaBtn.style.background = "#fe2c55";
-      ctaBtn.textContent = "Adicionar ao carrinho";
+      ctaBtn.textContent = `Adicionar ao carrinho • R$ ${formatBRL(pricing.price * quickQuantity)}`;
     }
   }
 }
@@ -1072,6 +1205,7 @@ function selectQuickModel(modelVal) {
       if (p.textContent.trim() === modelVal) p.classList.add("active");
       else p.classList.remove("active");
     });
+    updatePdpPriceDisplay();
   }
 }
 
@@ -1086,6 +1220,7 @@ function selectQuickVoltage(voltVal) {
       if (p.textContent.trim() === voltVal) p.classList.add("active");
       else p.classList.remove("active");
     });
+    updatePdpPriceDisplay();
   }
 }
 
@@ -1095,6 +1230,7 @@ function changeQuickQty(delta) {
     quickQuantity = next;
     const el = document.getElementById("quickQtyValue");
     if (el) el.textContent = quickQuantity;
+    updateQuickSheetUI();
   }
 }
 
@@ -1125,8 +1261,10 @@ function confirmQuickAddToCart() {
     variantLabel = `${chosenColor} - ${quickSelectedVoltage}`;
   }
 
-  const currentCartTotal = cart.reduce((sum, it) => sum + (it.product.price * it.quantity), 0);
-  if (currentCartTotal + (prod.price * quickQuantity) > 350.00) {
+  const pricing = getProductVariantPrice(prod, chosenColor, quickSelectedVoltage);
+
+  const currentCartTotal = cart.reduce((sum, it) => sum + (getCartItemPrice(it) * it.quantity), 0);
+  if (currentCartTotal + (pricing.price * quickQuantity) > 350.00) {
     showToast("⚠️ Limite promocional: Máximo de R$ 350,00 por pedido! Finalize este e faça outro em seguida.");
     closeQuickSelectDrawer();
     openCartModal();
@@ -1136,10 +1274,16 @@ function confirmQuickAddToCart() {
   const existing = cart.find(item => item.product.id === prod.id && item.color === variantLabel);
   if (existing) {
     existing.quantity += quickQuantity;
+    existing.price = pricing.price;
+    existing.oldPrice = pricing.oldPrice;
   } else {
     cart.push({
       product: prod,
       color: variantLabel,
+      selectedOption: chosenColor,
+      selectedVoltage: quickSelectedVoltage,
+      price: pricing.price,
+      oldPrice: pricing.oldPrice,
       image: itemImg,
       quantity: quickQuantity
     });
@@ -1148,7 +1292,7 @@ function confirmQuickAddToCart() {
   updateCartBadges();
   saveScopedCart();
   closeQuickSelectDrawer();
-  showToast(`✓ Adicionado ao carrinho (${variantLabel})!`);
+  showToast(`✓ Adicionado ao carrinho (${variantLabel}) - R$ ${formatBRL(pricing.price)}!`);
 }
 
 // Open Cart Bottom-Sheet Modal
@@ -1170,15 +1314,16 @@ function openCartModal() {
   } else {
     let subtotal = 0;
     body.innerHTML = cart.map((item, idx) => {
-      const itemSub = item.product.price * item.quantity;
+      const itemPrice = getCartItemPrice(item);
+      const itemSub = itemPrice * item.quantity;
       subtotal += itemSub;
       return `
         <div style="display: flex; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid #f1f1f2;">
           <img src="${item.image || item.product.image}" style="width: 58px; height: 58px; object-fit: contain; background: #fff; padding: 2px; border-radius: 8px; border: 1px solid #eee;" alt="${item.product.title}">
           <div style="flex: 1; min-width: 0;">
             <div style="font-size: 12.5px; font-weight: 700; color: #161823; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${item.product.title}</div>
-            <div style="font-size: 11.5px; color: #555; margin-top: 2px;">Cor: <b style="color: #fe2c55;">${item.color}</b></div>
-            <div style="font-size: 13.5px; font-weight: 800; color: #fe2c55; margin-top: 4px;">R$ ${item.product.price.toFixed(2).replace('.', ',')}</div>
+            <div style="font-size: 11.5px; color: #555; margin-top: 2px;">Opção: <b style="color: #fe2c55;">${item.color}</b></div>
+            <div style="font-size: 13.5px; font-weight: 800; color: #fe2c55; margin-top: 4px;">R$ ${itemPrice.toFixed(2).replace('.', ',')}</div>
           </div>
           <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px;">
             <button class="checkout-item-remove-btn" onclick="removeCartItem(${idx})">✕</button>
@@ -1358,8 +1503,8 @@ function closeCartModal() {
 function changeCartItemQty(index, delta) {
   if (cart[index]) {
     if (delta > 0) {
-      const curTotal = cart.reduce((sum, it) => sum + (it.product.price * it.quantity), 0);
-      if (curTotal + cart[index].product.price > 350.00) {
+      const curTotal = cart.reduce((sum, it) => sum + (getCartItemPrice(it) * it.quantity), 0);
+      if (curTotal + getCartItemPrice(cart[index]) > 350.00) {
         showToast("⚠️ Limite promocional de R$ 350,00 por pedido atingido!");
         return;
       }
@@ -1590,6 +1735,20 @@ function showView(viewId) {
   }
 }
 
+// Dynamic PDP Price Update (instantly reflects voltage, size, and differentiated color)
+function updatePdpPriceDisplay() {
+  if (!currentProduct) return;
+  const pricing = getProductVariantPrice(currentProduct, currentSelectedColor, currentSelectedVoltage);
+  const priceEl = document.getElementById("pdpPrice");
+  if (priceEl) priceEl.innerHTML = `<small>R$</small> ${formatBRL(pricing.price)}`;
+  const oldPriceEl = document.getElementById("pdpOldPrice");
+  if (oldPriceEl) oldPriceEl.textContent = `R$ ${formatBRL(pricing.oldPrice)}`;
+  const discountBadge = document.getElementById("pdpDiscountBadge");
+  if (discountBadge && !currentProduct.soldOut) {
+    discountBadge.textContent = pricing.discount;
+  }
+}
+
 // Open Product Detail Page
 function openProductDetail(productId) {
   const prod = PRODUCTS.find(p => p.id === productId);
@@ -1793,6 +1952,7 @@ function openProductDetail(productId) {
     optionsCountText.textContent = `${optionItems.length} opções disponíveis`;
   }
 
+  updatePdpPriceDisplay();
   renderProductReviews(prod.id);
   showView("view-product");
 }
@@ -1807,6 +1967,7 @@ function selectProductVoltage(voltageName, pillEl) {
   if (nameEl) nameEl.textContent = voltageName;
   document.querySelectorAll("#pdpVoltageChipsList .color-option-pill").forEach(p => p.classList.remove("active"));
   if (pillEl) pillEl.classList.add("active");
+  updatePdpPriceDisplay();
 }
 
 function selectProductColor(colorName, pillEl) {
@@ -1815,6 +1976,7 @@ function selectProductColor(colorName, pillEl) {
   if (nameEl) nameEl.textContent = colorName;
   document.querySelectorAll("#pdpColorChipsList .color-option-pill").forEach(p => p.classList.remove("active"));
   if (pillEl) pillEl.classList.add("active");
+  updatePdpPriceDisplay();
 
   if (currentProduct && currentProduct.colorImages && currentProduct.colorImages[colorName]) {
     const colorImg = currentProduct.colorImages[colorName];
@@ -1902,13 +2064,15 @@ function handleGalleryScroll(carouselEl) {
         if (pillText === targetColor) p.classList.add("active");
         else p.classList.remove("active");
       });
+      updatePdpPriceDisplay();
     }
   }
 }
 
 function changePdpQuantity(delta) {
   const nextQty = Math.max(1, (orderQuantity || 1) + delta);
-  if (currentProduct && delta > 0 && (nextQty * currentProduct.price > 350.00 || nextQty > 3)) {
+  const curPricing = currentProduct ? getProductVariantPrice(currentProduct, currentSelectedColor, currentSelectedVoltage) : { price: 80 };
+  if (currentProduct && delta > 0 && (nextQty * curPricing.price > 350.00 || nextQty > 3)) {
     showToast("⚠️ Limite promocional por pedido atingido!");
     return;
   }
@@ -1931,7 +2095,7 @@ function goToCheckout() {
   // Meta Pixel InitiateCheckout
   if (window.MetaPixel && cart && cart.length > 0) {
     let sub = 0;
-    cart.forEach(item => { sub += item.product.price * item.quantity; });
+    cart.forEach(item => { sub += getCartItemPrice(item) * item.quantity; });
     let total = sub - ((STORE_CONFIG && typeof STORE_CONFIG.couponDiscount === "number") ? STORE_CONFIG.couponDiscount : 0.00);
     if (total < 9.90) total = 9.90;
     window.MetaPixel.trackInitiateCheckout(cart, total);
@@ -1946,24 +2110,31 @@ function renderCheckoutItems() {
     if (!currentProduct && PRODUCTS.length > 0) currentProduct = PRODUCTS[0];
     const defColor = currentSelectedColor || (currentProduct && currentProduct.colors && currentProduct.colors.length > 0 ? currentProduct.colors[0] : "Padrão Oficial");
     const defImg = (currentProduct && currentProduct.colorImages && currentProduct.colorImages[defColor]) || (currentProduct ? currentProduct.image : "");
+    const defPricing = getProductVariantPrice(currentProduct, defColor, currentSelectedVoltage);
     cart = [{
       product: currentProduct,
       color: defColor,
+      selectedOption: defColor,
+      selectedVoltage: currentSelectedVoltage,
+      price: defPricing.price,
+      oldPrice: defPricing.oldPrice,
       image: defImg,
       quantity: 1
     }];
     updateCartBadges();
-  updateOrdersBadge();
+    updateOrdersBadge();
   }
 
-  container.innerHTML = cart.map((item, idx) => `
+  container.innerHTML = cart.map((item, idx) => {
+    const itemPrice = getCartItemPrice(item);
+    return `
     <div class="checkout-item-row" style="margin-bottom: 12px; border-bottom: 1px solid #f1f1f2; padding-bottom: 12px;">
       <img class="checkout-item-img" src="${item.image || item.product.image}" alt="${item.product.title}">
       <div class="checkout-item-details">
         <div class="checkout-item-title">${item.product.title}</div>
-        <div class="checkout-item-variant">Cor selecionada: <b style="color: #fe2c55;">${item.color}</b> • Envio Expresso</div>
+        <div class="checkout-item-variant">Opção selecionada: <b style="color: #fe2c55;">${item.color}</b> • Envio Expresso</div>
         <div class="checkout-item-bottom">
-          <div class="checkout-item-price">R$ ${item.product.price.toFixed(2).replace('.', ',')}</div>
+          <div class="checkout-item-price">R$ ${itemPrice.toFixed(2).replace('.', ',')}</div>
           <div class="quantity-stepper">
             <button class="stepper-btn" onclick="updateCheckoutQty(${idx}, -1)">-</button>
             <span class="stepper-value">${item.quantity}</span>
@@ -1972,15 +2143,17 @@ function renderCheckoutItems() {
         </div>
       </div>
     </div>
-  `).join("");
+  `;
+  }).join("");
 }
 
 
 function updateCheckoutQty(index, delta) {
   if (cart[index]) {
     if (delta > 0) {
-      const curTotal = cart.reduce((sum, it) => sum + (it.product.price * it.quantity), 0);
-      if (curTotal + cart[index].product.price > 350.00) {
+      const curTotal = cart.reduce((sum, it) => sum + (getCartItemPrice(it) * it.quantity), 0);
+      const itemPrice = getCartItemPrice(cart[index]);
+      if (curTotal + itemPrice > 350.00) {
         showToast("⚠️ Limite promocional de R$ 350,00 por pedido atingido!");
         return;
       }
@@ -1994,7 +2167,7 @@ function updateCheckoutQty(index, delta) {
       }
     }
     updateCartBadges();
-  updateOrdersBadge();
+    updateOrdersBadge();
     renderCheckoutItems();
     updateCheckoutTotals();
   }
@@ -2002,8 +2175,7 @@ function updateCheckoutQty(index, delta) {
 
 function backFromCheckout() {
   if (currentProduct) {
-
-  showView("view-product");
+    showView("view-product");
   } else {
     showView("view-store");
   }
@@ -2013,7 +2185,7 @@ function backFromCheckout() {
 function updateCheckoutTotals() {
   let subtotal = 0;
   cart.forEach(item => {
-    subtotal += item.product.price * item.quantity;
+    subtotal += getCartItemPrice(item) * item.quantity;
   });
 
   const couponDiscount = (STORE_CONFIG && typeof STORE_CONFIG.couponDiscount === "number") ? STORE_CONFIG.couponDiscount : 0.00;
@@ -2038,7 +2210,7 @@ async function processOrderCheckout() {
   overlay.classList.add("active");
 
   let subtotal = 0;
-  cart.forEach(item => { subtotal += item.product.price * item.quantity; });
+  cart.forEach(item => { subtotal += getCartItemPrice(item) * item.quantity; });
   let finalTotal = subtotal - ((STORE_CONFIG && typeof STORE_CONFIG.couponDiscount === "number") ? STORE_CONFIG.couponDiscount : 0.00);
   if (finalTotal < 9.90) finalTotal = 9.90;
   // Meta Pixel InitiateCheckout (Disparado quando o cliente clica para processar o pagamento)
@@ -2170,7 +2342,7 @@ async function processOrderCheckout() {
           image: item.image || item.product.image,
           variant: item.color || "Padrão",
           quantity: item.quantity,
-          price: item.product.price
+          price: getCartItemPrice(item)
         }));
         const orderIdDisplay = (document.getElementById("orderNumberDisplay") && document.getElementById("orderNumberDisplay").textContent.replace("#", "")) || orderNum;
         window.pendingOrderForPayment = {
