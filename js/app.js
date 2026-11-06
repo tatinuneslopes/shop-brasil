@@ -2951,6 +2951,13 @@ const PRODUCT_CUSTOM_REVIEWS = {
     "Chegou super rápido em 3 dias muito bem embalado e lacrado na caixa com plástico bolha e carregador bivolt. Bateria dura muito tempo de diversão!",
     "Produto 100% original, motor de 600W potente que sobe até rampas leves sem dificuldade. Valeu cada centavo!",
     "Entrega nota 10 pela Shopping Brasil! Atendimento muito prestativo e rastreio certinho pelo WhatsApp. Recomendo para todo mundo!"
+  ],
+  "piscina-inflavel-azul-pvc-reforcada": [
+    "demorou um pouco pra chegar mas deu certo! A piscina é fantástica, compramos a de 3 andares e as crianças estão apaixonadas! O material de PVC é bem grosso e firme, acomoda todo mundo com muito conforto.",
+    "Chegou super rápido em 3 dias aqui em casa! Veio com a bombinha elétrica bivolt que infla ela inteira em menos de 5 minutos, foi uma facilidade sem igual.",
+    "Amei demais! Peguei o modelo de 4 andares de 3 metros, ela é bem funda e alta como dá pra ver na foto. Cabem os adultos tranquilamente sentados para se refrescar nos dias de calor!",
+    "Material super resistente de alta qualidade, acabamento das bordas arredondadas e não fura fácil. Comprei no Pix com frete grátis e o rastreio avisou tudo pelo WhatsApp.",
+    "Melhor compra pro verão! Atendimento nota 10 da Shopping Brasil, veio muito bem embalada e com nota fiscal. Recomendo para toda família!"
   ]
 };
 
@@ -2958,8 +2965,8 @@ function getProductSpecificReviews(prod) {
   if (!prod) {
     prod = currentProduct || (typeof PRODUCTS !== "undefined" && PRODUCTS.length > 0 ? PRODUCTS[0] : null);
   }
-  const prodImg = (prod && prod.id === "drone-cz11-pro-brushless") ? "images/loja/drone-cz11-maleta.png" : ((prod && prod.id === "triciclo-eletrico-drift-infantil") ? "images/loja/triciclo-drift-menina-comentario.jpg" : ((prod && prod.id === "hoverboard-eletrico-600w") ? "images/loja/hoverboard-menina-comentario-1.jpg" : ((prod && prod.image) ? prod.image : "")));
-  const secondPhoto = (prod && (prod.id === "drone-cz11-pro-brushless" || prod.id === "triciclo-eletrico-drift-infantil")) ? "" : ((prod && prod.id === "hoverboard-eletrico-600w") ? "images/loja/hoverboard-caixa-comentario.png" : ((prod && prod.images && prod.images.length > 1) ? prod.images[1] : ""));
+  const prodImg = (prod && prod.id === "drone-cz11-pro-brushless") ? "images/loja/drone-cz11-maleta.png" : ((prod && prod.id === "triciclo-eletrico-drift-infantil") ? "images/loja/triciclo-drift-menina-comentario.jpg" : ((prod && prod.id === "hoverboard-eletrico-600w") ? "images/loja/hoverboard-menina-comentario-1.jpg" : ((prod && prod.id === "piscina-inflavel-azul-pvc-reforcada") ? "images/loja/piscina-inflavel-azul-1.jpg" : ((prod && prod.image) ? prod.image : ""))));
+  const secondPhoto = (prod && (prod.id === "drone-cz11-pro-brushless" || prod.id === "triciclo-eletrico-drift-infantil")) ? "" : ((prod && prod.id === "hoverboard-eletrico-600w") ? "images/loja/hoverboard-caixa-comentario.png" : ((prod && prod.id === "piscina-inflavel-azul-pvc-reforcada") ? "images/loja/piscina-inflavel-azul-3m-video-frame.jpg" : ((prod && prod.images && prod.images.length > 1) ? prod.images[1] : "")));
   const prodIdx = (typeof PRODUCTS !== "undefined" && Array.isArray(PRODUCTS))
     ? Math.max(0, PRODUCTS.findIndex(p => p.id === (prod ? prod.id : "")))
     : 0;

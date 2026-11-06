@@ -217,7 +217,7 @@ const PRODUCTS = [
   },
   {
     id: "kit-30-bolas-natal-mistas-3cm-4cm",
-    title: "Kit 30 Bolas de Natal 4 e 3 cm Mistas Vermelhas e Douradas - Enfeites para Ãrvore com Acabamentos Lisos, Fosco e Glitter",
+    title: "Kit 30 Bolas de Natal 4 e 3 cm Mistas Vermelhas e Douradas - Enfeites para Árvore com Acabamentos Lisos, Fosco e Glitter",
     category: "natal",
     categoryName: "Especial de Natal",
     price: 34.90,
@@ -240,31 +240,31 @@ const PRODUCTS = [
     optionLabel: "Tamanho / Cor:",
     colors: [
       "3 cm - Mistas (15 Vermelhas + 15 Douradas)",
-      "3 cm - SÃ³ Dourada (30 unidades)",
-      "3 cm - SÃ³ Vermelha (30 unidades)",
+      "3 cm - Só Dourada (30 unidades)",
+      "3 cm - Só Vermelha (30 unidades)",
       "4 cm - Mistas (15 Vermelhas + 15 Douradas)",
-      "4 cm - SÃ³ Dourada (30 unidades)",
-      "4 cm - SÃ³ Vermelha (30 unidades)"
+      "4 cm - Só Dourada (30 unidades)",
+      "4 cm - Só Vermelha (30 unidades)"
     ],
     colorImages: {
       "3 cm - Mistas (15 Vermelhas + 15 Douradas)": "images/loja/bolas-natal-30un-3cm-mistas.jpg",
-      "3 cm - SÃ³ Dourada (30 unidades)": "images/loja/bolas-natal-30un-3cm-douradas.jpg",
-      "3 cm - SÃ³ Vermelha (30 unidades)": "images/loja/bolas-natal-30un-3cm-vermelhas.jpg",
+      "3 cm - Só Dourada (30 unidades)": "images/loja/bolas-natal-30un-3cm-douradas.jpg",
+      "3 cm - Só Vermelha (30 unidades)": "images/loja/bolas-natal-30un-3cm-vermelhas.jpg",
       "4 cm - Mistas (15 Vermelhas + 15 Douradas)": "images/loja/bolas-natal-30un-4cm-mistas.jpg",
-      "4 cm - SÃ³ Dourada (30 unidades)": "images/loja/bolas-natal-30un-acabamentos-dourada.jpg",
-      "4 cm - SÃ³ Vermelha (30 unidades)": "images/loja/bolas-natal-30un-acabamentos-vermelha.jpg"
+      "4 cm - Só Dourada (30 unidades)": "images/loja/bolas-natal-30un-acabamentos-dourada.jpg",
+      "4 cm - Só Vermelha (30 unidades)": "images/loja/bolas-natal-30un-acabamentos-vermelha.jpg"
     },
     modelBadges: {
-      "4 cm - Mistas (15 Vermelhas + 15 Douradas)": "Mais Vendido ðŸ”¥",
-      "3 cm - Mistas (15 Vermelhas + 15 Douradas)": "Popular â­"
+      "4 cm - Mistas (15 Vermelhas + 15 Douradas)": "Mais Vendido 🔥",
+      "3 cm - Mistas (15 Vermelhas + 15 Douradas)": "Popular ⭐"
     },
     badge: "Kit 30 Bolas",
     freeShipping: true,
-    description: "ðŸŽ„ Kit 30 Bolas de Natal 4 e 3 cm Mistas Vermelhas e Douradas - Enfeites para Ãrvore com Acabamentos Lisos, Fosco e Glitter!\n\nDeixe sua Ã¡rvore de Natal exuberante, elegante e cheia de vida com o kit perfeito de bolas natalinas! Cada kit traz uma harmoniosa combinaÃ§Ã£o de acabamentos que capturam a luz e criam uma atmosfera mÃ¡gica.\n\nESPECIFICAÃ‡Ã•ES:\nâ€¢ Quantidade: 30 Bolas de Natal por kit\nâ€¢ Tamanhos disponÃ­veis: 3 cm ou 4 cm de diÃ¢metro\nâ€¢ OpÃ§Ãµes de Cor:\n  - Mistas: 15 Vermelhas + 15 Douradas\n  - SÃ³ Douradas: 30 Bolas Douradas\n  - SÃ³ Vermelhas: 30 Bolas Vermelhas\nâ€¢ Acabamentos inclusos: Lisa com brilho espelhado, Fosca aveludada e Glitter reluzente\nâ€¢ Acompanha cordÃ£o dourado para pendurar facilmente em qualquer galho ou arranjo."
+    description: "🎄 Kit 30 Bolas de Natal 4 e 3 cm Mistas Vermelhas e Douradas - Enfeites para Árvore com Acabamentos Lisos, Fosco e Glitter!\n\nDeixe sua árvore de Natal exuberante, elegante e cheia de vida com o kit perfeito de bolas natalinas! Cada kit traz uma harmoniosa combinação de acabamentos que capturam a luz e criam uma atmosfera mágica.\n\nESPECIFICAÇÕES:\n• Quantidade: 30 Bolas de Natal por kit\n• Tamanhos disponíveis: 3 cm ou 4 cm de diâmetro\n• Opções de Cor:\n  - Mistas: 15 Vermelhas + 15 Douradas\n  - Só Douradas: 30 Bolas Douradas\n  - Só Vermelhas: 30 Bolas Vermelhas\n• Acabamentos inclusos: Lisa com brilho espelhado, Fosca aveludada e Glitter reluzente\n• Acompanha cordão dourado para pendurar facilmente em qualquer galho ou arranjo."
   },
   {
     id: "tubo-24-bolas-natal-3cm-4cm-6cm",
-    title: "Conjunto de Bolas de Natal 24 peÃ§as 3cm/4cm/6cm Lisa Fosca Glitter no Tubo AcrÃ­lico",
+    title: "Conjunto de Bolas de Natal 24 Peças 3cm/4cm/6cm Lisa Fosca Glitter no Tubo Acrílico",
     category: "natal",
     categoryName: "Especial de Natal",
     price: 29.90,
@@ -284,30 +284,30 @@ const PRODUCTS = [
     ],
     optionLabel: "Tamanho / Cor:",
     colors: [
-      "3 cm - Vermelha (24 peÃ§as)",
-      "3 cm - Dourada (24 peÃ§as)",
-      "4 cm - Vermelha (24 peÃ§as)",
-      "4 cm - Dourada (24 peÃ§as)",
-      "6 cm - Vermelha (24 peÃ§as)"
+      "3 cm - Vermelha (24 peças)",
+      "3 cm - Dourada (24 peças)",
+      "4 cm - Vermelha (24 peças)",
+      "4 cm - Dourada (24 peças)",
+      "6 cm - Vermelha (24 peças)"
     ],
     colorImages: {
-      "3 cm - Vermelha (24 peÃ§as)": "images/loja/tubo-24-bolas-natal-3cm-vermelha.jpg",
-      "3 cm - Dourada (24 peÃ§as)": "images/loja/tubo-24-bolas-natal-3cm-dourada.jpg",
-      "4 cm - Vermelha (24 peÃ§as)": "images/loja/tubo-24-bolas-natal-4cm-vermelha.jpg",
-      "4 cm - Dourada (24 peÃ§as)": "images/loja/tubo-24-bolas-natal-4cm-dourada.jpg",
-      "6 cm - Vermelha (24 peÃ§as)": "images/loja/tubo-24-bolas-natal-6cm-vermelha.jpg"
+      "3 cm - Vermelha (24 peças)": "images/loja/tubo-24-bolas-natal-3cm-vermelha.jpg",
+      "3 cm - Dourada (24 peças)": "images/loja/tubo-24-bolas-natal-3cm-dourada.jpg",
+      "4 cm - Vermelha (24 peças)": "images/loja/tubo-24-bolas-natal-4cm-vermelha.jpg",
+      "4 cm - Dourada (24 peças)": "images/loja/tubo-24-bolas-natal-4cm-dourada.jpg",
+      "6 cm - Vermelha (24 peças)": "images/loja/tubo-24-bolas-natal-6cm-vermelha.jpg"
     },
     modelBadges: {
-      "6 cm - Vermelha (24 peÃ§as)": "Destaque 6cm â­",
-      "4 cm - Vermelha (24 peÃ§as)": "Mais Vendida ðŸ”¥"
+      "6 cm - Vermelha (24 peças)": "Destaque 6cm ⭐",
+      "4 cm - Vermelha (24 peças)": "Mais Vendida 🔥"
     },
-    badge: "Tubo 24 PeÃ§as",
+    badge: "Tubo 24 Peças",
     freeShipping: true,
-    description: "ðŸŽ… Conjunto de Bolas de Natal 24 peÃ§as 3cm/4cm/6cm Lisa Fosca Glitter no Tubo AcrÃ­lico.\n\nElegÃ¢ncia e praticidade na hora de decorar! As bolas vÃªm acomodadas em um lindo tubo acrÃ­lico transparente para proteger e facilitar o armazenamento para os prÃ³ximos anos.\n\nDESTAQUES:\nâ€¢ Quantidade: 24 Bolas de Natal por tubo\nâ€¢ Tamanhos disponÃ­veis: 3 cm, 4 cm ou 6 cm\nâ€¢ Cores disponÃ­veis: Vermelho vibrante ou Dourado clÃ¡ssico\nâ€¢ Triplo acabamento: Lisa com brilho intenso, Fosca acetinada e Glitter cintilante\nâ€¢ JÃ¡ acompanha cordÃµes dourados para pendurar."
+    description: "🎅 Conjunto de Bolas de Natal 24 Peças 3cm/4cm/6cm Lisa Fosca Glitter no Tubo Acrílico.\n\nElegância e praticidade na hora de decorar! As bolas vêm acomodadas em um lindo tubo acrílico transparente para proteger e facilitar o armazenamento para os próximos anos.\n\nDESTAQUES:\n• Quantidade: 24 Bolas de Natal por tubo\n• Tamanhos disponíveis: 3 cm, 4 cm ou 6 cm\n• Cores disponíveis: Vermelho vibrante ou Dourado clássico\n• Triplo acabamento: Lisa com brilho intenso, Fosca acetinada e Glitter cintilante\n• Já acompanha cordões dourados para pendurar."
   },
   {
     id: "kit-6-bengalas-natalinas-17cm",
-    title: "Kit com 6 Bengalas Natalinas Decorativas de 17cm Candy Cane Tradicional para Ãrvore",
+    title: "Kit com 6 Bengalas Natalinas Decorativas de 17cm Candy Cane Tradicional para Árvore",
     category: "natal",
     categoryName: "Especial de Natal",
     price: 24.90,
@@ -331,11 +331,11 @@ const PRODUCTS = [
     },
     badge: "Kit com 6 Bengalas",
     freeShipping: true,
-    description: "ðŸ¬ Kit com 6 Bengalas Natalinas Decorativas de 17cm estilo Candy Cane tradicional americano.\n\nUm dos sÃ­mbolos mais amados do Natal! As bengalinhas trazem um toque lÃºdico, alegre e doce para a sua Ã¡rvore, guirlandas, arranjos de mesa e embalagens de presentes.\n\nCARACTERÃSTICAS:\nâ€¢ Quantidade: 6 bengalas decorativas de 17 cm\nâ€¢ PadrÃ£o clÃ¡ssico: Listras em espiral branco e vermelho metalizado brilhante\nâ€¢ Material leve, resistente e inquebrÃ¡vel\nâ€¢ Acompanha cordÃ£o dourado fixo na ponta para pendurar imediatamente."
+    description: "🍬 Kit com 6 Bengalas Natalinas Decorativas de 17cm estilo Candy Cane tradicional americano.\n\nUm dos símbolos mais amados do Natal! As bengalinhas trazem um toque lúdico, alegre e doce para a sua árvore, guirlandas, arranjos de mesa e embalagens de presentes.\n\nCARACTERÍSTICAS:\n• Quantidade: 6 bengalas decorativas de 17 cm\n• Padrão clássico: Listras em espiral branco e vermelho metalizado brilhante\n• Material leve, resistente e inquebrável\n• Acompanha cordão dourado fixo na ponta para pendurar imediatamente."
   },
   {
     id: "laco-natal-veludo-vermelho-luxo",
-    title: "LaÃ§o de Natal Veludo Vermelho Luxo Almofadado Enfeite para Ãrvore, Guirlanda e Porta",
+    title: "Laço de Natal Veludo Vermelho Luxo Almofadado Enfeite para Árvore, Guirlanda e Porta",
     category: "natal",
     categoryName: "Especial de Natal",
     price: 27.90,
@@ -356,26 +356,26 @@ const PRODUCTS = [
     optionLabel: "Tamanho:",
     colors: [
       "Pequeno (15 x 12 cm)",
-      "MÃ©dio (22 x 18 cm)",
+      "Médio (22 x 18 cm)",
       "Grande (33 x 26 cm)"
     ],
     colorImages: {
       "Pequeno (15 x 12 cm)": "images/loja/laco-veludo-luxo-15x12.jpg",
-      "MÃ©dio (22 x 18 cm)": "images/loja/laco-veludo-luxo-22x18.jpg",
+      "Médio (22 x 18 cm)": "images/loja/laco-veludo-luxo-22x18.jpg",
       "Grande (33 x 26 cm)": "images/loja/laco-veludo-luxo-33x26.jpg"
     },
     modelBadges: {
       "Grande (33 x 26 cm)": "Ideal para Porta/Ponteira",
-      "MÃ©dio (22 x 18 cm)": "Mais Vendido ðŸ”¥",
+      "Médio (22 x 18 cm)": "Mais Vendido 🔥",
       "Pequeno (15 x 12 cm)": "Ideal para Ramos"
     },
     badge: "Veludo Nobre Luxo",
     freeShipping: true,
-    description: "ðŸŽ€ LaÃ§o de Natal Veludo Vermelho Luxo Almofadado. Acabamento artesanal impecÃ¡vel em veludo nobre com preenchimento almofadado, conferindo volume, estrutura firme e elegÃ¢ncia Ã­mpar Ã  sua decoraÃ§Ã£o.\n\nESCOLHA O TAMANHO IDEAL:\nâ€¢ Pequeno: 15 cm altura x 12 cm largura (perfeito para galhos da Ã¡rvore e guirlandas menores)\nâ€¢ MÃ©dio: 22 cm altura x 18 cm largura (excelente para destaque na Ã¡rvore e guirlandas de 30 a 50cm)\nâ€¢ Grande: 33 cm altura x 26 cm largura (imponente para ponteira da Ã¡rvore, porta principal e lareira)\n\nâ€¢ Toque suave aveludado, cor vermelho vivo vibrante que nÃ£o desbota."
+    description: "🎀 Laço de Natal Veludo Vermelho Luxo Almofadado. Acabamento artesanal impecável em veludo nobre com preenchimento almofadado, conferindo volume, estrutura firme e elegância ímpar à sua decoração.\n\nESCOLHA O TAMANHO IDEAL:\n• Pequeno: 15 cm altura x 12 cm largura (perfeito para galhos da árvore e guirlandas menores)\n• Médio: 22 cm altura x 18 cm largura (excelente para destaque na árvore e guirlandas de 30 a 50cm)\n• Grande: 33 cm altura x 26 cm largura (imponente para ponteira da árvore, porta principal e lareira)\n\n• Toque suave aveludado, cor vermelho vivo vibrante que não desbota."
   },
   {
     id: "papai-noel-decorativo-17cm",
-    title: "Papai Noel Decorativo 17cm Para DecoraÃ§Ã£o de Natal de Mesa, Lareira e Ãrvore",
+    title: "Papai Noel Decorativo 17cm Para Decoração de Natal | 2 Cores Disponíveis",
     category: "natal",
     categoryName: "Especial de Natal",
     price: 38.90,
@@ -404,11 +404,11 @@ const PRODUCTS = [
     },
     badge: "17cm Luxo",
     freeShipping: true,
-    description: "ðŸŽ… Papai Noel Decorativo 17cm Para DecoraÃ§Ã£o de Natal. Boneco articulado e detalhado de alta qualidade, ideal para decorar mesas, aparadores, estantes, peitoris e aos pÃ©s da Ã¡rvore de Natal.\n\nCORES DISPONÃVEIS:\nâ€¢ Marrom: Estilo rÃºstico nÃ³rdico/alpino vintage, com gorro de tricÃ´ aconchegante, sobretudo de pelagem macia e detalhes em juta rÃºstica com pinhas.\nâ€¢ Vermelho: Estilo tradicional festivo com roupagem aveludada vermelha viva, acabamento em pelÃºcia felpuda branca e cordÃ£o dourado com raminho natalino.\n\nâ€¢ Altura: 17 cm\nâ€¢ Base estÃ¡vel que fica de pÃ© sozinho sobre qualquer superfÃ­cie plana."
+    description: "🎅 Papai Noel Decorativo 17cm Para Decoração de Natal. Boneco articulado e detalhado de alta qualidade, ideal para decorar mesas, aparadores, estantes, peitoris e aos pés da árvore de Natal.\n\nCORES DISPONÍVEIS:\n• Marrom: Estilo rústico nórdico/alpino vintage, com gorro de tricô aconchegante, sobretudo de pelagem macia e detalhes em juta rústica com pinhas.\n• Vermelho: Estilo tradicional festivo com roupagem aveludada vermelha viva, acabamento em pelúcia felpuda branca e cordão dourado com raminho natalino.\n\n• Altura: 17 cm\n• Base estável que fica de pé sozinho sobre qualquer superfície plana."
   },
   {
     id: "papai-noel-escalador-musical-corda",
-    title: "Boneco Papai Noel Escalador Sobe e Desce na Corda com MÃºsica Natalina Enfeite EletrÃ´nico",
+    title: "Boneco Papai Noel Escalador Sobe e Desce com Música Brinquedos Eletrônicos",
     category: "natal",
     categoryName: "Especial de Natal",
     price: 49.90,
@@ -431,21 +431,21 @@ const PRODUCTS = [
     ],
     optionLabel: "Modelo:",
     colors: [
-      "Papai Noel Escalador com MÃºsica (25 cm)"
+      "Papai Noel Escalador com Música (25 cm)"
     ],
     colorImages: {
-      "Papai Noel Escalador com MÃºsica (25 cm)": "images/loja/papai-noel-escalador-musical-1.jpg"
+      "Papai Noel Escalador com Música (25 cm)": "images/loja/papai-noel-escalador-musical-1.jpg"
     },
-    badge: "Sobe e Desce com MÃºsica ðŸŽµ",
+    badge: "Sobe e Desce com Música 🎵",
     freeShipping: true,
-    description: "ðŸŽ„ Boneco Papai Noel Enfeite Natal Sobe e Desce com MÃºsica Brinquedos EletrÃ´nicos.\n\nO enfeite que Ã© sensaÃ§Ã£o no mundo inteiro e faz a alegria das crianÃ§as e de toda a famÃ­lia! O Papai Noel escala e desce a corrente de contas douradas de forma contÃ­nua enquanto toca alegres canÃ§Ãµes natalinas.\n\nRECURSOS & DETALHES:\nâ€¢ Movimento automÃ¡tico contÃ­nuo: sobe e desce sozinho pela corrente\nâ€¢ Efeito sonoro: Toca clÃ¡ssicos natalinos com som nÃ­tido e envolvente\nâ€¢ AlimentaÃ§Ã£o: 3 pilhas AA (nÃ£o inclusas) â€“ praticidade total sem fios pela casa\nâ€¢ DimensÃµes do boneco: 25 cm de altura x 13 cm de largura x 15 cm de profundidade\nâ€¢ Confeccionado em pelÃºcia de toque macio e carcaÃ§a ABS resistente\nâ€¢ Ideal para Ã¡rvores de Natal, escadas, janelas, cortinas e tetos."
+    description: "🎄 Boneco Papai Noel Enfeite Natal Sobe e Desce com Música Brinquedos Eletrônicos.\n\nO enfeite que é sensação no mundo inteiro e faz a alegria das crianças e de toda a família! O Papai Noel escala e desce a corrente de contas douradas de forma contínua enquanto toca alegres canções natalinas.\n\nRECURSOS & DETALHES:\n• Movimento automático contínuo: sobe e desce sozinho pela corrente\n• Efeito sonoro: Toca clássicos natalinos com som nítido e envolvente\n• Alimentação: 3 pilhas AA (não inclusas) – praticidade total sem fios pela casa\n• Dimensões do boneco: 25 cm de altura x 13 cm de largura x 15 cm de profundidade\n• Confeccionado em pelúcia de toque macio e carcaça ABS resistente\n• Ideal para árvores de Natal, escadas, janelas, cortinas e tetos."
   },
   // ==========================================
   // PRODUTOS NOVOS SHOPPING BRASIL
   // ==========================================
   {
     id: "jogo-panelas-ditalia-10pecas-antiaderente",
-    title: "Jogo de Panelas 10 PeÃ§as Antiaderente Bianco Dâ€™itÃ¡lia com Tampa de Vidro Temperado VÃ¡rias Cores Kit Cozinha Completa",
+    title: "Jogo de Panelas 10 Peças Antiaderente Bianco D’Itália com Tampa de Vidro Temperado Várias Cores Kit Cozinha Completa",
     category: "casa",
     categoryName: "Casa & Conforto",
     price: 139.90,
@@ -470,35 +470,35 @@ const PRODUCTS = [
     colors: [
       "Sahara (Amadeirado)",
       "Vanilla (Granitado)",
-      "PrestÃ­gio (Marrom)",
+      "Prestígio (Marrom)",
       "Acqua (Azul)",
       "Vermelha",
-      "RosÃ© Gold",
+      "Rosé Gold",
       "Vermelha com Preto",
       "Preto Fosco"
     ],
     colorImages: {
       "Sahara (Amadeirado)": "images/loja/jogo-panelas-ditalia-sahara.jpg",
       "Vanilla (Granitado)": "images/loja/jogo-panelas-ditalia-vanilla.jpg",
-      "PrestÃ­gio (Marrom)": "images/loja/jogo-panelas-ditalia-prestigio.jpg",
+      "Prestígio (Marrom)": "images/loja/jogo-panelas-ditalia-prestigio.jpg",
       "Acqua (Azul)": "images/loja/jogo-panelas-ditalia-acqua.jpg",
       "Vermelha": "images/loja/jogo-panelas-ditalia-vermelha.jpg",
-      "RosÃ© Gold": "images/loja/jogo-panelas-ditalia-rose.jpg",
+      "Rosé Gold": "images/loja/jogo-panelas-ditalia-rose.jpg",
       "Vermelha com Preto": "images/loja/jogo-panelas-ditalia-vermelha-preta.jpg",
       "Preto Fosco": "images/loja/jogo-panelas-ditalia-preta.jpg"
     },
     modelBadges: {
-      "Vanilla (Granitado)": "Mais Vendida ðŸ”¥",
-      "Sahara (Amadeirado)": "TendÃªncia â­",
-      "RosÃ© Gold": "ElegÃ¢ncia"
+      "Vanilla (Granitado)": "Mais Vendida 🔥",
+      "Sahara (Amadeirado)": "Tendência ⭐",
+      "Rosé Gold": "Elegância"
     },
-    badge: "Kit 10 PeÃ§as D'ItÃ¡lia",
+    badge: "Kit 10 Peças D'Itália",
     freeShipping: true,
-    description: "ðŸ³ Jogo de panelas 10 peÃ§as antiaderente com tampa de vidro temperado Bianco Vanilla VÃ¡rias Cores Conjunto Kit Teflon Dâ€™italia Cozinha Completa.\n\nCozinhe com o mÃ¡ximo de requinte, saÃºde e facilidade! Revestimento antiaderente cerÃ¢mico de alto desempenho que nÃ£o gruda nada e permite preparar alimentos com quase zero Ã³leo.\n\nO QUE VEM NO KIT COMPLETO (10 PEÃ‡AS):\nâ€¢ Panela 16 cm com tampa de vidro temperado e saÃ­da de vapor\nâ€¢ Panela 18 cm com tampa de vidro temperado e saÃ­da de vapor\nâ€¢ CaÃ§arola 20 cm com tampa de vidro temperado e saÃ­da de vapor\nâ€¢ CaÃ§arola 22 cm com tampa de vidro temperado e saÃ­da de vapor\nâ€¢ Frigideira Funda 22 cm antiaderente\nâ€¢ Fervedor Leiteira 14 cm\nâ€¢ Conjunto de 4 utensÃ­lios de silicone tÃ©rmico de alta resistÃªncia\n\nCabos e pegadores ergonÃ´micos Soft Touch que nÃ£o esquentam as mÃ£os. FÃ¡cil de limpar e compatÃ­vel com fogÃµes a gÃ¡s, elÃ©trico e vitrocerÃ¢mico."
+    description: "🍳 Jogo de panelas 10 peças antiaderente com tampa de vidro temperado Bianco Vanilla Várias Cores Conjunto Kit Teflon D’Itália Cozinha Completa.\n\nCozinhe com o máximo de requinte, saúde e facilidade! Revestimento antiaderente cerâmico de alto desempenho que não gruda nada e permite preparar alimentos com quase zero óleo.\n\nO QUE VEM NO KIT COMPLETO (10 PEÇAS):\n• Panela 16 cm com tampa de vidro temperado e saída de vapor\n• Panela 18 cm com tampa de vidro temperado e saída de vapor\n• Caçarola 20 cm com tampa de vidro temperado e saída de vapor\n• Caçarola 22 cm com tampa de vidro temperado e saída de vapor\n• Frigideira Funda 22 cm antiaderente\n• Fervedor Leiteira 14 cm\n• Conjunto de 4 utensílios de silicone térmico de alta resistência\n\nCabos e pegadores ergonômicos Soft Touch que não esquentam as mãos. Fácil de limpar e compatível com fogões a gás, elétrico e vitrocerâmico."
   },
   {
     id: "kit-48-carrinhos-friccao-container-pista",
-    title: "Kit 48 Carrinhos de FricÃ§Ã£o Jogo de Cidade, Pista de Carros com Mapa Interativo, Brinquedo Educativo Divertido para CrianÃ§as",
+    title: "Kit 48 Carrinhos de Fricção Jogo de Cidade, Pista de Carros com Mapa Interativo, Brinquedo Educativo Divertido para Crianças",
     category: "brinquedos",
     categoryName: "Brinquedos",
     price: 79.90,
@@ -522,13 +522,13 @@ const PRODUCTS = [
     colorImages: {
       "Maleta Container com Pista + 48 Carrinhos": "images/loja/kit-48-carrinhos-container-pista-1.jpg"
     },
-    badge: "Kit 48 Carrinhos + Pista ðŸŽï¸",
+    badge: "Kit 48 Carrinhos + Pista 🏎️",
     freeShipping: true,
-    description: "ðŸŽï¸ Kit 48 Carrinhos de FricÃ§Ã£o Jogo de Cidade, Pista de Carros com Mapa Interativo, Brinquedo Educativo Divertido para CrianÃ§as.\n\nO sonho de qualquer crianÃ§a! Uma super maleta container com alÃ§a que armazena todos os carrinhos organizados em gaveteiros de 4 nÃ­veis que se desdobram em uma pista de corrida completa com pistas, vagas de estacionamento e mapa urbano.\n\nO QUE ESTÃ INCLUSO:\nâ€¢ 1 Maleta Container PortÃ¡til com alÃ§a de transporte reforÃ§ada\nâ€¢ 4 Gaveteiros organizadores deslizantes de alta capacidade\nâ€¢ 1 Pista de corrida e manobras integrada no topo\nâ€¢ 48 Miniaturas de carros em liga metÃ¡lica e ABS com traÃ§Ã£o por fricÃ§Ã£o (esportivos, viaturas policiais, caminhonetes, utilitÃ¡rios e clÃ¡ssicos de corrida)\nâ€¢ Estimula coordenaÃ§Ã£o motora, criatividade e senso de organizaÃ§Ã£o nas crianÃ§as."
+    description: "🏎️ Kit 48 Carrinhos de Fricção Jogo de Cidade, Pista de Carros com Mapa Interativo, Brinquedo Educativo Divertido para Crianças.\n\nO sonho de qualquer criança! Uma super maleta container com alça que armazena todos os carrinhos organizados em gaveteiros de 4 níveis que se desdobram em uma pista de corrida completa com pistas, vagas de estacionamento e mapa urbano.\n\nO QUE ESTÁ INCLUSO:\n• 1 Maleta Container Portátil com alça de transporte reforçada\n• 4 Gaveteiros organizadores deslizantes de alta capacidade\n• 1 Pista de corrida e manobras integrada no topo\n• 48 Miniaturas de carros em liga metálica e ABS com tração por fricção (esportivos, viaturas policiais, caminhonetes, utilitários e clássicos de corrida)\n• Estimula coordenação motora, criatividade e senso de organização nas crianças."
   },
   {
     id: "piscina-inflavel-azul-pvc-reforcada",
-    title: "Piscina InflÃ¡vel Azul PVC ReforÃ§ada, Grande Capacidade PortÃ¡til DobrÃ¡vel para Uso Interno e Externo",
+    title: "Piscina Inflável Azul PVC Reforçada, Grande Capacidade Portátil Dobrável para Uso Interno e Externo",
     category: "casa",
     categoryName: "Casa & Conforto",
     price: 89.90,
@@ -537,43 +537,39 @@ const PRODUCTS = [
     sold: "6.2k",
     rating: 4.9,
     reviews: 2410,
-    image: "images/loja/piscina-inflavel-azul-1.jpg",
+    image: "images/loja/piscina-inflavel-dimensoes-opcoes.jpg",
     images: [
-      "images/loja/piscina-inflavel-azul-1.jpg",
-      "images/loja/piscina-inflavel-azul-2.jpg",
-      "images/loja/piscina-inflavel-azul-3.jpg",
-      "images/loja/piscina-inflavel-azul-4.jpg",
       "images/loja/piscina-inflavel-dimensoes-opcoes.jpg",
-      "images/loja/piscina-inflavel-bomba-eletrica.jpg",
-      "images/loja/piscina-inflavel-azul-3m-video-frame.jpg",
-      "images/loja/piscina-inflavel-azul-26m-detalhe.jpg"
+      "images/loja/piscina-inflavel-azul-26m-detalhe.jpg",
+      "images/loja/piscina-inflavel-azul-2.jpg",
+      "images/loja/piscina-inflavel-bomba-eletrica.jpg"
     ],
-    optionLabel: "OpÃ§Ã£o / Tamanho:",
+    optionLabel: "Opção / Modelo:",
     colors: [
-      "Piscina 2,6m (3 AnÃ©is) - Sem Enchedor",
-      "Piscina 2,6m (3 AnÃ©is) + Enchedor ElÃ©trico",
-      "Piscina 3,0m (4 AnÃ©is) - Sem Enchedor",
-      "Piscina 3,0m (4 AnÃ©is) + Enchedor ElÃ©trico",
-      "Somente Enchedor / Bomba ElÃ©trica"
+      "Piscina 3 Andares (2,6m) - Sem Enchedor",
+      "Piscina 3 Andares (2,6m) + Enchedor Elétrico",
+      "Piscina 4 Andares (3,0m) - Sem Enchedor",
+      "Piscina 4 Andares (3,0m) + Enchedor Elétrico",
+      "Somente Enchedor / Bomba Elétrica"
     ],
     colorImages: {
-      "Piscina 2,6m (3 AnÃ©is) - Sem Enchedor": "images/loja/piscina-inflavel-azul-26m-detalhe.jpg",
-      "Piscina 2,6m (3 AnÃ©is) + Enchedor ElÃ©trico": "images/loja/piscina-inflavel-azul-1.jpg",
-      "Piscina 3,0m (4 AnÃ©is) - Sem Enchedor": "images/loja/piscina-inflavel-azul-3m-video-frame.jpg",
-      "Piscina 3,0m (4 AnÃ©is) + Enchedor ElÃ©trico": "images/loja/piscina-inflavel-azul-3.jpg",
-      "Somente Enchedor / Bomba ElÃ©trica": "images/loja/piscina-inflavel-bomba-eletrica.jpg"
+      "Piscina 3 Andares (2,6m) - Sem Enchedor": "images/loja/piscina-inflavel-azul-26m-detalhe.jpg",
+      "Piscina 3 Andares (2,6m) + Enchedor Elétrico": "images/loja/piscina-inflavel-azul-26m-detalhe.jpg",
+      "Piscina 4 Andares (3,0m) - Sem Enchedor": "images/loja/piscina-inflavel-azul-2.jpg",
+      "Piscina 4 Andares (3,0m) + Enchedor Elétrico": "images/loja/piscina-inflavel-azul-2.jpg",
+      "Somente Enchedor / Bomba Elétrica": "images/loja/piscina-inflavel-bomba-eletrica.jpg"
     },
     modelBadges: {
-      "Piscina 3,0m (4 AnÃ©is) + Enchedor ElÃ©trico": "Mais Vendida ðŸ”¥",
-      "Piscina 2,6m (3 AnÃ©is) + Enchedor ElÃ©trico": "Recomendada â­"
+      "Piscina 4 Andares (3,0m) + Enchedor Elétrico": "Mais Vendida 🔥",
+      "Piscina 3 Andares (2,6m) + Enchedor Elétrico": "Recomendada ⭐"
     },
-    badge: "VerÃ£o ReforÃ§ada ðŸŒŠ",
+    badge: "Verão Reforçada 🌊",
     freeShipping: true,
-    description: "ðŸŒŠ Piscina InflÃ¡vel Azul PVC ReforÃ§ada, Grande Capacidade PortÃ¡til DobrÃ¡vel para Uso Interno e Externo.\n\nPerfeita para refrescar a famÃ­lia e as crianÃ§as nos dias ensolarados! Confeccionada em PVC espesso tricamada de alta densidade anti-furos, com bordas inflÃ¡veis anatÃ´micas ultra confortÃ¡veis.\n\nOPÃ‡Ã•ES PARA ESCOLHA:\n1. Piscina 2,6m (3 AnÃ©is) - Sem enchedor: 260 x 170 x 56 cm\n2. Piscina 2,6m (3 AnÃ©is) + Enchedor ElÃ©trico incluso (Infla em poucos minutos!)\n3. Piscina 3,0m (4 AnÃ©is) - Sem enchedor: 300 x 173 x 68 cm (Mega capacidade)\n4. Piscina 3,0m (4 AnÃ©is) + Enchedor ElÃ©trico incluso\n5. Somente Enchedor ElÃ©trico Bivolt com bicos adaptadores multiuso\n\nVÃ¡lvulas de escape rÃ¡pido para esvaziar e dobrar compactamente em segundos."
+    description: "🌊 Piscina Inflável Azul PVC Reforçada, Grande Capacidade Portátil Dobrável para Uso Interno e Externo.\n\nPerfeita para refrescar a família e as crianças nos dias ensolarados! Confeccionada em PVC espesso tricamada de alta densidade anti-furos, com bordas infláveis anatômicas ultra confortáveis.\n\nOPÇÕES PARA ESCOLHA:\n1. Piscina 3 Andares (2,6m) - Sem Enchedor (260 x 170 x 56 cm)\n2. Piscina 3 Andares (2,6m) + Enchedor Elétrico incluso (Infla em poucos minutos!)\n3. Piscina 4 Andares (3,0m) - Sem Enchedor (300 x 173 x 68 cm - Mega capacidade)\n4. Piscina 4 Andares (3,0m) + Enchedor Elétrico incluso\n5. Somente Enchedor / Bomba Elétrica Bivolt com bicos adaptadores multiuso\n\nVálvulas de escape rápido para esvaziar e dobrar compactamente em segundos."
   },
   {
     id: "esteira-eletrica-maat-brand-fitness",
-    title: "Esteira ElÃ©trica Fitness Profissional Plana Residencial MAAT BRAND com Controle Remoto",
+    title: "Esteira Elétrica Fitness Profissional Plana Residencial MAAT BRAND com Controle Remoto",
     category: "casa",
     categoryName: "Casa & Conforto",
     price: 149.90,
@@ -598,15 +594,15 @@ const PRODUCTS = [
       "Preto Fosco Oficial MAAT BRAND": "images/loja/esteira-eletrica-maat-1.jpg"
     },
     voltages: ["110V", "220V"],
-    badge: "Plana Residencial ðŸƒ",
+    badge: "Plana Residencial 🏃",
     freeShipping: true,
-    description: "ðŸƒ Esteira ElÃ©trica Fitness Profissional Plana Residencial Cor Preto Controle MAAT BRAND.\n\nMantenha sua rotina saudÃ¡vel sem sair de casa! Ultra compacta, plana e silenciosa, perfeita para apartamentos e casas, podendo ser guardada deitada debaixo da cama ou sofÃ¡ (apenas 12 cm de espessura).\n\nESPECIFICAÃ‡Ã•ES TÃ‰CNICAS:\nâ€¢ Faixa de velocidade: 1 a 12 km/h (da caminhada Ã  corrida moderada)\nâ€¢ Voltagens disponÃ­veis: 110V ou 220V (escolha a sua opÃ§Ã£o)\nâ€¢ Painel Digital LED integrado na base: exibe velocidade, tempo, distÃ¢ncia e calorias em tempo real\nâ€¢ Controle remoto sem fio ergonÃ´mico com ajuste de velocidade e botÃ£o de parada de emergÃªncia\nâ€¢ Fita de corrida texturizada antiderrapante com amortecedores internos para preservar os joelhos\nâ€¢ Rodinhas frontais integradas para transporte fÃ¡cil sem esforÃ§o."
+    description: "🏃 Esteira Elétrica Fitness Profissional Plana Residencial Cor Preto Controle MAAT BRAND.\n\nMantenha sua rotina saudável sem sair de casa! Ultra compacta, plana e silenciosa, perfeita para apartamentos e casas, podendo ser guardada deitada debaixo da cama ou sofá (apenas 12 cm de espessura).\n\nESPECIFICAÇÕES TÉCNICAS:\n• Faixa de velocidade: 1 a 12 km/h (da caminhada à corrida moderada)\n• Voltagens disponíveis: 110V ou 220V (escolha a sua opção)\n• Painel Digital LED integrado na base: exibe velocidade, tempo, distância e calorias em tempo real\n• Controle remoto sem fio ergonômico com ajuste de velocidade e botão de parada de emergência\n• Fita de corrida texturizada antiderrapante com amortecedores internos para preservar os joelhos\n• Rodinhas frontais integradas para transporte fácil sem esforço."
   },
   {
     id: "pipoqueira-eletrica-mondial-popflix-1200w",
-    title: "Pipoqueira ElÃ©trica Sem Ã“leo Mondial 1200w Popflix Bocal Direcionado",
+    title: "Pipoqueira Elétrica Sem Óleo Mondial 1200w Popflix Bocal Direcionado",
     category: "eletro",
-    categoryName: "EletrodomÃ©sticos",
+    categoryName: "Eletrodomésticos",
     price: 67.90,
     oldPrice: 179.90,
     discount: "-62%",
@@ -631,13 +627,13 @@ const PRODUCTS = [
       "Vermelha Popflix": "images/loja/pipoqueira-mondial-popflix-1.jpg"
     },
     voltages: ["110V", "220V"],
-    badge: "Pipoca Sem Ã“leo em 3 min ðŸ¿",
+    badge: "Pipoca Sem Óleo em 3 min 🍿",
     freeShipping: true,
-    description: "ðŸ¿ Pipoqueira Eletrica Sem Ã“leo Mondial 1200w Bocal Direcionado.\n\nPipoca quentinha, crocante e saudÃ¡vel pronta em menos de 3 minutos, sem usar nenhuma gota de Ã³leo nem gordura!\n\nPRINCIPAIS BENEFÃCIOS:\nâ€¢ PotÃªncia de 1200W: Ar quente rÃ¡pido e eficiente que estoura quase 100% dos grÃ£os\nâ€¢ Bocal direcionador: A pipoca sai direto na tigela sem sujeira\nâ€¢ Colher dosadora inclusa: Mede a quantidade exata (100g de milho por ciclo) e serve para derreter manteiga por cima enquanto a pipoca estoura\nâ€¢ Sistema de seguranÃ§a contra superaquecimento\nâ€¢ Base compacta com guarda-fio para economizar espaÃ§o no armÃ¡rio\nâ€¢ Voltagens disponÃ­veis: 110V e 220V."
+    description: "🍿 Pipoqueira Elétrica Sem Óleo Mondial 1200w Bocal Direcionado.\n\nPipoca quentinha, crocante e saudável pronta em menos de 3 minutos, sem usar nenhuma gota de óleo nem gordura!\n\nPRINCIPAIS BENEFÍCIOS:\n• Potência de 1200W: Ar quente rápido e eficiente que estoura quase 100% dos grãos\n• Bocal direcionador: A pipoca sai direto na tigela sem sujeira\n• Colher dosadora inclusa: Mede a quantidade exata (100g de milho por ciclo) e serve para derreter manteiga por cima enquanto a pipoca estoura\n• Sistema de segurança contra superaquecimento\n• Base compacta com guarda-fio para economizar espaço no armário\n• Voltagens disponíveis: 110V e 220V."
   },
   {
     id: "bike-spinning-vymo-v100-residencial",
-    title: "Bike Spinning Residencial AjustÃ¡vel Painel atÃ© 120kg Treino em Casa Vymo V100",
+    title: "Bike Spinning Residencial Ajustável Painel até 120kg Treino em Casa Vymo V100",
     category: "casa",
     categoryName: "Casa & Conforto",
     price: 197.00,
@@ -659,19 +655,19 @@ const PRODUCTS = [
     ],
     optionLabel: "Cor / Modelo:",
     colors: [
-      "Preto com Detalhes Verde LimÃ£o (EdiÃ§Ã£o V100)"
+      "Preto com Detalhes Verde Limão (Edição V100)"
     ],
     colorImages: {
-      "Preto com Detalhes Verde LimÃ£o (EdiÃ§Ã£o V100)": "images/loja/bike-spinning-vymo-v100-1.jpg"
+      "Preto com Detalhes Verde Limão (Edição V100)": "images/loja/bike-spinning-vymo-v100-1.jpg"
     },
     voltages: ["220V"],
-    badge: "AtÃ© 120kg Resistente ðŸš´",
+    badge: "Até 120kg Resistente 🚴",
     freeShipping: true,
-    description: "ðŸš´ Bike SPINNING Residencial AjustÃ¡vel Painel atÃ© 120kg Treino em Casa Vymo V100.\n\nTreine com conforto, intensidade e seguranÃ§a no conforto da sua casa! Desenvolvida para queimar calorias e fortalecer pernas e glÃºteos com pedalada suave e silenciosa por correia.\n\nESPECIFICAÃ‡Ã•ES:\nâ€¢ Peso mÃ¡ximo suportado: AtÃ© 120 kg com estrutura de aÃ§o carbono reforÃ§ado\nâ€¢ Voltagem do painel: 220V\nâ€¢ Painel digital multifuncional: Velocidade, distÃ¢ncia, tempo, calorias e sensores de pulso cardÃ­aco no guidÃ£o\nâ€¢ Regulagem milimÃ©trica de resistÃªncia mecÃ¢nica por botÃ£o giratÃ³rio\nâ€¢ GuidÃ£o e selim anatÃ´mico ajustÃ¡veis em altura e profundidade\nâ€¢ Pedais com cinta firma-pÃ© de seguranÃ§a\nâ€¢ Acompanha garrafinha de hidrataÃ§Ã£o esportiva com suporte duplo integrado."
+    description: "🚴 Bike SPINNING Residencial Ajustável Painel até 120kg Treino em Casa Vymo V100.\n\nTreine com conforto, intensidade e segurança no conforto da sua casa! Desenvolvida para queimar calorias e fortalecer pernas e glúteos com pedalada suave e silenciosa por correia.\n\nESPECIFICAÇÕES:\n• Peso máximo suportado: Até 120 kg com estrutura de aço carbono reforçado\n• Voltagem do painel: 220V\n• Painel digital multifuncional: Velocidade, distância, tempo, calorias e sensores de pulso cardíaco no guidão\n• Regulagem milimétrica de resistência mecânica por botão giratório\n• Guidão e selim anatômico ajustáveis em altura e profundidade\n• Pedais com cinta firma-pé de segurança\n• Acompanha garrafinha de hidratação esportiva com suporte duplo integrado."
   },
   {
     id: "bike-eletrica-dobravel-scooter-1000w",
-    title: "Bicicleta ElÃ©trica DobrÃ¡vel Scooter Urbana 1000W 48V 15Ah com Cesto, Amortecedor Duplo e Painel Digital",
+    title: "Bicicleta Elétrica Dobrável Scooter Urbana 1000W 48V 15Ah com Cesto, Amortecedor Duplo e Painel Digital",
     category: "casa",
     categoryName: "Mobilidade Urbana",
     price: 289.00,
@@ -699,13 +695,13 @@ const PRODUCTS = [
     colorImages: {
       "Preto com Aro Laranja (48V 15Ah)": "images/loja/bike-eletrica-1000w-vitrine.jpg"
     },
-    badge: "1000W PotÃªncia âš¡",
+    badge: "1000W Potência ⚡",
     freeShipping: true,
-    description: "âš¡ Bicicleta ElÃ©trica DobrÃ¡vel Scooter Urbana 1000W com Autonomia atÃ© 60 km e Velocidade atÃ© 32 km/h.\n\nA revoluÃ§Ã£o da mobilidade urbana sustentÃ¡vel! Agilidade no trÃ¢nsito, economia total de combustÃ­vel e sem necessidade de emplacamento.\n\nFICHA TÃ‰CNICA:\nâ€¢ Motor potente: 1000W com alto torque para arrancadas rÃ¡pidas\nâ€¢ Bateria: 48V 15Ah de Ã­ons de lÃ­tio com Sistema BMS Inteligente (proteÃ§Ã£o contra sobrecarga, curto e superaquecimento)\nâ€¢ Velocidade mÃ¡xima: 32 km/h com 3 modos de pilotagem (EconÃ´mico, DinÃ¢mico e Sport)\nâ€¢ Autonomia: AtÃ© 60 km por recarga completa\nâ€¢ Subida de ladeiras: Supera inclinaÃ§Ãµes de atÃ© 30Â° com facilidade\nâ€¢ SuspensÃ£o: Sistema de amortecimento hidrÃ¡ulico duplo dianteiro e traseiro\nâ€¢ Freios: Freio a disco duplo ventilado de resposta rÃ¡pida\nâ€¢ GuidÃ£o dobrÃ¡vel para caber no porta-malas do carro ou elevador\nâ€¢ AcessÃ³rios inclusos: Cesto dianteiro espaÃ§oso, assento macio com molas e bagageiro traseiro."
+    description: "⚡ Bicicleta Elétrica Dobrável Scooter Urbana 1000W com Autonomia até 60 km e Velocidade até 32 km/h.\n\nA revolução da mobilidade urbana sustentável! Agilidade no trânsito, economia total de combustível e sem necessidade de emplacamento.\n\nFICHA TÉCNICA:\n• Motor potente: 1000W com alto torque para arrancadas rápidas\n• Bateria: 48V 15Ah de íons de lítio com Sistema BMS Inteligente (proteção contra sobrecarga, curto e superaquecimento)\n• Velocidade máxima: 32 km/h com 3 modos de pilotagem (Econômico, Dinâmico e Sport)\n• Autonomia: Até 60 km por recarga completa\n• Subida de ladeiras: Supera inclinações de até 30° com facilidade\n• Suspensão: Sistema de amortecimento hidráulico duplo dianteiro e traseiro\n• Freios: Freio a disco duplo ventilado de resposta rápida\n• Guidão dobrável para caber no porta-malas do carro ou elevador\n• Acessórios inclusos: Cesto dianteiro espaçoso, assento macio com molas e bagageiro traseiro."
   },
   {
     id: "scooter-moto-eletrica-k3-20ah-duplo",
-    title: "Moto Scooter ElÃ©trica Urbana K3 HDJ 20Ah atÃ© 60km com Assento Duplo, Encosto, Cesto e Alarme Antifurto",
+    title: "Moto Scooter Elétrica Urbana K3 HDJ 20Ah até 60km com Assento Duplo, Encosto, Cesto e Alarme Antifurto",
     category: "casa",
     categoryName: "Mobilidade Urbana",
     price: 297.00,
@@ -733,13 +729,13 @@ const PRODUCTS = [
     colorImages: {
       "Preto Fosco com Grafismos K3": "images/loja/scooter-eletrica-k3-urbana.jpg"
     },
-    badge: "Assento Duplo + Alarme ðŸ›µ",
+    badge: "Assento Duplo + Alarme 🛵",
     freeShipping: true,
-    description: "ðŸ›µ Moto Scooter ElÃ©trica Urbana K3 HDJ 20Ah com Assento Duplo, Encosto e Cesto Frontal.\n\nPerfeita para o dia a dia brasileiro: levar e buscar as crianÃ§as na escola, fazer compras na feira ou supermercado, ir ao trabalho ou passeios de fim de semana.\n\nESPECIFICAÃ‡Ã•ES COMPLETAS:\nâ€¢ Bateria de Alta Capacidade: 20Ah com autonomia de atÃ© 60 km por carga (recarga em menos de 8 horas)\nâ€¢ Conforto para Dois: Assento principal anatÃ´mico + Assento traseiro para passageiro com encosto de seguranÃ§a\nâ€¢ Cesto frontal de grande capacidade (38 x 26 x 22 cm) + pedais/plataforma alargada para os pÃ©s\nâ€¢ Painel Digital LCD inteligente: VelocÃ­metro digital, nÃ­vel de bateria e odÃ´metro\nâ€¢ SeguranÃ§a total: Acompanha par de chaves fÃ­sicas + controle remoto com alarme antifurto integrado\nâ€¢ IluminaÃ§Ã£o completa: Farol halo redondo de LED, setas dianteiras pisca-pisca e luz de freio traseira\nâ€¢ SuspensÃ£o dianteira hidrÃ¡ulica telescÃ³pica + amortecedores traseiros duplos com mola helicoidal (suave em qualquer pavimento)\nâ€¢ DimensÃµes: 162 cm de comprimento total, 108 cm de altura com encosto, 62 cm de largura."
+    description: "🛵 Moto Scooter Elétrica Urbana K3 HDJ 20Ah com Assento Duplo, Encosto e Cesto Frontal.\n\nPerfeita para o dia a dia brasileiro: levar e buscar as crianças na escola, fazer compras na feira ou supermercado, ir ao trabalho ou passeios de fim de semana.\n\nESPECIFICAÇÕES COMPLETAS:\n• Bateria de Alta Capacidade: 20Ah com autonomia de até 60 km por carga (recarga em menos de 8 horas)\n• Conforto para Dois: Assento principal anatômico + Assento traseiro para passageiro com encosto de segurança\n• Cesto frontal de grande capacidade (38 x 26 x 22 cm) + pedais/plataforma alargada para os pés\n• Painel Digital LCD inteligente: Velocímetro digital, nível de bateria e odômetro\n• Segurança total: Acompanha par de chaves físicas + controle remoto com alarme antifurto integrado\n• Iluminação completa: Farol halo redondo de LED, setas dianteiras pisca-pisca e luz de freio traseira\n• Suspensão dianteira hidráulica telescópica + amortecedores traseiros duplos com mola helicoidal (suave em qualquer pavimento)\n• Dimensões: 162 cm de comprimento total, 108 cm de altura com encosto, 62 cm de largura."
   },
   {
     id: "esteira-eletrica-walkingpad-inclinacao-5-anylife",
-    title: "Esteira ElÃ©trica Compacta Walking Pad com InclinaÃ§Ã£o 5Â° 1-6km/h Silenciosa AtÃ© 150kg Controle Remoto + Display ANYLIFE",
+    title: "Esteira Elétrica Compacta Walking Pad com Inclinação 5° 1-6km/h Silenciosa Até 150kg Controle Remoto + Display ANYLIFE",
     category: "casa",
     categoryName: "Casa & Conforto",
     price: 169.90,
@@ -769,9 +765,9 @@ const PRODUCTS = [
       "Preto com Detalhes Laranja (2 em 1)": "images/loja/esteira-walkingpad-vitrine-110v.jpg"
     },
     voltages: ["110V", "220V"],
-    badge: "InclinaÃ§Ã£o 5Â° 2 em 1 âš¡",
+    badge: "Inclinação 5° 2 em 1 ⚡",
     freeShipping: true,
-    description: "ðŸƒ Esteira ElÃ©trica Compacta Walking Pad com InclinaÃ§Ã£o 5Â° | 1-6km/h | Silenciosa | AtÃ© 150kg | Controle Remoto + Display | Casa/EscritÃ³rio (110/220V).\n\nA esteira mais inovadora da categoria! Tecnologia 2 em 1 que permite treinar em Modo Plano (0Â°) ou Modo Inclinado (5Â°) para queimar atÃ© 50% mais calorias com menor impacto nos joelhos.\n\nFICHA TÃ‰CNICA:\nâ€¢ Motor 2.5 HP Ultra Silencioso: Funcionamento abaixo de 45 dB, perfeito para usar enquanto assiste TV ou trabalha\nâ€¢ Capacidade ReforÃ§ada: Suporta usuÃ¡rios de atÃ© 150 kg (330 lbs)\nâ€¢ Amortecimento Pro: 6 amortecedores internos absorvem o impacto das articulaÃ§Ãµes + cinto antiderrapante de 5 camadas\nâ€¢ Display LED em tempo real: Tempo, velocidade, distÃ¢ncia e calorias gastas\nâ€¢ Controle remoto sem fio multifuncional ergonÃ´mico\nâ€¢ Compacta e portÃ¡til: Cabe perfeitamente embaixo de mesas de trabalho (standing desk) ou sob a cama\nâ€¢ Voltagens disponÃ­veis: 110V e 220V."
+    description: "🏃 Esteira Elétrica Compacta Walking Pad com Inclinação 5° | 1-6km/h | Silenciosa | Até 150kg | Controle Remoto + Display | Casa/Escritório (110/220V).\n\nA esteira mais inovadora da categoria! Tecnologia 2 em 1 que permite treinar em Modo Plano (0°) ou Modo Inclinado (5°) para queimar até 50% mais calorias com menor impacto nos joelhos.\n\nFICHA TÉCNICA:\n• Motor 2.5 HP Ultra Silencioso: Funcionamento abaixo de 45 dB, perfeito para usar enquanto assiste TV ou trabalha\n• Capacidade Reforçada: Suporta usuários de até 150 kg (330 lbs)\n• Amortecimento Pro: 6 amortecedores internos absorvem o impacto das articulações + cinto antiderrapante de 5 camadas\n• Display LED em tempo real: Tempo, velocidade, distância e calorias gastas\n• Controle remoto sem fio multifuncional ergonômico\n• Compacta e portátil: Cabe perfeitamente embaixo de mesas de trabalho (standing desk) ou sob a cama\n• Voltagens disponíveis: 110V e 220V."
   },
   // ==========================================
   // DESTAQUE DA SEMANA / CASA & CONFORTO
