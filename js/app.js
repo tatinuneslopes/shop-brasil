@@ -1,4 +1,4 @@
-﻿// Shopping Brasil - TikTok Shop Core Application
+// Shopping Brasil - TikTok Shop Core Application
 // In-App Webview Simulation, 11.11 Promo, Embedded Roulette & FlevoPay Real Integration
 
 // Immediately wipe any legacy mock data (e.g., Carlos) so everything starts completely blank
@@ -275,8 +275,8 @@ function handleCpfMask(el) {
   }
 }
 
-// Initialize app on DOM ready
-document.addEventListener("DOMContentLoaded", () => {
+// Initialize app on DOM ready (with fallback if already loaded)
+function initializeTikTokShopApp() {
   renderCategoryChips();
   renderProducts();
   loadSavedUser();
@@ -289,7 +289,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Ativa automaticamente 90% OFF sem nenhum popup ou roleta
   sessionStorage.setItem("shopping_brasil_1111_claimed", "true");
-});
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initializeTikTokShopApp);
+} else {
+  initializeTikTokShopApp();
+}
 
 // Check Promo Entrance
 function checkPromoEntrance() {
@@ -937,11 +943,6 @@ function changePdpQuantity(delta) {
   if (currentProduct && delta > 0 && (nextQty * currentPricing.price > 350.00 || nextQty > 3)) {
     showToast("⚠️ Limite promocional por pedido atingido!");
     return;
-  }
-  orderQuantity = nextQty;
-  const qtyEl = document.getElementById("pdpQuantityValue");
-  if (qtyEl) qtyEl.textContent = orderQuantity;
-}
   }
   orderQuantity = nextQty;
   const qtyEl = document.getElementById("pdpQuantityValue");
