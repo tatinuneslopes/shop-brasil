@@ -2384,13 +2384,82 @@ async function processOrderCheckout() {
   }
 }
 
+// Banco Central do Brasil - Algoritmo Oficial de CRC-16 (CCITT-FALSE / 0x1021)
+function calculatePixCRC16(str) {
+  let crc = 0xFFFF;
+  const polynomial = 0x1021;
+  for (let i = 0; i < str.length; i++) {
+    const code = str.charCodeAt(i);
+    for (let j = 0; j < 8; j++) {
+      const bit = ((code >> (7 - j)) & 1) === 1;
+      const c15 = ((crc >> 15) & 1) === 1;
+      crc = (crc << 1) & 0xFFFF;
+      if (c15 ^ bit) crc ^= polynomial;
+    }
+  }
+  return crc.toString(16).toUpperCase().padStart(4, "0");
+}
+
+function formatPixEMVField(id, value) {
+  const len = String(value.length).padStart(2, "0");
+  return `${id}${len}${value}`;
+}
+
+function generateValidPixBRCode(key, name, city, amount, txid) {
+  const cleanKey = String(key || "contato@shoppingbrasil.com").trim();
+  const cleanName = String(name || "Jonas Silva de Andrade").normalize("NFD").replace(/[\u0300-\u036f]/g, "").substring(0, 25).toUpperCase();
+  const cleanCity = String(city || "Campo Grande").normalize("NFD").replace(/[\u0300-\u036f]/g, "").substring(0, 15).toUpperCase();
+  const cleanTxId = String(txid || "***").replace(/[^a-zA-Z0-9]/g, "").substring(0, 25) || "***";
+  const formattedAmount = (typeof amount === "number" && amount > 0) ? amount.toFixed(2) : "";
+
+  // 00 - Payload Format Indicator (01)
+  let payload = "000201";
+
+  // 26 - Merchant Account Information (Pix)
+  const gui = formatPixEMVField("00", "br.gov.bcb.pix");
+  const pixKeyField = formatPixEMVField("01", cleanKey);
+  payload += formatPixEMVField("26", gui + pixKeyField);
+
+  // 52 - Merchant Category Code
+  payload += formatPixEMVField("52", "0000");
+
+  // 53 - Currency Code (986 = Real Brasileiro BRL)
+  payload += formatPixEMVField("53", "986");
+
+  // 54 - Transaction Amount (Valor)
+  if (formattedAmount) {
+    payload += formatPixEMVField("54", formattedAmount);
+  }
+
+  // 58 - Country Code (BR)
+  payload += formatPixEMVField("58", "BR");
+
+  // 59 - Merchant Name (Nome do Beneficiário)
+  payload += formatPixEMVField("59", cleanName);
+
+  // 60 - Merchant City (Cidade)
+  payload += formatPixEMVField("60", cleanCity);
+
+  // 62 - Additional Data Field Template (txid)
+  payload += formatPixEMVField("62", formatPixEMVField("05", cleanTxId));
+
+  // 63 - CRC16 (6304 + 4 caracteres hexadecimais calculados)
+  payload += "6304";
+  const crc = calculatePixCRC16(payload);
+
+  return payload + crc;
+}
+
 // Local Pix Fallback
 function generateLocalPixFallback(finalTotal, orderNum) {
-  const randomHash = Math.random().toString(36).substring(2, 10).toUpperCase();
-  const fakePixCode = `00020101021226820014br.gov.bcb.pix2560pix.stone.com.br/pix/v2/${randomHash}520400005303986540${finalTotal.toFixed(2)}5802BR5925SHOPPING BRASIL ELETRO6009SAO PAULO62070503***6304`;
+  const pixKey = (typeof STORE_CONFIG !== "undefined" && STORE_CONFIG.pixKey) ? STORE_CONFIG.pixKey : "contato@shoppingbrasil.com";
+  const merchantName = (typeof STORE_CONFIG !== "undefined" && STORE_CONFIG.merchantName) ? STORE_CONFIG.merchantName : "JONAS SILVA DE ANDRADE";
+  const cleanOrderNum = String(orderNum || "").replace("#", "").substring(0, 20);
+
+  const validPixCode = generateValidPixBRCode(pixKey, merchantName, "CAMPO GRANDE", finalTotal, cleanOrderNum);
   
-  document.getElementById("pixCodeText").textContent = fakePixCode;
-  document.getElementById("pixQrImg").src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&margin=10&data=${encodeURIComponent(fakePixCode)}`;
+  document.getElementById("pixCodeText").textContent = validPixCode;
+  document.getElementById("pixQrImg").src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&margin=10&data=${encodeURIComponent(validPixCode)}`;
   document.getElementById("orderNumberDisplay").textContent = orderNum;
 }
 
