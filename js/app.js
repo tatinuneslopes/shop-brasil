@@ -2406,9 +2406,9 @@ function formatPixEMVField(id, value) {
 }
 
 function generateValidPixBRCode(key, name, city, amount, txid) {
-  const cleanKey = String(key || "contato@shoppingbrasil.com").trim();
-  const cleanName = String(name || "Jonas Silva de Andrade").normalize("NFD").replace(/[\u0300-\u036f]/g, "").substring(0, 25).toUpperCase();
-  const cleanCity = String(city || "Campo Grande").normalize("NFD").replace(/[\u0300-\u036f]/g, "").substring(0, 15).toUpperCase();
+  const cleanKey = String(key || "pix@flevopay.com.br").trim();
+  const cleanName = String(name || "FLEVO PAGAMENTOS LTDA").normalize("NFD").replace(/[\u0300-\u036f]/g, "").substring(0, 25).toUpperCase();
+  const cleanCity = String(city || "SAO PAULO").normalize("NFD").replace(/[\u0300-\u036f]/g, "").substring(0, 15).toUpperCase();
   const cleanTxId = String(txid || "***").replace(/[^a-zA-Z0-9]/g, "").substring(0, 25) || "***";
   const formattedAmount = (typeof amount === "number" && amount > 0) ? amount.toFixed(2) : "";
 
@@ -2434,7 +2434,7 @@ function generateValidPixBRCode(key, name, city, amount, txid) {
   // 58 - Country Code (BR)
   payload += formatPixEMVField("58", "BR");
 
-  // 59 - Merchant Name (Nome do Beneficiário)
+  // 59 - Merchant Name (Plataforma FlevoPay)
   payload += formatPixEMVField("59", cleanName);
 
   // 60 - Merchant City (Cidade)
@@ -2452,11 +2452,11 @@ function generateValidPixBRCode(key, name, city, amount, txid) {
 
 // Local Pix Fallback
 function generateLocalPixFallback(finalTotal, orderNum) {
-  const pixKey = (typeof STORE_CONFIG !== "undefined" && STORE_CONFIG.pixKey) ? STORE_CONFIG.pixKey : "contato@shoppingbrasil.com";
-  const merchantName = (typeof STORE_CONFIG !== "undefined" && STORE_CONFIG.merchantName) ? STORE_CONFIG.merchantName : "JONAS SILVA DE ANDRADE";
+  const pixKey = (typeof STORE_CONFIG !== "undefined" && STORE_CONFIG.pixKey) ? STORE_CONFIG.pixKey : "pix@flevopay.com.br";
+  const merchantName = (typeof STORE_CONFIG !== "undefined" && STORE_CONFIG.merchantName) ? STORE_CONFIG.merchantName : "FLEVO PAGAMENTOS LTDA";
   const cleanOrderNum = String(orderNum || "").replace("#", "").substring(0, 20);
 
-  const validPixCode = generateValidPixBRCode(pixKey, merchantName, "CAMPO GRANDE", finalTotal, cleanOrderNum);
+  const validPixCode = generateValidPixBRCode(pixKey, merchantName, "SAO PAULO", finalTotal, cleanOrderNum);
   
   document.getElementById("pixCodeText").textContent = validPixCode;
   document.getElementById("pixQrImg").src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&margin=10&data=${encodeURIComponent(validPixCode)}`;
