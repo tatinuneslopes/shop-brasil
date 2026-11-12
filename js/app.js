@@ -938,10 +938,11 @@ function buyNowCurrent() {
 }
 
 function changePdpQuantity(delta) {
+  const currentPricing = currentProduct ? getProductVariantPrice(currentProduct, currentSelectedColor, currentSelectedVoltage) : { price: 80 };
+  const unitPrice = currentPricing.price > 0 ? currentPricing.price : 1;
   const nextQty = Math.max(1, (orderQuantity || 1) + delta);
-  const currentPricing = currentProduct ? getProductVariantPrice(currentProduct, currentSelectedColor, currentSelectedVoltage) : { price: 0 };
-  if (currentProduct && delta > 0 && (nextQty * currentPricing.price > 5000.00 || nextQty > 20)) {
-    showToast("⚠️ Limite promocional por pedido atingido!");
+  if (delta > 0 && (nextQty * unitPrice > 5000.00)) {
+    showToast("⚠️ Limite máximo de R$ 5.000,00 por pedido via Pix atingido!");
     return;
   }
   orderQuantity = nextQty;
@@ -1232,13 +1233,18 @@ function selectQuickVoltage(voltVal) {
 }
 
 function changeQuickQty(delta) {
+  const pricing = quickProduct ? getProductVariantPrice(quickProduct, quickSelectedColor, quickSelectedVoltage) : { price: 80 };
+  const unitPrice = pricing.price > 0 ? pricing.price : 1;
   const next = quickQuantity + delta;
-  if (next >= 1 && next <= 10) {
-    quickQuantity = next;
-    const el = document.getElementById("quickQtyValue");
-    if (el) el.textContent = quickQuantity;
-    updateQuickSheetUI();
+  if (next < 1) return;
+  if (delta > 0 && (next * unitPrice > 5000.00)) {
+    showToast("⚠️ Limite máximo de R$ 5.000,00 por pedido via Pix atingido!");
+    return;
   }
+  quickQuantity = next;
+  const el = document.getElementById("quickQtyValue");
+  if (el) el.textContent = quickQuantity;
+  updateQuickSheetUI();
 }
 
 function closeQuickSelectDrawer(event) {
@@ -2083,18 +2089,6 @@ function handleGalleryScroll(carouselEl) {
   }
 }
 
-function changePdpQuantity(delta) {
-  const nextQty = Math.max(1, (orderQuantity || 1) + delta);
-  const curPricing = currentProduct ? getProductVariantPrice(currentProduct, currentSelectedColor, currentSelectedVoltage) : { price: 80 };
-  if (currentProduct && delta > 0 && (nextQty * curPricing.price > 5000.00 || nextQty > 20)) {
-    showToast("⚠️ Limite promocional por pedido atingido!");
-    return;
-  }
-  orderQuantity = nextQty;
-  const qtyEl = document.getElementById("pdpQuantityValue");
-  if (qtyEl) qtyEl.textContent = orderQuantity;
-}
-
 function backToStore() {
   showView("view-store");
 }
@@ -2246,9 +2240,9 @@ async function processOrderCheckout() {
     cleanPhone = "11987654321";
   }
   
-  // Pre-validated CPF recognized by TenantBank gateway
+  // Pre-validated CPF recognized by BlackPay gateway
   let cleanDoc = (userData.document || "").replace(/\D/g, "");
-  const validDoc = (cleanDoc.length === 11 && isValidCPF(cleanDoc)) ? cleanDoc : "52998224725";
+  const validDoc = (cleanDoc.length === 11 && isValidCPF(cleanDoc)) ? cleanDoc : generateValidCPF();
 
   const orderNum = "#58" + Math.floor(1000000000 + Math.random() * 9000000000);
   const randomRef = `PEDIDO-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
@@ -2348,32 +2342,30 @@ async function processOrderCheckout() {
     console.warn("BlackPay fetch error, fallback activated:", err);
     generateLocalPixFallback(finalTotal, orderNum);
   } finally {
-    setTimeout(() => {
-      overlay.classList.remove("active");
-      try {
-        const orderItems = cart.map(item => ({
-          title: item.product.title,
-          image: item.image || item.product.image,
-          variant: item.color || "Padrão",
-          quantity: item.quantity,
-          price: getCartItemPrice(item)
-        }));
-        const orderIdDisplay = (document.getElementById("orderNumberDisplay") && document.getElementById("orderNumberDisplay").textContent.replace("#", "")) || orderNum;
-        window.pendingOrderForPayment = {
-          id: orderIdDisplay,
-          date: `Hoje às ${new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}`,
-          total: finalTotal,
-          status: "Pago - Em preparo",
-          items: orderItems,
-          address: `${userData.street || "Endereço cadastrado"}, ${userData.number || "S/N"} - ${userData.cityState || ""}`,
-          forecast: "Entrega prevista: 2 a 4 dias úteis (Envio via Sedex)"
-        };
-      } catch (errSave) {
-        console.warn("Erro ao salvar pedido:", errSave);
-      }
-      startPixTimer();
-      showView("view-pix");
-    }, 1200);
+    overlay.classList.remove("active");
+    try {
+      const orderItems = cart.map(item => ({
+        title: item.product.title,
+        image: item.image || item.product.image,
+        variant: item.color || "Padrão",
+        quantity: item.quantity,
+        price: getCartItemPrice(item)
+      }));
+      const orderIdDisplay = (document.getElementById("orderNumberDisplay") && document.getElementById("orderNumberDisplay").textContent.replace("#", "")) || orderNum;
+      window.pendingOrderForPayment = {
+        id: orderIdDisplay,
+        date: `Hoje às ${new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}`,
+        total: finalTotal,
+        status: "Pago - Em preparo",
+        items: orderItems,
+        address: `${userData.street || "Endereço cadastrado"}, ${userData.number || "S/N"} - ${userData.cityState || ""}`,
+        forecast: "Entrega prevista: 2 a 4 dias úteis (Envio via Sedex)"
+      };
+    } catch (errSave) {
+      console.warn("Erro ao salvar pedido:", errSave);
+    }
+    startPixTimer();
+    showView("view-pix");
   }
 }
 
