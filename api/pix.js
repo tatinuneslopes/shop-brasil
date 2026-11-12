@@ -1,11 +1,10 @@
-// Vercel Serverless Function: Secure SigiloPay Pix Creator
-// Keeps Client Secret safe on server-side without exposing it to the browser
+// Vercel Serverless Function: Secure BlackPay Pix Creator
+// Keeps Private API Key safe on server-side without exposing it to the browser
 
-const SIGILOPAY_CONFIG = {
-  apiBase: process.env.SIGILOPAY_API_BASE || "https://app.sigilopay.com.br/api/v1",
-  publicKey: process.env.SIGILOPAY_PUBLIC_KEY || "ajonassilvadeandrade_ooo8le6gm3kqi6j9",
-  secretKey: process.env.SIGILOPAY_SECRET_KEY || "vbb380iopyhccr0t72z8oqfv0yqehg9zrgcw0hqy7aovc8bjcwq7ksznru1mpq2e",
-  endpoint: "/gateway/pix/receive"
+const BLACKPAY_CONFIG = {
+  apiBase: process.env.BLACKPAY_API_BASE || "https://blackpays.site/api/public/v1",
+  apiKey: process.env.BLACKPAY_API_KEY || "bp_live_8f2888b9462bc210a1a39c0cd1c38052bf3219ce7de8a645",
+  endpoint: "/pix"
 };
 
 module.exports = async (req, res) => {
@@ -33,71 +32,76 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: "Valor inválido" });
     }
 
-    const host = req.headers["x-forwarded-host"] || req.headers.host || "shop-brasil.vercel.app";
-    const proto = req.headers["x-forwarded-proto"] || "https";
-    const callbackUrl = `${proto}://${host}/api/webhook`;
+    // BlackPay expects amountCents (minimum 200 = R$ 2,00)
+    const amountCents = Math.max(200, Math.round(amount * 100));
 
-    const identifier = body.identifier || `cashin_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
+    const identifier = body.identifier || `shop_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+
+    const client = body.client || {};
+    const customerName = (client.name && client.name.trim()) || "Cliente Shop Brasil";
+    const customerEmail = (client.email && client.email.trim()) || "cliente@shopbrasil.com";
+    const customerPhone = String(client.phone || "11999999999").replace(/\D/g, "");
+    const customerDocument = String(client.document || "52998224725").replace(/\D/g, "");
 
     const payload = {
-      identifier: identifier,
-      amount: Number(amount.toFixed(2)),
-      callbackUrl: callbackUrl,
-      client: {
-        name: (body.client && body.client.name) || "Cliente Shopping Brasil",
-        email: (body.client && body.client.email) || "cliente@gmail.com",
-        phone: ((body.client && body.client.phone) || "11987654321").replace(/\D/g, ""),
-        document: ((body.client && body.client.document) || "52998224725").replace(/\D/g, "")
+      amountCents: amountCents,
+      description: `Pedido ${identifier} - Shop Brasil`,
+      customerName: customerName,
+      customerEmail: customerEmail,
+      customerPhone: customerPhone,
+      customerDocument: customerDocument,
+      externalRef: String(identifier).substring(0, 100),
+      tracking: body.tracking || {
+        utm_source: "loja",
+        utm_campaign: "blackfriday"
       }
     };
 
-    const targetUrl = `${SIGILOPAY_CONFIG.apiBase.replace(/\/$/, "")}${SIGILOPAY_CONFIG.endpoint}`;
+    const targetUrl = `${BLACKPAY_CONFIG.apiBase.replace(/\/$/, "")}${BLACKPAY_CONFIG.endpoint}`;
 
-    const sigiloRes = await fetch(targetUrl, {
+    const bpRes = await fetch(targetUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "x-public-key": SIGILOPAY_CONFIG.publicKey,
-        "x-secret-key": SIGILOPAY_CONFIG.secretKey
+        "Authorization": `Bearer ${BLACKPAY_CONFIG.apiKey}`
       },
       body: JSON.stringify(payload)
     });
 
-    const data = await sigiloRes.json();
+    const data = await bpRes.json();
 
-    if (!sigiloRes.ok) {
-      console.warn("SigiloPay error response:", data);
-      return res.status(sigiloRes.status).json({
+    if (!bpRes.ok) {
+      console.warn("BlackPay API Error:", data);
+      return res.status(bpRes.status).json({
         success: false,
-        error: data.message || "Erro na SigiloPay",
-        data: data
+        error: data.message || data.error || "Erro na BlackPay",
+        details: data
       });
     }
 
-    let pixPayload = null;
     let qrImageSrc = null;
-
-    const pixNode = data.pix || (data.order && data.order.pix);
-    if (pixNode) {
-      pixPayload = pixNode.code || pixNode.payload || pixNode.emv || pixNode.qrCode || pixNode.qrcode;
-      if (pixNode.base64) {
-        qrImageSrc = pixNode.base64.startsWith("data:") ? pixNode.base64 : `data:image/png;base64,${pixNode.base64}`;
-      } else if (pixNode.image || pixNode.imageUrl || pixNode.qrCodeImageUrl) {
-        qrImageSrc = pixNode.image || pixNode.imageUrl || pixNode.qrCodeImageUrl;
-      }
+    if (data.qrCodeBase64) {
+      qrImageSrc = data.qrCodeBase64.startsWith("data:")
+        ? data.qrCodeBase64
+        : `data:image/png;base64,${data.qrCodeBase64}`;
     }
 
     return res.status(200).json({
       success: true,
-      transactionId: data.transactionId || identifier,
-      identifier: identifier,
-      pixCode: pixPayload,
+      transactionId: data.id || identifier,
+      identifier: data.externalRef || identifier,
+      pixCode: data.pixCopyPaste,
       qrImageSrc: qrImageSrc,
-      amount: payload.amount
+      amount: Number((amountCents / 100).toFixed(2)),
+      expiresAt: data.expiresAt
     });
   } catch (err) {
-    console.error("Erro interno ao processar Pix SigiloPay:", err);
-    return res.status(500).json({ error: "Erro interno do servidor", details: err.message });
+    console.error("Erro interno ao gerar Pix BlackPay:", err);
+    return res.status(500).json({
+      success: false,
+      error: "Erro interno no servidor ao processar pagamento Pix",
+      message: err.message
+    });
   }
 };

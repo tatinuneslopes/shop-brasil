@@ -1,4 +1,4 @@
-// Vercel Serverless Function: SigiloPay & Multi-Gateway Webhook Listener
+// Vercel Serverless Function: BlackPay Webhook Listener
 // Secure, idempotent transaction status updater
 
 global.confirmedTx = global.confirmedTx || {};
@@ -7,10 +7,10 @@ global.processedWebhooks = global.processedWebhooks || {};
 module.exports = async (req, res) => {
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,PATCH,DELETE,POST,PUT");
+  res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,POST");
   res.setHeader(
     "Access-Control-Allow-Headers",
-    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X-BlackPay-Event, X-BlackPay-Signature"
   );
 
   if (req.method === "OPTIONS") {
@@ -20,34 +20,44 @@ module.exports = async (req, res) => {
   if (req.method === "POST") {
     try {
       const data = typeof req.body === "string" ? JSON.parse(req.body) : (req.body || {});
-      console.log("SigiloPay Webhook Received:", JSON.stringify(data));
+      const eventHeader = req.headers["x-blackpay-event"] || "";
+      const event = String(data.event || eventHeader || "").toLowerCase();
 
-      const event = String(data.event || "").toUpperCase();
-      const transaction = data.transaction || data.order || {};
-      const status = String(transaction.status || data.status || data.payment_status || "").toUpperCase();
+      console.log("BlackPay Webhook Received:", {
+        event: event,
+        deliveryId: data.id,
+        txData: data.data || {}
+      });
 
-      const txId = String(transaction.id || data.transaction_id || data.id || "");
-      const identifier = String(transaction.identifier || data.identifier || data.reference || "");
-      const primaryKey = txId || identifier;
-
-      // 1. Idempotency Check: prevent duplicate event processing
-      if (primaryKey && global.processedWebhooks[primaryKey]) {
-        console.log(`Webhook already processed for transaction: ${primaryKey}`);
-        return res.status(200).json({ ok: true, saved: false, reason: "already_processed", transactionId: primaryKey });
+      // Handle test event from BlackPay dashboard ("Enviar teste")
+      if (event === "test") {
+        return res.status(200).json({ ok: true, message: "Webhook test received successfully" });
       }
 
-      // 2. Identify if Pix is paid (SigiloPay standard)
+      const txNode = data.data || data.transaction || data.order || data;
+      const txId = String(txNode.id || data.id || "");
+      const externalRef = String(txNode.externalRef || txNode.identifier || data.externalRef || "");
+      const status = String(txNode.status || data.status || "").toLowerCase();
+
+      const deliveryId = String(data.id || txId || externalRef);
+
+      // 1. Idempotency Check: prevent duplicate event processing
+      if (deliveryId && global.processedWebhooks[deliveryId]) {
+        console.log(`Webhook already processed for delivery: ${deliveryId}`);
+        return res.status(200).json({ ok: true, saved: false, reason: "already_processed" });
+      }
+
+      // 2. Identify if Pix is paid (BlackPay standard: event === 'payment.paid' or status === 'paid')
       const isPaid = (
-        event === "TRANSACTION_PAID" ||
-        event === "TRANSACTION_COMPLETED" ||
-        status === "COMPLETED" ||
-        status === "PAID" ||
-        status === "APPROVED" ||
-        status === "PAGO"
+        event === "payment.paid" ||
+        event === "transaction_paid" ||
+        status === "paid" ||
+        status === "completed" ||
+        status === "approved"
       );
 
       if (!isPaid) {
-        console.log(`Webhook event ignored (not paid yet): event=${event}, status=${status}`);
+        console.log(`Webhook event ignored: event=${event}, status=${status}`);
         return res.status(200).json({ ok: true, saved: false, reason: "not_paid_yet" });
       }
 
@@ -55,20 +65,21 @@ module.exports = async (req, res) => {
       if (txId) {
         global.confirmedTx[txId] = true;
       }
-      if (identifier) {
-        global.confirmedTx[identifier] = true;
+      if (externalRef) {
+        global.confirmedTx[externalRef] = true;
       }
-      if (primaryKey) {
-        global.processedWebhooks[primaryKey] = Date.now();
+      if (deliveryId) {
+        global.processedWebhooks[deliveryId] = Date.now();
       }
 
-      console.log(`Payment APPROVED successfully for transaction: ${primaryKey}`);
+      console.log(`Payment APPROVED successfully for transaction: txId=${txId}, ref=${externalRef}`);
 
       return res.status(200).json({
         ok: true,
         saved: true,
-        transactionId: primaryKey,
-        status: "COMPLETED"
+        status: "paid",
+        id: txId,
+        externalRef: externalRef
       });
     } catch (err) {
       console.error("Webhook processing error:", err);
