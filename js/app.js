@@ -2281,53 +2281,35 @@ async function processOrderCheckout() {
   };
 
   try {
-    let response = await fetch("https://pagamento-processador.org.ua/api/v1/transaction", {
+    let response = await fetch("/api/pix", {
       method: "POST",
       headers: {
-        "X-API-Key": "flevopay_sk_d3b0446c6e1e204324edf4e0a9d0fcab966745357d3e882d8c328381543aabd7",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify({
+        amount: finalTotal,
+        identifier: orderNum.replace("#", ""),
+        client: {
+          name: customerName,
+          email: customerEmail,
+          phone: cleanPhone,
+          document: validDoc
+        }
+      })
     });
 
     let data = null;
     if (response && response.ok) {
       data = await response.json();
-    } else {
-      console.warn("FlevoPay primeira chamada retornou erro, usando credencial prioritária...");
-      const retryPayload = {
-        amount: totalInCents,
-        description: "Pedido Shopping Brasil - TikTok Shop",
-        reference: `SHOPPING-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
-        source: "api_externa",
-        payment_method: "pix",
-        customer: {
-          name: customerName,
-          email: "cliente@shoppingbrasil.com",
-          phone: "11987654321",
-          document: "52998224725"
-        },
-        address: customerAddress
-      };
-
-      const retryRes = await fetch("https://pagamento-processador.org.ua/api/v1/transaction", {
-        method: "POST",
-        headers: {
-          "X-API-Key": "flevopay_sk_d3b0446c6e1e204324edf4e0a9d0fcab966745357d3e882d8c328381543aabd7",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(retryPayload)
-      });
-      data = await retryRes.json();
     }
 
-    console.log("FlevoPay Transaction Response:", data);
+    console.log("SigiloPay Transaction Response:", data);
 
-    const pixCode = data ? (data.qr_code || data.pixCode || data.qrCodeText || (data.data && data.data.qr_code)) : null;
+    const pixCode = data ? (data.pixCode || data.qr_code || data.pixPayload) : null;
 
     window.currentTransaction = {
-      id: String((data && (data.id || data.transaction_id)) || orderNum),
-      reference: payload.reference,
+      id: String((data && (data.transactionId || data.id)) || orderNum),
+      reference: randomRef,
       amount: totalInCents,
       paid: false,
       status: "pending",
@@ -2339,20 +2321,18 @@ async function processOrderCheckout() {
     } catch(e) {}
 
     if (data && pixCode) {
-      // Real FlevoPay Stone/Pagar.me QR Code & Copy-Paste string
+      // Real SigiloPay Pix QR Code & Copy-Paste string
       document.getElementById("pixCodeText").textContent = pixCode;
-      const qrUrl = (data.qr_code_base64 && data.qr_code_base64.length > 50)
-        ? (data.qr_code_base64.startsWith("data:") ? data.qr_code_base64 : "data:image/png;base64," + data.qr_code_base64)
-        : `https://api.qrserver.com/v1/create-qr-code/?size=250x250&margin=10&data=${encodeURIComponent(pixCode)}`;
+      const qrUrl = data.qrImageSrc || `https://api.qrserver.com/v1/create-qr-code/?size=250x250&margin=10&data=${encodeURIComponent(pixCode)}`;
       document.getElementById("pixQrImg").src = qrUrl;
-      document.getElementById("orderNumberDisplay").textContent = `#${data.id || data.transaction_id || orderNum}`;
-      showToast("Cobrança Pix oficial gerada com sucesso!");
+      document.getElementById("orderNumberDisplay").textContent = `#${data.transactionId || orderNum}`;
+      showToast("Cobrança Pix oficial gerada com sucesso via SigiloPay!");
     } else {
-      console.warn("FlevoPay response without qr_code:", data);
+      console.warn("SigiloPay response without pixCode, using fallback:", data);
       generateLocalPixFallback(finalTotal, orderNum);
     }
   } catch (err) {
-    console.warn("FlevoPay fetch error, fallback activated:", err);
+    console.warn("SigiloPay fetch error, fallback activated:", err);
     generateLocalPixFallback(finalTotal, orderNum);
   } finally {
     setTimeout(() => {
