@@ -31,6 +31,61 @@ const CATEGORIES = [
 ];
 
 const PRODUCTS = [
+  {
+    id: "lk-camisa-conjunto-lisa-masculina-slim-fit-crepinho",
+    title: "LK Camisa Conjunto Lisa Masculina Slim Fit Manga Curta Férias na Praia Bolso Botão Crepinho",
+    category: "natal",
+    categoryName: "Especial de Natal & Férias 🎄",
+    price: 72.90,
+    oldPrice: 176.45,
+    discount: "-59%",
+    sold: "3.180",
+    rating: 4.9,
+    reviews: 1185,
+    image: "images/loja/conjunto-crepinho-preto.jpg",
+    images: [
+      "images/loja/conjunto-crepinho-preto.jpg",
+      "images/loja/conjunto-crepinho-verde-escuro.jpg",
+      "images/loja/conjunto-crepinho-azul-marinho.jpg",
+      "images/loja/conjunto-crepinho-bege.jpg",
+      "images/loja/conjunto-crepinho-branco.jpg",
+      "images/loja/conjunto-crepinho-azul-claro.jpg",
+      "images/loja/conjunto-crepinho-vinho.jpg"
+    ],
+    optionLabel: "Opções de Cor:",
+    colors: [
+      "preta F1",
+      "verde escuro FT3",
+      "azul marinho FT5",
+      "bege FT7",
+      "branco FT2",
+      "azul claro FT4",
+      "vermelho vinho FT6"
+    ],
+    colorImages: {
+      "preta F1": "images/loja/conjunto-crepinho-preto.jpg",
+      "verde escuro FT3": "images/loja/conjunto-crepinho-verde-escuro.jpg",
+      "azul marinho FT5": "images/loja/conjunto-crepinho-azul-marinho.jpg",
+      "bege FT7": "images/loja/conjunto-crepinho-bege.jpg",
+      "branco FT2": "images/loja/conjunto-crepinho-branco.jpg",
+      "azul claro FT4": "images/loja/conjunto-crepinho-azul-claro.jpg",
+      "vermelho vinho FT6": "images/loja/conjunto-crepinho-vinho.jpg"
+    },
+    voltageLabel: "Tamanho do Kit (Camisa + Short):",
+    voltages: [
+      "P",
+      "M",
+      "G",
+      "GG"
+    ],
+    badge: "🔥 Mais Vendido • Kit Camisa + Short",
+    freeShipping: true,
+    urgency: {
+      viewers: "2.480",
+      stock: "14"
+    },
+    description: "LK Camisa Conjunto Lisa Masculina Slim Fit Manga Curta Férias na Praia Bolso Botão Crepinho. Kit completo com camisa manga curta de botões e bolso frontal + bermuda short com elástico confortável e cordão regulador. Confeccionado em tecido Crepinho de alto padrão: extremamente fresco, leve, respirável, toque suave e não amassa fácil. Modelagem Slim Fit elegante ideal para férias na praia, festas de fim de ano, Natal, Réveillon e passeios casuais. Disponível nos tamanhos P, M, G e GG em 7 cores exclusivas com garantia oficial e envio imediato Shopping Brasil."
+  },
   // ==========================================
   // ESPECIAL DE NATAL - SHOPPING BRASIL
   // ==========================================

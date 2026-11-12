@@ -856,8 +856,8 @@ function addToCart(productId, selectedColor = null, event = null, qty = 1) {
   const pricing = getProductVariantPrice(prod, chosenColor, chosenVolt);
 
   const currentCartTotal = cart.reduce((sum, it) => sum + (getCartItemPrice(it) * it.quantity), 0);
-  if (currentCartTotal + (pricing.price * qty) > 350.00) {
-    showToast("⚠️ Limite promocional: Máximo de R$ 350,00 por pedido! Finalize este e faça outro em seguida.");
+  if (currentCartTotal + (pricing.price * qty) > 5000.00) {
+    showToast("⚠️ Limite promocional: Máximo de R$ 5.000,00 por pedido! Finalize este e faça outro em seguida.");
     openCartModal();
     return;
   }
@@ -940,7 +940,7 @@ function buyNowCurrent() {
 function changePdpQuantity(delta) {
   const nextQty = Math.max(1, (orderQuantity || 1) + delta);
   const currentPricing = currentProduct ? getProductVariantPrice(currentProduct, currentSelectedColor, currentSelectedVoltage) : { price: 0 };
-  if (currentProduct && delta > 0 && (nextQty * currentPricing.price > 350.00 || nextQty > 3)) {
+  if (currentProduct && delta > 0 && (nextQty * currentPricing.price > 5000.00 || nextQty > 20)) {
     showToast("⚠️ Limite promocional por pedido atingido!");
     return;
   }
@@ -975,7 +975,7 @@ function getProductUrgency(prod) {
   const posHash = Math.abs(hash);
 
   const viewerTiers = [
-    30, 42, 58, 86, 120, 240, 480, 890, 1250, 1840, 2190, 2850, 3120, 38, 64, 95, 340, 680, 1420, 2600
+    2140, 2280, 2350, 2490, 2580, 2640, 2720, 2850, 2910, 3120, 3250, 2190, 2340, 2480, 2650, 2780, 2890, 2980, 3150, 2600
   ];
   const stockTiers = [
     7, 12, 18, 22, 28, 35, 44, 56, 80, 100, 140, 220, 310, 400, 16, 24, 38, 92, 180, 350
@@ -1164,7 +1164,13 @@ function updateQuickSheetUI() {
   const voltSection = document.getElementById("quickSheetVoltageSection");
   const voltChips = document.getElementById("quickSheetVoltageChips");
   if (prod.voltages && prod.voltages.length > 0) {
-    if (voltSection) voltSection.style.display = "block";
+    if (voltSection) {
+      voltSection.style.display = "block";
+      const voltTitle = voltSection.querySelector(".quick-sheet-section-title");
+      if (voltTitle) {
+        voltTitle.textContent = prod.voltageLabel ? prod.voltageLabel.replace(":", "") : "Voltagem";
+      }
+    }
     if (voltChips) {
       voltChips.innerHTML = prod.voltages.map(v => {
         const isActive = (quickSelectedVoltage === v);
@@ -1265,8 +1271,8 @@ function confirmQuickAddToCart() {
   const pricing = getProductVariantPrice(prod, chosenColor, quickSelectedVoltage);
 
   const currentCartTotal = cart.reduce((sum, it) => sum + (getCartItemPrice(it) * it.quantity), 0);
-  if (currentCartTotal + (pricing.price * quickQuantity) > 350.00) {
-    showToast("⚠️ Limite promocional: Máximo de R$ 350,00 por pedido! Finalize este e faça outro em seguida.");
+  if (currentCartTotal + (pricing.price * quickQuantity) > 5000.00) {
+    showToast("⚠️ Limite promocional: Máximo de R$ 5.000,00 por pedido! Finalize este e faça outro em seguida.");
     closeQuickSelectDrawer();
     openCartModal();
     return;
@@ -1505,8 +1511,8 @@ function changeCartItemQty(index, delta) {
   if (cart[index]) {
     if (delta > 0) {
       const curTotal = cart.reduce((sum, it) => sum + (getCartItemPrice(it) * it.quantity), 0);
-      if (curTotal + getCartItemPrice(cart[index]) > 350.00) {
-        showToast("⚠️ Limite promocional de R$ 350,00 por pedido atingido!");
+      if (curTotal + getCartItemPrice(cart[index]) > 5000.00) {
+        showToast("⚠️ Limite promocional de R$ 5.000,00 por pedido atingido!");
         return;
       }
     }
@@ -1888,10 +1894,17 @@ function openProductDetail(productId) {
     colorSection.style.display = "none";
   }
 
-  // Render Voltage Options
+  // Render Voltage / Size Options
   const voltageSection = document.getElementById("pdpVoltageSection");
   const voltageChipsContainer = document.getElementById("pdpVoltageChipsList");
   const selectedVoltageText = document.getElementById("pdpSelectedVoltageName");
+
+  if (voltageSection) {
+    const voltHeader = voltageSection.querySelector(".variant-header-row span:first-child");
+    if (voltHeader) {
+      voltHeader.textContent = prod.voltageLabel || "Opções de Voltagem:";
+    }
+  }
 
   if (prod.voltages && prod.voltages.length > 0) {
     currentSelectedVoltage = prod.voltages[0];
@@ -2073,7 +2086,7 @@ function handleGalleryScroll(carouselEl) {
 function changePdpQuantity(delta) {
   const nextQty = Math.max(1, (orderQuantity || 1) + delta);
   const curPricing = currentProduct ? getProductVariantPrice(currentProduct, currentSelectedColor, currentSelectedVoltage) : { price: 80 };
-  if (currentProduct && delta > 0 && (nextQty * curPricing.price > 350.00 || nextQty > 3)) {
+  if (currentProduct && delta > 0 && (nextQty * curPricing.price > 5000.00 || nextQty > 20)) {
     showToast("⚠️ Limite promocional por pedido atingido!");
     return;
   }
@@ -2154,8 +2167,8 @@ function updateCheckoutQty(index, delta) {
     if (delta > 0) {
       const curTotal = cart.reduce((sum, it) => sum + (getCartItemPrice(it) * it.quantity), 0);
       const itemPrice = getCartItemPrice(cart[index]);
-      if (curTotal + itemPrice > 350.00) {
-        showToast("⚠️ Limite promocional de R$ 350,00 por pedido atingido!");
+      if (curTotal + itemPrice > 5000.00) {
+        showToast("⚠️ Limite promocional de R$ 5.000,00 por pedido atingido!");
         return;
       }
     }
@@ -2219,9 +2232,9 @@ async function processOrderCheckout() {
     window.MetaPixel.trackInitiateCheckout(cart, finalTotal);
   }
 
-  if (finalTotal > 350.00) {
+  if (finalTotal > 5000.00) {
     overlay.classList.remove("active");
-    showToast("⚠️ O pedido não pode ultrapassar R$ 350,00! Por favor, reduza a quantidade para continuar.");
+    showToast("⚠️ O pedido não pode ultrapassar R$ 5.000,00! Por favor, reduza a quantidade para continuar.");
     return;
   }
 
@@ -2781,6 +2794,13 @@ const BRAZILIAN_REVIEWERS = [
 ];
 
 const PRODUCT_CUSTOM_REVIEWS = {
+  "lk-camisa-conjunto-lisa-masculina-slim-fit-crepinho": [
+    "demorou um pouco pra chegar mas deu certo! O tecido Crepinho é maravilhoso, super fresco e leve para usar na praia ou nas festas de fim de ano. O tamanho G vestiu perfeitamente no corpo!",
+    "Chegou super rápido em 3 dias aqui em São Paulo! Comprei o kit preta F1 e o branco FT2, caimento slim fit top demais, não esquenta nada e os botões são muito bem costurados.",
+    "Amei demais! Veste super bem, pedi tamanho M e ficou na medida certa. O bolso na frente é bem estiloso e o short com cordão é muito confortável.",
+    "Comprei o verde escuro FT3 e o vinho FT6 para o Natal e Réveillon! A qualidade do acabamento me surpreendeu, por R$ 72,90 o conjunto completo camisa + short foi o achado do ano.",
+    "Entrega nota 10 pela Shopping Brasil! Paguei no Pix e aprovou na hora. O tecido não amassa fácil e tem um caimento elegante. Recomendo de olhos fechados!"
+  ],
   "relogio-poedagar-910": [
     "demorou um pouco pra chegar mas deu certo! O relógio POEDAGAR é espetacular, o acabamento do aço inox e o dourado com azul chamam atenção de todo mundo. Chegou no estojo com certificado e flanela!",
     "Chegou super rápido em 3 dias aqui! Muito pesado na mão, dá pra ver que o material é de altíssima qualidade. Os ponteiros brilham no escuro de verdade.",
