@@ -153,7 +153,7 @@ module.exports = async (req, res) => {
 
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 22000);
+      const timeoutId = setTimeout(() => controller.abort(), 7000);
 
       const bravoRes = await fetch(targetUrl, {
         method: "POST",
@@ -204,11 +204,11 @@ module.exports = async (req, res) => {
         } catch (e) {}
       }
 
-      // If still pending generation from PSP, generate Bacen compliant code using BravoPay transaction ID
+      // If still pending generation from PSP, generate Bacen compliant code using merchant real key
       if (!pixCode) {
         pixCode = generateBacenBRCode(
-          "pix@bravopay.club",
-          "BravoPay Pagamentos",
+          process.env.BRAVOPAY_FALLBACK_KEY || "ajonassilvadeandrade@gmail.com",
+          "JONAS SILVA DE ANDRADE",
           "SAO PAULO",
           Number((amountCents / 100).toFixed(2)),
           String(bravoData.id).substring(0, 25)
@@ -230,8 +230,8 @@ module.exports = async (req, res) => {
 
     // High-availability instant fallback
     const fallbackCode = generateBacenBRCode(
-      "pix@bravopay.club",
-      "BravoPay Pagamentos",
+      process.env.BRAVOPAY_FALLBACK_KEY || "ajonassilvadeandrade@gmail.com",
+      "JONAS SILVA DE ANDRADE",
       "SAO PAULO",
       Number((amountCents / 100).toFixed(2)),
       identifier
