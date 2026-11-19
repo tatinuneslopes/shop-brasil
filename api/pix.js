@@ -95,7 +95,16 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const body = typeof req.body === "string" ? JSON.parse(req.body) : (req.body || {});
+    let body = {};
+    if (typeof req.body === "string") {
+      try {
+        body = JSON.parse(req.body);
+      } catch (e) {
+        body = {};
+      }
+    } else {
+      body = req.body || {};
+    }
     const amount = parseFloat(body.amount);
 
     if (isNaN(amount) || amount <= 0) {
