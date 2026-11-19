@@ -2240,7 +2240,7 @@ async function processOrderCheckout() {
     cleanPhone = "11987654321";
   }
   
-  // Pre-validated CPF recognized by BlackPay gateway
+  // Pre-validated CPF recognized by FlevoPay gateway
   let cleanDoc = (userData.document || "").replace(/\D/g, "");
   const validDoc = (cleanDoc.length === 11 && isValidCPF(cleanDoc)) ? cleanDoc : generateValidCPF();
 
