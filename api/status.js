@@ -1,8 +1,7 @@
 // Vercel Serverless Function: Check status of a transaction via BravoPay & Webhook cache
 const BRAVOPAY_CONFIG = {
-  apiBase: process.env.BRAVOPAY_API_BASE || "",
-  apiKey: process.env.BRAVOPAY_API_KEY || "",
-  storeId: process.env.BRAVOPAY_STORE_ID || ""
+  apiBase: process.env.BRAVOPAY_API_BASE || "https://bravopay.club/api/v1",
+  apiKey: process.env.BRAVOPAY_API_KEY || "bp_live_8mCi6pbppR6bMMARRk_bzgbJmHQxXFS2PMpvZQ"
 };
 
 module.exports = async (req, res) => {
@@ -29,26 +28,50 @@ module.exports = async (req, res) => {
     isPaid = true;
   }
 
-  // Direct status verification with BravoPay if credentials exist
-  if (!isPaid && (id || ref) && BRAVOPAY_CONFIG.apiBase && BRAVOPAY_CONFIG.apiKey) {
+  // Direct status verification with BravoPay API
+  if (!isPaid && (id || ref) && BRAVOPAY_CONFIG.apiKey) {
     try {
-      const searchKey = id || ref;
-      const bravoRes = await fetch(`${BRAVOPAY_CONFIG.apiBase}/query?action=get_transaction&id=${encodeURIComponent(searchKey)}`, {
-        headers: {
-          "X-API-Key": BRAVOPAY_CONFIG.apiKey,
-          "Authorization": `Bearer ${BRAVOPAY_CONFIG.apiKey}`,
-          "Accept": "application/json"
-        }
-      });
+      // 1. Check by BravoPay transaction ID
+      if (id && !id.startsWith("BRAVO_") && !id.startsWith("SHOPPING-")) {
+        const bravoRes = await fetch(`${BRAVOPAY_CONFIG.apiBase}/transactions/${encodeURIComponent(id)}`, {
+          headers: {
+            "Authorization": `Bearer ${BRAVOPAY_CONFIG.apiKey}`,
+            "Accept": "application/json"
+          }
+        });
 
-      if (bravoRes.ok) {
-        const bravoData = await bravoRes.json();
-        const st = String((bravoData && bravoData.status) || "").toLowerCase();
-        if (st === "approved" || st === "paid" || st === "completed") {
-          isPaid = true;
-          if (id) global.confirmedTx[String(id)] = true;
-          if (ref) global.confirmedTx[String(ref)] = true;
-          if (bravoData.external_id) global.confirmedTx[String(bravoData.external_id)] = true;
+        if (bravoRes.ok) {
+          const tx = await bravoRes.json();
+          const st = String((tx && tx.status) || "").toUpperCase();
+          if (st === "PAID" || st === "APPROVED" || st === "COMPLETED") {
+            isPaid = true;
+            global.confirmedTx[String(id)] = true;
+            if (ref) global.confirmedTx[String(ref)] = true;
+            if (tx.external_reference) global.confirmedTx[String(tx.external_reference)] = true;
+          }
+        }
+      }
+
+      // 2. Check by external_reference
+      if (!isPaid && ref) {
+        const listRes = await fetch(`${BRAVOPAY_CONFIG.apiBase}/transactions?external_reference=${encodeURIComponent(ref)}`, {
+          headers: {
+            "Authorization": `Bearer ${BRAVOPAY_CONFIG.apiKey}`,
+            "Accept": "application/json"
+          }
+        });
+
+        if (listRes.ok) {
+          const listData = await listRes.json();
+          if (listData && Array.isArray(listData.data) && listData.data.length > 0) {
+            const tx = listData.data[0];
+            const st = String((tx && tx.status) || "").toUpperCase();
+            if (st === "PAID" || st === "APPROVED" || st === "COMPLETED") {
+              isPaid = true;
+              if (id) global.confirmedTx[String(id)] = true;
+              global.confirmedTx[String(ref)] = true;
+            }
+          }
         }
       }
     } catch (e) {

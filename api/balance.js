@@ -1,8 +1,7 @@
 // Vercel Serverless Function: Check real balance & transactions from BravoPay
 const BRAVOPAY_CONFIG = {
-  apiBase: process.env.BRAVOPAY_API_BASE || "",
-  apiKey: process.env.BRAVOPAY_API_KEY || "",
-  storeId: process.env.BRAVOPAY_STORE_ID || ""
+  apiBase: process.env.BRAVOPAY_API_BASE || "https://bravopay.club/api/v1",
+  apiKey: process.env.BRAVOPAY_API_KEY || "bp_live_8mCi6pbppR6bMMARRk_bzgbJmHQxXFS2PMpvZQ"
 };
 
 module.exports = async (req, res) => {
@@ -18,31 +17,12 @@ module.exports = async (req, res) => {
     return res.status(200).end();
   }
 
-  if (!BRAVOPAY_CONFIG.apiBase || !BRAVOPAY_CONFIG.apiKey) {
-    return res.status(200).json({
-      success: true,
-      data: {
-        store_name: "Shopping Brasil",
-        currency: "BRL",
-        balance: {
-          available: 0,
-          available_formatted: "R$ 0,00",
-          retained: 0,
-          retained_formatted: "R$ 0,00",
-          total: 0,
-          total_formatted: "R$ 0,00"
-        }
-      }
-    });
-  }
-
   try {
     const bravoRes = await fetch(`${BRAVOPAY_CONFIG.apiBase}/balance`, {
       method: "GET",
       headers: {
-        "X-API-Key": BRAVOPAY_CONFIG.apiKey,
         "Authorization": `Bearer ${BRAVOPAY_CONFIG.apiKey}`,
-        "Content-Type": "application/json"
+        "Accept": "application/json"
       }
     });
 
@@ -50,7 +30,7 @@ module.exports = async (req, res) => {
       const data = await bravoRes.json();
       return res.status(200).json(data);
     } else {
-      return res.status(bravoRes.status).json({ error: "BravoPay error" });
+      return res.status(bravoRes.status).json({ error: "BravoPay balance error" });
     }
   } catch (err) {
     return res.status(500).json({ error: err.message });
