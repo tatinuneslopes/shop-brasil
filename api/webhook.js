@@ -1,5 +1,5 @@
-// Vercel Serverless Function: BlackPay Webhook Listener
-// Secure, idempotent transaction status updater
+// Vercel Serverless Function: FlevoPay Webhook Listener
+// Secure, idempotent transaction status updater for real-time payment approval
 
 global.confirmedTx = global.confirmedTx || {};
 global.processedWebhooks = global.processedWebhooks || {};
@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
   res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,POST");
   res.setHeader(
     "Access-Control-Allow-Headers",
-    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X-BlackPay-Event, X-BlackPay-Signature"
+    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X-API-Key"
   );
 
   if (req.method === "OPTIONS") {
@@ -20,26 +20,24 @@ module.exports = async (req, res) => {
   if (req.method === "POST") {
     try {
       const data = typeof req.body === "string" ? JSON.parse(req.body) : (req.body || {});
-      const eventHeader = req.headers["x-blackpay-event"] || "";
-      const event = String(data.event || eventHeader || "").toLowerCase();
 
-      console.log("BlackPay Webhook Received:", {
-        event: event,
-        deliveryId: data.id,
-        txData: data.data || {}
+      console.log("FlevoPay Webhook Received:", {
+        id: data.id || data.transaction_id,
+        external_id: data.external_id || data.store_reference || data.reference,
+        status: data.status || data.raw_status,
+        amount: data.amount
       });
 
-      // Handle test event from BlackPay dashboard ("Enviar teste")
-      if (event === "test") {
+      // Handle test ping from dashboard
+      if (data.event === "test" || data.status === "test") {
         return res.status(200).json({ ok: true, message: "Webhook test received successfully" });
       }
 
-      const txNode = data.data || data.transaction || data.order || data;
-      const txId = String(txNode.id || data.id || "");
-      const externalRef = String(txNode.externalRef || txNode.identifier || data.externalRef || "");
-      const status = String(txNode.status || data.status || "").toLowerCase();
+      const txId = String(data.transaction_id || data.id || "");
+      const externalRef = String(data.external_id || data.store_reference || data.reference || "");
+      const status = String(data.status || data.raw_status || "").toLowerCase();
 
-      const deliveryId = String(data.id || txId || externalRef);
+      const deliveryId = String(data.e2e_id || data.id || txId || externalRef || Date.now());
 
       // 1. Idempotency Check: prevent duplicate event processing
       if (deliveryId && global.processedWebhooks[deliveryId]) {
@@ -47,18 +45,17 @@ module.exports = async (req, res) => {
         return res.status(200).json({ ok: true, saved: false, reason: "already_processed" });
       }
 
-      // 2. Identify if Pix is paid (BlackPay standard: event === 'payment.paid' or status === 'paid')
+      // 2. Identify if Pix is paid (FlevoPay standard: status === 'approved' or 'paid' or 'completed')
       const isPaid = (
-        event === "payment.paid" ||
-        event === "transaction_paid" ||
+        status === "approved" ||
         status === "paid" ||
         status === "completed" ||
-        status === "approved"
+        data.paid === true
       );
 
       if (!isPaid) {
-        console.log(`Webhook event ignored: event=${event}, status=${status}`);
-        return res.status(200).json({ ok: true, saved: false, reason: "not_paid_yet" });
+        console.log(`Webhook event ignored: status=${status}`);
+        return res.status(200).json({ ok: true, saved: false, reason: "not_paid_yet", status: status });
       }
 
       // 3. Mark transaction as Confirmed & Approved
@@ -72,12 +69,12 @@ module.exports = async (req, res) => {
         global.processedWebhooks[deliveryId] = Date.now();
       }
 
-      console.log(`Payment APPROVED successfully for transaction: txId=${txId}, ref=${externalRef}`);
+      console.log(`FlevoPay payment APPROVED successfully: txId=${txId}, ref=${externalRef}`);
 
       return res.status(200).json({
         ok: true,
         saved: true,
-        status: "paid",
+        status: "approved",
         id: txId,
         externalRef: externalRef
       });

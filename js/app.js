@@ -2301,7 +2301,8 @@ async function processOrderCheckout() {
           email: customerEmail,
           phone: cleanPhone,
           document: validDoc
-        }
+        },
+        address: customerAddress
       })
     });
 
@@ -2310,7 +2311,7 @@ async function processOrderCheckout() {
       data = await response.json();
     }
 
-    console.log("BlackPay Transaction Response:", data);
+    console.log("FlevoPay Transaction Response:", data);
 
     const pixCode = data ? (data.pixCode || data.qr_code || data.pixPayload) : null;
 
@@ -2328,18 +2329,18 @@ async function processOrderCheckout() {
     } catch(e) {}
 
     if (data && pixCode) {
-      // Real BlackPay Pix QR Code & Copy-Paste string
+      // Real FlevoPay Pix QR Code & Copy-Paste string
       document.getElementById("pixCodeText").textContent = pixCode;
       const qrUrl = data.qrImageSrc || `https://api.qrserver.com/v1/create-qr-code/?size=250x250&margin=10&data=${encodeURIComponent(pixCode)}`;
       document.getElementById("pixQrImg").src = qrUrl;
       document.getElementById("orderNumberDisplay").textContent = `#${data.transactionId || orderNum}`;
-      showToast("Cobrança Pix oficial gerada com sucesso via BlackPay!");
+      showToast("Cobrança Pix oficial gerada com sucesso via FlevoPay!");
     } else {
-      console.warn("BlackPay response without pixCode, using fallback:", data);
+      console.warn("FlevoPay response without pixCode, using fallback:", data);
       generateLocalPixFallback(finalTotal, orderNum);
     }
   } catch (err) {
-    console.warn("BlackPay fetch error, fallback activated:", err);
+    console.warn("FlevoPay fetch error, fallback activated:", err);
     generateLocalPixFallback(finalTotal, orderNum);
   } finally {
     overlay.classList.remove("active");
