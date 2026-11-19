@@ -1,4 +1,4 @@
-// Vercel Serverless Function: FlevoPay Webhook Listener
+// Vercel Serverless Function: BravoPay Webhook Listener
 // Secure, idempotent transaction status updater for real-time payment approval
 
 global.confirmedTx = global.confirmedTx || {};
@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
   res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,POST");
   res.setHeader(
     "Access-Control-Allow-Headers",
-    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X-API-Key"
+    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X-API-Key, Authorization"
   );
 
   if (req.method === "OPTIONS") {
@@ -21,21 +21,21 @@ module.exports = async (req, res) => {
     try {
       const data = typeof req.body === "string" ? JSON.parse(req.body) : (req.body || {});
 
-      console.log("FlevoPay Webhook Received:", {
+      console.log("BravoPay Webhook Received:", {
         id: data.id || data.transaction_id,
         external_id: data.external_id || data.store_reference || data.reference,
-        status: data.status || data.raw_status,
+        status: data.status || data.raw_status || data.event,
         amount: data.amount
       });
 
       // Handle test ping from dashboard
-      if (data.event === "test" || data.status === "test") {
+      if (data.event === "test" || data.status === "test" || data.action === "test") {
         return res.status(200).json({ ok: true, message: "Webhook test received successfully" });
       }
 
-      const txId = String(data.transaction_id || data.id || "");
-      const externalRef = String(data.external_id || data.store_reference || data.reference || "");
-      const status = String(data.status || data.raw_status || "").toLowerCase();
+      const txId = String(data.transaction_id || data.id || (data.data && data.data.id) || "");
+      const externalRef = String(data.external_id || data.store_reference || data.reference || (data.data && data.data.reference) || "");
+      const status = String(data.status || data.raw_status || data.event || (data.data && data.data.status) || "").toLowerCase();
 
       const deliveryId = String(data.e2e_id || data.id || txId || externalRef || Date.now());
 
@@ -45,12 +45,15 @@ module.exports = async (req, res) => {
         return res.status(200).json({ ok: true, saved: false, reason: "already_processed" });
       }
 
-      // 2. Identify if Pix is paid (FlevoPay standard: status === 'approved' or 'paid' or 'completed')
+      // 2. Identify if Pix is paid (approved, paid, completed, payment.paid, etc.)
       const isPaid = (
         status === "approved" ||
         status === "paid" ||
         status === "completed" ||
-        data.paid === true
+        status === "payment.paid" ||
+        status === "transaction_paid" ||
+        data.paid === true ||
+        (data.data && data.data.paid === true)
       );
 
       if (!isPaid) {
@@ -69,7 +72,7 @@ module.exports = async (req, res) => {
         global.processedWebhooks[deliveryId] = Date.now();
       }
 
-      console.log(`FlevoPay payment APPROVED successfully: txId=${txId}, ref=${externalRef}`);
+      console.log(`BravoPay payment APPROVED successfully: txId=${txId}, ref=${externalRef}`);
 
       return res.status(200).json({
         ok: true,

