@@ -856,8 +856,8 @@ function addToCart(productId, selectedColor = null, event = null, qty = 1) {
   const pricing = getProductVariantPrice(prod, chosenColor, chosenVolt);
 
   const currentCartTotal = cart.reduce((sum, it) => sum + (getCartItemPrice(it) * it.quantity), 0);
-  if (currentCartTotal + (pricing.price * qty) > 5000.00) {
-    showToast("⚠️ Limite promocional: Máximo de R$ 5.000,00 por pedido! Finalize este e faça outro em seguida.");
+  if (currentCartTotal + (pricing.price * qty) > 219.90) {
+    showToast("⚠️ Limite por pedido: O valor máximo para pagamento via Pix é de R$ 218,00 por compra! Finalize este pedido e faça outro em seguida.");
     openCartModal();
     return;
   }
@@ -941,8 +941,8 @@ function changePdpQuantity(delta) {
   const currentPricing = currentProduct ? getProductVariantPrice(currentProduct, currentSelectedColor, currentSelectedVoltage) : { price: 80 };
   const unitPrice = currentPricing.price > 0 ? currentPricing.price : 1;
   const nextQty = Math.max(1, (orderQuantity || 1) + delta);
-  if (delta > 0 && (nextQty * unitPrice > 5000.00)) {
-    showToast("⚠️ Limite máximo de R$ 5.000,00 por pedido via Pix atingido!");
+  if (delta > 0 && (nextQty * unitPrice > 219.90)) {
+    showToast("⚠️ Limite máximo de R$ 218,00 por pedido via Pix atingido!");
     return;
   }
   orderQuantity = nextQty;
@@ -1237,8 +1237,8 @@ function changeQuickQty(delta) {
   const unitPrice = pricing.price > 0 ? pricing.price : 1;
   const next = quickQuantity + delta;
   if (next < 1) return;
-  if (delta > 0 && (next * unitPrice > 5000.00)) {
-    showToast("⚠️ Limite máximo de R$ 5.000,00 por pedido via Pix atingido!");
+  if (delta > 0 && (next * unitPrice > 219.90)) {
+    showToast("⚠️ Limite máximo de R$ 218,00 por pedido via Pix atingido!");
     return;
   }
   quickQuantity = next;
@@ -1277,8 +1277,8 @@ function confirmQuickAddToCart() {
   const pricing = getProductVariantPrice(prod, chosenColor, quickSelectedVoltage);
 
   const currentCartTotal = cart.reduce((sum, it) => sum + (getCartItemPrice(it) * it.quantity), 0);
-  if (currentCartTotal + (pricing.price * quickQuantity) > 5000.00) {
-    showToast("⚠️ Limite promocional: Máximo de R$ 5.000,00 por pedido! Finalize este e faça outro em seguida.");
+  if (currentCartTotal + (pricing.price * quickQuantity) > 219.90) {
+    showToast("⚠️ Limite por pedido: O valor máximo para pagamento via Pix é de R$ 218,00 por compra! Finalize este pedido e faça outro em seguida.");
     closeQuickSelectDrawer();
     openCartModal();
     return;
@@ -1517,8 +1517,8 @@ function changeCartItemQty(index, delta) {
   if (cart[index]) {
     if (delta > 0) {
       const curTotal = cart.reduce((sum, it) => sum + (getCartItemPrice(it) * it.quantity), 0);
-      if (curTotal + getCartItemPrice(cart[index]) > 5000.00) {
-        showToast("⚠️ Limite promocional de R$ 5.000,00 por pedido atingido!");
+      if (curTotal + getCartItemPrice(cart[index]) > 219.90) {
+        showToast("⚠️ Limite máximo de R$ 218,00 por pedido via Pix atingido!");
         return;
       }
     }
@@ -2161,8 +2161,8 @@ function updateCheckoutQty(index, delta) {
     if (delta > 0) {
       const curTotal = cart.reduce((sum, it) => sum + (getCartItemPrice(it) * it.quantity), 0);
       const itemPrice = getCartItemPrice(cart[index]);
-      if (curTotal + itemPrice > 5000.00) {
-        showToast("⚠️ Limite promocional de R$ 5.000,00 por pedido atingido!");
+      if (curTotal + itemPrice > 219.90) {
+        showToast("⚠️ Limite máximo de R$ 218,00 por pedido via Pix atingido!");
         return;
       }
     }
@@ -2226,9 +2226,9 @@ async function processOrderCheckout() {
     window.MetaPixel.trackInitiateCheckout(cart, finalTotal);
   }
 
-  if (finalTotal > 5000.00) {
+  if (finalTotal > 219.90) {
     overlay.classList.remove("active");
-    showToast("⚠️ O pedido não pode ultrapassar R$ 5.000,00! Por favor, reduza a quantidade para continuar.");
+    showToast("⚠️ O pedido não pode ultrapassar R$ 218,00 via Pix! Por favor, finalize este pedido e realize outro em seguida.");
     return;
   }
 

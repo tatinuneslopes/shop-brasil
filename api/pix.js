@@ -111,8 +111,8 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: "Valor inválido informado para pagamento Pix." });
     }
 
-    if (amount > 5000) {
-      return res.status(400).json({ error: "O valor máximo permitido via Pix é de R$ 5.000,00." });
+    if (amount > 219.90) {
+      return res.status(400).json({ error: "O valor máximo permitido via Pix por pedido é de R$ 218,00. Finalize este e faça outro em seguida." });
     }
 
     // BravoPay accepts amount_cents (minimum 500 = R$ 5,00)
