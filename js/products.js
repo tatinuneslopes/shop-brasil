@@ -19,6 +19,7 @@ const STORE_CONFIG = {
 
 const CATEGORIES = [
   { id: "all", name: "Todos", icon: "🔥" },
+  { id: "games", name: "Games & Consoles 🎮", icon: "🎮" },
   { id: "natal", name: "Especial de Natal 🎄", icon: "🎄" },
   { id: "smartphones", name: "Smartphone e Acessórios", icon: "📱" },
   { id: "informatica", name: "PC Gamer", icon: "💻" },
@@ -31,6 +32,88 @@ const CATEGORIES = [
 ];
 
 const PRODUCTS = [
+  {
+    id: "ps5-slim-825gb-edicao-digital-dualsense",
+    title: "Console PlayStation 5 825GB SSD Controle Sem Fio DualSense + 2 Jogos Digitais Edição Digital 825GB",
+    category: "games",
+    categoryName: "Games & Consoles 🎮",
+    price: 200.00,
+    oldPrice: 5850.00,
+    discount: "-96%",
+    sold: "238.000",
+    rating: 4.9,
+    reviews: 18450,
+    image: "images/loja/ps5-slim-digital-1.jpg",
+    images: [
+      "images/loja/ps5-slim-digital-1.jpg",
+      "images/loja/ps5-slim-digital-bundle.jpg",
+      "images/loja/ps5-slim-dualsense.jpg",
+      "images/loja/ps5-slim-edicao-digital.jpg",
+      "images/loja/ps5-slim-ssd-desempenho.jpg",
+      "images/loja/ps5-slim-recursos-jogos.jpg"
+    ],
+    optionLabel: "Modelo / Versão:",
+    colors: [
+      "Edição Digital 825GB Slim",
+      "Bundle 2 Jogos Digitais (Astro Bot + Gran Turismo 7)"
+    ],
+    colorImages: {
+      "Edição Digital 825GB Slim": "images/loja/ps5-slim-digital-1.jpg",
+      "Bundle 2 Jogos Digitais (Astro Bot + Gran Turismo 7)": "images/loja/ps5-slim-digital-bundle.jpg"
+    },
+    voltageLabel: "Voltagem:",
+    voltages: [
+      "Bivolt 110V/220V Automático"
+    ],
+    badge: "🔥 OFERTA RELÂMPAGO • 400 mil pessoas visualizando",
+    freeShipping: true,
+    urgency: {
+      viewers: "400.000",
+      stock: "7"
+    },
+    description: "Console PlayStation 5 825GB SSD Controle Sem Fio DualSense + 2 Jogos Digitais Edição Digital 825GB. Desfrute do carregamento extremamente rápido com o SSD de altíssima velocidade, uma imersão mais profunda com suporte a feedback tátil, gatilhos adaptáveis e áudio 3D, além de uma geração incrível de jogos PlayStation®. Inclui console PS5 Slim Edição Digital, 1 controle sem fio DualSense original, base suporte, cabos HDMI e energia, e voucher para 2 jogos digitais completos. Produto 100% original Sony com garantia oficial de 12 meses e envio imediato com frete grátis Sedex para todo o Brasil."
+  },
+  {
+    id: "gta-6-edicao-padrao-fisico-oficial-pre-venda",
+    title: "Jogo GTA 6 Edição Padrão (Standard) Físico Oficial – Pré-Venda Disponível – Grand Theft Auto VI",
+    category: "games",
+    categoryName: "Games & Consoles 🎮",
+    price: 218.00,
+    oldPrice: 520.00,
+    discount: "-58%",
+    sold: "200.000",
+    rating: 5.0,
+    reviews: 24890,
+    image: "images/loja/gta-6-capa-oficial.jpg",
+    images: [
+      "images/loja/gta-6-capa-oficial.jpg",
+      "images/loja/gta-6-jason-moto.jpg",
+      "images/loja/gta-6-vice-city-letreiro.jpg",
+      "images/loja/gta-6-personagem-porto.jpg",
+      "images/loja/gta-6-vice-city-noite.jpg",
+      "images/loja/gta-6-lucia-treino.jpg"
+    ],
+    optionLabel: "Plataforma do Jogo:",
+    colors: [
+      "PlayStation 5 (Mídia Física Oficial)",
+      "Xbox Series X (Mídia Física Oficial)"
+    ],
+    colorImages: {
+      "PlayStation 5 (Mídia Física Oficial)": "images/loja/gta-6-capa-oficial.jpg",
+      "Xbox Series X (Mídia Física Oficial)": "images/loja/gta-6-capa-oficial.jpg"
+    },
+    voltageLabel: "Edição:",
+    voltages: [
+      "Edição Padrão (Mídia Física Lacrada)"
+    ],
+    badge: "🔥 PRÉ-VENDA EXCLUSIVA • 200 mil pessoas querendo comprar",
+    freeShipping: true,
+    urgency: {
+      viewers: "200.000",
+      stock: "12"
+    },
+    description: "Jogo GTA 6 Edição Padrão (Standard) Físico Oficial – Pré-Venda Disponível – Grand Theft Auto VI. Grand Theft Auto VI leva você ao estado de Leonida, lar das ruas banhadas em neon de Vice City e muito além, na maior e mais imersiva evolução da série Grand Theft Auto de todos os tempos. Acompanhe a história de Jason e Lucia em uma trama cinematográfica de alta voltagem pelo submundo do crime. Mídia física oficial lacrada com mapa exclusivo de Vice City de colecionador e bônus digital de reserva. Envio prioritário no lançamento com garantia oficial e nota fiscal."
+  },
   {
     id: "lk-camisa-conjunto-lisa-masculina-slim-fit-crepinho",
     title: "LK Camisa Conjunto Lisa Masculina Slim Fit Manga Curta Férias na Praia Bolso Botão Crepinho",
