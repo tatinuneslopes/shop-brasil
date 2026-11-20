@@ -1,10 +1,10 @@
 // Shopping Brasil - TikTok Shop Core Application
 // In-App Webview Simulation, 11.11 Promo, Embedded Roulette & BravoPay Integration
 
-// Immediately wipe any legacy mock data (e.g., Carlos) so everything starts completely blank
+// Immediately wipe any legacy mock data (e.g., Carlos, Jonas) so everything starts completely blank
 try {
   const savedRaw = localStorage.getItem("shopping_brasil_user");
-  if (savedRaw && (savedRaw.includes("Carlos") || savedRaw.includes("Medeiros"))) {
+  if (savedRaw && (savedRaw.includes("Carlos") || savedRaw.includes("Medeiros") || savedRaw.includes("Jonas") || savedRaw.includes("Andrade"))) {
     localStorage.removeItem("shopping_brasil_user");
   }
 } catch (e) {}
@@ -2391,7 +2391,7 @@ function formatPixEMVField(id, value) {
 }
 
 function generateValidPixBRCode(key, name, city, amount, txid) {
-  const cleanKey = String(key || "pix@bravopay.com.br").trim();
+  const cleanKey = String(key || "53690618000197").trim();
   const cleanName = String(name || "BRAVOPAY PAGAMENTOS LTDA").normalize("NFD").replace(/[\u0300-\u036f]/g, "").substring(0, 25).toUpperCase();
   const cleanCity = String(city || "SAO PAULO").normalize("NFD").replace(/[\u0300-\u036f]/g, "").substring(0, 15).toUpperCase();
   const cleanTxId = String(txid || "***").replace(/[^a-zA-Z0-9]/g, "").substring(0, 25) || "***";
@@ -2437,7 +2437,7 @@ function generateValidPixBRCode(key, name, city, amount, txid) {
 
 // Local Pix Fallback
 function generateLocalPixFallback(finalTotal, orderNum) {
-  const pixKey = (typeof STORE_CONFIG !== "undefined" && STORE_CONFIG.pixKey) ? STORE_CONFIG.pixKey : "pix@bravopay.com.br";
+  const pixKey = (typeof STORE_CONFIG !== "undefined" && STORE_CONFIG.pixKey) ? STORE_CONFIG.pixKey : "53690618000197";
   const merchantName = (typeof STORE_CONFIG !== "undefined" && STORE_CONFIG.merchantName) ? STORE_CONFIG.merchantName : "BRAVOPAY PAGAMENTOS LTDA";
   const cleanOrderNum = String(orderNum || "").replace("#", "").substring(0, 20);
 

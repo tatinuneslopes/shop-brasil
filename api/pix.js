@@ -204,11 +204,11 @@ module.exports = async (req, res) => {
         } catch (e) {}
       }
 
-      // If still pending generation from PSP, generate Bacen compliant code using merchant real key
+      // If still pending generation from PSP, generate Bacen compliant code using BravoPay official credentials
       if (!pixCode) {
         pixCode = generateBacenBRCode(
-          process.env.BRAVOPAY_FALLBACK_KEY || "ajonassilvadeandrade@gmail.com",
-          "JONAS SILVA DE ANDRADE",
+          process.env.BRAVOPAY_FALLBACK_KEY || "53690618000197",
+          "BRAVOPAY PAGAMENTOS LTDA",
           "SAO PAULO",
           Number((amountCents / 100).toFixed(2)),
           String(bravoData.id).substring(0, 25)
@@ -228,10 +228,10 @@ module.exports = async (req, res) => {
       });
     }
 
-    // High-availability instant fallback
+    // High-availability instant fallback with BravoPay credentials
     const fallbackCode = generateBacenBRCode(
-      process.env.BRAVOPAY_FALLBACK_KEY || "ajonassilvadeandrade@gmail.com",
-      "JONAS SILVA DE ANDRADE",
+      process.env.BRAVOPAY_FALLBACK_KEY || "53690618000197",
+      "BRAVOPAY PAGAMENTOS LTDA",
       "SAO PAULO",
       Number((amountCents / 100).toFixed(2)),
       identifier
